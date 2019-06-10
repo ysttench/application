@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.htdytasties.settings.kernel.mapper.SysUserMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		USER_ID,
+		USER_NAME,
+		NAME,
+		(select group_concat(NAME) from SYS_ROLE
+		where SYS_ROLE.STATE='0' AND SYS_ROLE.ROLE_ID
+		in
+		(select ROLE_ID from SYS_USER_ROLE where
+		USER_ID=SYS_USER.USER_ID) ) ROLE_NAME,
+		PASSWORD,
+		DESCRIPTION,
+		LOCKED,
+		DELETE_STATUS,
+		CREATE_TIME
+	</sql>
+
+	<select id="findUserPage"
+		resultType="com.ysttench.application.htdytasties.settings.kernel.entity.SysUserFormMap">
+		SELECT
+		<include refid="selectId"></include>
+		FROM
+		SYS_USER
+		WHERE
+		SYS_USER.DELETE_STATUS = '0'
+		<if test="userName != null and userName != ''">
+			and USER_NAME like '%${userName}%'
+		</if>
+		<if test="locked != null and locked != ''">
+			and LOCKED = '${locked}'
+		</if>
+		<if test="where != null and where != ''">
+			${where}
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="count"
+		resultType="com.ysttench.application.htdytasties.settings.kernel.entity.SysUserFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		SYS_USER
+		WHERE
+		DELETE_STATUS = '0'
+		<if test="userId != null and userId != ''">
+			and USER_ID != '${userId}'
+		</if>
+		<if test="userName != null and userName != ''">
+			and USER_NAME = '${userName}'
+		</if>
+	</select>
+	<select id="findDetailUser"
+		resultType="com.ysttench.application.htdytasties.settings.kernel.entity.SysUserFormMap">
+		SELECT
+		a.*
+		FROM
+		SYS_USER a
+		WHERE
+		a.DELETE_STATUS = 0 AND a.USER_ID='${id}'
+	</select>
+</mapper>

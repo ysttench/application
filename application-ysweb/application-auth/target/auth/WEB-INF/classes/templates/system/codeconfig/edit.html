@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="/js/system/codeconfig/edit.js" th:src="@{/js/system/codeconfig/edit.js}"></script>
+</head>
+<body style="background:white">
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/codeconfig/editEntity}" style="width:600px">
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right:15px">
+                <input type="hidden" class="form-control" th:value="${parameter.id}" name="sysCodeConfigFormMap.id" id="id" />
+                <input type="text" class="form-control" name="sysCodeConfigFormMap.parentId" id="parentId" th:value="${parentId}" style="display: none;"/>
+                <div class="form-group" id="divParentName">
+                    <label class="control-label">父类名称：</label>
+                    <input type="text" class="form-control" name="parentName" id="parentName" th:value="${parentName}" readonly="readonly" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">名称:</label>
+                    <input type="text" class="form-control" placeholder="请输入配置参数名" th:value="${parameter.configName}" name="sysCodeConfigFormMap.configName" id="configName" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">数值:</label>
+                    <input type="text" class="form-control" placeholder="请输入配置参数值" th:value="${parameter.configValue}" name="sysCodeConfigFormMap.configValue" id="configValue" />
+                </div>
+                <div class="form-group" id="divConfigCode">
+                    <label class="control-label">名称代码:</label>
+                    <input type="text" class="form-control" placeholder="请输入名称代码" th:value="${parameter.configCode}" name="sysCodeConfigFormMap.configCode" id="configCode" />
+                </div>
+                <div class="form-group" id="divDetailFlag">
+                    <label class="control-label">明细区分：</label>
+                    <select id="detailFlag" name="sysCodeConfigFormMap.detailFlag" class="form-control m-b" tabindex="-1">
+                        <option value="0" th:selected="${parameter.detailFlag eq '0'}">无明细</option>
+                        <option value="1" th:selected="${parameter.detailFlag eq '1'}">有明细</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">状态：</label>
+                    <select id="deletedFlag" name="sysCodeConfigFormMap.deletedFlag" class="form-control m-b" tabindex="-1">
+                        <option value="0" th:selected="${parameter.deletedFlag eq '0'}">启用</option>
+                        <option value="1" th:selected="${parameter.deletedFlag eq '1'}">禁用</option>
+                    </select>
+                </div>
+                <div class="form-group" style="height:100px">
+                    <label class="control-label">描述：</label>
+                    <textarea rows="4" cols="10" class="form-control" placeholder="请输入描述" th:text="${parameter.description}" name="sysCodeConfigFormMap.description" id="description" style="height:100px"></textarea>
+                </div>
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">保存</button>
+                <button type="button" class="btn btn-cansel btn-s-xs cancel">取消</button>
+            </footer>
+        </section>
+    </form>
+</body>
+</html>

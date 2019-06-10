@@ -1,0 +1,166 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        var winwidth = $("body").width();
+        if (winwidth < 770) {
+            $("#nav ul.lt li").click(function() {
+                $("#nav").removeClass("nav-off-screen");
+            });
+        }
+        var tb = $("#loadhtml");
+        tb.html(CommnUtil.loadingImg());
+        tb.load(rootPath + "/list");
+        // 第二级菜单点击事件（无子菜单情况下）
+        $("[nav-n]").each(function() {
+            $(this).bind("click", function() {
+                var nav = $(this).attr("nav-n");
+                var sn = nav.split(",");
+                var html = '<li><i class="fa fa-home"></i>';
+                html += '<a href="index">首页</a></li>';
+                if (sn[1] != undefined && sn[1] != "" && sn[1] != "null") {
+                    html += '<li><a href="'+sn[1] + '">' + sn[0] + '</a></li>';
+                } else {
+                    html += '<li><a href="javascript:void(0)">' + sn[0] + '</a></li>';
+                }
+                html += '<li><a href="javascript:void(0)">' + sn[2] + '</a></li>';
+                $("#topli").html(html);
+                var tb = $("#loadhtml");
+                tb.html(CommnUtil.loadingImg());
+                tb.load(rootPath + sn[3]);
+            });
+        });
+        // 第一级菜单点击事件（无子菜单情况下）
+        $("[nav-first]").each(function() {
+            $(this).bind("click", function() {
+                var nav = $(this).attr("nav-first");
+                var sn = nav.split(",");
+                if (sn[1]==undefined || sn[1]=="null" || sn[1] =="") return;
+                
+                var html = '<li><i class="fa fa-home"></i>';
+                html += '<a href="index">首页</a></li>';
+                html += '<li><a href="javascript:void(0)">' + sn[0] + '</a></li>';
+                $("#topli").html(html);
+                var tb = $("#loadhtml");
+                tb.html(CommnUtil.loadingImg());
+                tb.load(rootPath + sn[1]);
+            });
+        });
+    });
+    function displayLoginMenu(){
+        if($(".dropdown-menu").css("display") == "none") {
+            $(".dropdown-menu").show();
+        } else {
+            $(".dropdown-menu").hide();
+        }
+    }
+    function toggleFullScreen() {  
+        if (!document.fullscreenElement && // alternative standard method  
+            !document.mozFullScreenElement && !document.webkitFullscreenElement) {// current working methods  
+            if (document.documentElement.requestFullscreen) {  
+                document.documentElement.requestFullscreen();  
+            } else if (document.documentElement.mozRequestFullScreen) {  
+                document.documentElement.mozRequestFullScreen();  
+            } else if (document.documentElement.webkitRequestFullscreen) {  
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);  
+            }  
+        } else {  
+            if (document.cancelFullScreen) {  
+                document.cancelFullScreen();  
+            } else if (document.mozCancelFullScreen) {  
+                document.mozCancelFullScreen();  
+            } else if (document.webkitCancelFullScreen) {  
+                document.webkitCancelFullScreen();  
+            }  
+        }  
+    } 
+    /*]]>*/
+</script>
+<title></title>
+</head>
+<body class="" style="">
+    <section class="vbox">
+        <header class="bg-dark dk header navbar navbar-fixed-top-xs">
+            <div class="navbar-header aside-md">
+                <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html"> <i class="fa fa-bars"></i>
+                </a> <a href="#" class="navbar-brand" onclick="toggleFullScreen()">全屏</a> 
+                <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user"> 
+                <i class="fa fa-cog"></i>
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="javascript:displayLoginMenu()"> 
+                     <!--    <span class="thumb-sm avatar pull-left"> 
+                            <img src="../static/notebook/notebook_files/avatar.jpg" th:src="@{/notebook/notebook_files/avatar.jpg}" />
+                        </span>  -->
+                        <b th:text="${sysUserFormMap.userName}"></b> <b class="caret"></b>
+                        <input type="hidden" id="login_user_name_show" th:value="${sysUserFormMap.userName}"/>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight">
+                        <span class="arrow top"></span>
+                        <li><a href="#" onclick="javascript:updatePasswordLayer();">密码修改</a></li>
+                        <li class="divider"></li> 
+                        <li><a th:href="@{/logout}">退出</a></li>
+                    </ul></li>
+            </ul>
+        </header>
+        <section>
+            <section class="hbox stretch">
+                <!-- .aside -->
+                <aside class="bg-dark lter aside-md hidden-print hidden-xs" id="nav">
+                    <section class="vbox"  style="min-height: 800px">
+                        <section class="w-f scrollable">
+                            <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="5px" data-color="#333333">
+                                <!-- nav -->
+                                <nav class="nav-primary hidden-xs">
+                                    <ul class="nav" th:each="item, itemStat :${list}">
+                                            <!-- <li class="active"> 某一项展开-->
+                                        <li th:class="((${itemStat.index} eq 0)?'active':'')">
+                                            <a href="javascript:void(0)" th:class="((${itemStat.index} eq 0)?'active':'')" th:attr="nav-first=${item.name}+','+${item.menuUrl}"> 
+<!--                                                 <i th:class="'fa '+${item.icon}+' icon'"> <b th:class="${item.color}"></b></i> -->
+                                                <span class="pull-right" th:if="${not #lists.isEmpty(item.children)}">
+                                                    <i class="fa fa-angle-down text"></i> 
+                                                    <i class="fa fa-angle-up text-active"></i>
+                                                </span> 
+                                                <span th:text="${item.name}"></span>
+                                            </a>
+                                            <ul class="nav lt" th:each="kc :${item.children}">
+                                                    <li class="active"><a href="javascript:void(0)" class="active" th:attr="nav-n=${item.name}+','+${item.menuUrl}+','+${kc.name}+','+${kc.menuUrl}"> <i class="fa fa-angle-right"></i> <span th:text="${kc.name}"></span>
+                                                    </a></li>
+                                            </ul></li>
+                                    </ul>
+                                </nav>
+                                <!-- / nav -->
+                            </div>
+                        </section>
+                        <footer class="footer lt hidden-xs b-t b-dark" style="position: absolute;width: 20px;">
+                            <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-dark btn-icon"> 
+                            <i class="fa fa-angle-left text"></i> <i class="fa fa-angle-right text-active"></i>
+                            </a>
+                        </footer>
+                    </section>
+                </aside>
+                <!-- /.aside -->
+                <section id="content">
+                    <section id="id_vbox" class="vbox">
+                        <ul class="breadcrumb no-border no-radius b-b b-light" id="topli">
+                        </ul>
+                        <section class="scrollable" style="margin-top: 35px;">
+                            <div id="loadhtml"></div>
+                        </section>
+                    </section>
+                </section>
+                <aside class="bg-light lter b-l aside-md hide" id="notes">
+                    <div class="wrapper">Notification</div>
+                </aside>
+            </section>
+        </section>
+    </section>
+    <!-- Bootstrap -->
+    <div id="flotTip" style="display: none; position: absolute;"></div>
+</body>
+</html>

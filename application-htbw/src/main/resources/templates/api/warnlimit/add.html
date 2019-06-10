@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="../static/js/api/warnlimit/add.js" th:src="@{/js/api/warnlimit/add.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js" th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js" th:src="@{/plugin/antd/antd.js}"></script>
+
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/warnlimit/addEntity}">
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                    <label class="control-label">预警名称：</label>
+                    <input type="text" class="form-control checkacc" placeholder="请输入预警名称" name="warnlimitFormMap.warnName" id="warnName" />
+                </div>
+                                <div class="form-group">
+                    <label class="control-label">预警上限：</label>
+                    <input type="text" class="form-control checkacc" placeholder="请输入预警上限" name="warnlimitFormMap.warnUpLevel" id="warnUpLevel" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">预警下限：</label>
+                    <input type="text" class="form-control" placeholder="请输入预警下限" name="warnlimitFormMap.warnDownLevel" id="warnDownLevel" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">预警Code:</label>
+                    <input type="text" class="form-control" placeholder="请输入预警Code{'温度':tem;'湿度':hum;'电压':vol}" name="warnlimitFormMap.equipmentCode" id="equipmentCode" />
+                </div>
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+            </footer>
+        </section>
+    </form>
+    <script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

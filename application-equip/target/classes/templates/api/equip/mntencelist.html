@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<script type="text/javascript" src="../static/js/api/equip/mntencelist.js" th:src="@{/js/api/equip/mntencelist.js}"></script>
+<!-- <div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+            <label class="control-label"> <span class="h4 font-thin v-middle">配件编码:</span></label> 
+            <input class="input-medium ui-autocomplete-input" id="name" name="apiSpareFormMap.spareNum" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
+    </form>
+</div> -->
+<input type="hidden" class="form-control checkacc" th:value="${equip}"  id="equipid" />
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.equip.settings.kernel.mapper.ApiExceptionMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<insert id="addEntity" useGeneratedKeys="true" keyColumn="id">
+	INSERT INTO EXCEPTS (
+	<if test="equipmentNum != null">EQUIPMENT_NUM,</if>
+	<if test="exceptCode != null">EXCEPT_CODE,</if>
+	<if test="startTime != null">START_TIME,</if>
+	<if test="endTime != null">END_TIME,</if>
+	<if test="description != null">DESCRIPTION,</if>
+	<if test="dracution != null">DRACUTION</if>
+	) VALUES (
+	<if test="equipmentNum != null">#{equipmentNum,jdbcType=VARCHAR},</if>
+	<if test="exceptCode != null">#{exceptCode,jdbcType=VARCHAR},</if>
+	<if test="startTime != null">#{startTime,jdbcType=VARCHAR},</if>
+	<if test="endTime != null">#{endTime,jdbcType=VARCHAR},</if>
+	<if test="description != null">#{description,jdbcType=VARCHAR},</if>
+	<if test="dracution != null">#{dracution,jdbcType=VARCHAR}</if>
+	)
+	</insert>
+</mapper>

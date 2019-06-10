@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="/js/api/regional/edit.js"
+	th:src="@{/js/api/regional/edit.js}"></script>
+</head>
+<body>
+	<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/regionalinfo/editEntity}">
+		<input type="hidden" class="form-control checkacc"
+			th:value="${regional.id}" name="regionalFormMap.id" id="id" />
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<div class="form-group">
+					<label class="control-label">名称</label> <input type="text"
+						class="form-control checkRole" placeholder="请输入名称"
+						name="regionalFormMap.name" id="name"
+						 th:value="${regional.name}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">描述:</label> <input type="text"
+						class="form-control " placeholder="请输入描述"
+						name="regionalFormMap.description" id="description"
+						
+						th:value="${regional.description}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">上级区域:</label> <input id="cur"
+						type="hidden" th:value="${regional.parentId}"
+						th:attr="data-name=${regional.parentName}"> <select
+						id="parentId" name="regionalFormMap.parentId"
+						>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">状态:</label> <select
+						class="form=-control" data-requireed="true"
+						name="regionalFormMap.state" id="state">
+						<option value="0" th:selected="${regional.state eq '0'}">未启用</option>
+						<option value="1" th:selected="${regional.state eq '1'}">启用</option>
+					</select>
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+</body>
+</html>

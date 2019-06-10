@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+    http://www.springframework.org/schema/task 
+    http://www.springframework.org/schema/task/spring-task-4.1.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.1.xsd"
+  default-lazy-init="false">
+
+  <!-- 定时器开关 开始 -->
+  <!-- 标注类型 的事务配置 如果使用注解事务。就放开 <tx:annotation-driven /> -->
+  <task:annotation-driven />
+  <import resource="classpath*:application-common.xml"/>
+
+  <!-- 通过扫描的模式，扫描目录在com.ysttench.msd.settings.kernel.mapper目录下，所有的mapper都继承SqlMapper接口的接口， 这样一个bean就可以了 -->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.ysttench.application.msd.settings.kernel.mapper" />
+  </bean>
+  
+  <!-- 事务配置 -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+  <!-- aop事务配置 -->
+  <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(* com.ysttench.application.msd.settings.web.controller..*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" order="2" />
+    </aop:config>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="query*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="save*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+            <tx:method name="delete*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+            <tx:method name="add*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+            <tx:method name="modify*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+            <tx:method name="sort*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+            <tx:method name="logicDelById" propagation="REQUIRED" isolation="READ_COMMITTED" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:aspectj-autoproxy proxy-target-class="true"/> 
+</beans>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.BdStockMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+<select id="findBdStockMsg" resultType="com.ysttench.application.auth.settings.kernel.entity.BdStockFormMap">
+SELECT
+    T_BD_STOCK.FSTOCKID,
+	T_BD_STOCK.FNUMBER,
+	T_BD_STOCK_L.FNAME,
+	T_ORG_ORGANIZATIONS_L.FNAME 
+FROM
+	T_BD_STOCK
+	LEFT JOIN T_BD_STOCK_L ON T_BD_STOCK.FSTOCKID = T_BD_STOCK_L.FSTOCKID
+	LEFT JOIN T_ORG_ORGANIZATIONS_L ON T_BD_STOCK.FUSEORGID = T_ORG_ORGANIZATIONS_L.FORGID
+	<if test=" organ != null">
+	WHERE T_ORG_ORGANIZATIONS_L.FORGID='${organ}'
+	</if>
+	GROUP BY
+	T_BD_STOCK.FSTOCKID,
+	T_BD_STOCK.FNUMBER,
+	T_BD_STOCK_L.FNAME,
+	T_ORG_ORGANIZATIONS_L.FNAME
+</select>
+
+<select id="getcw" resultType="com.ysttench.application.auth.settings.kernel.entity.BdStockFormMap">
+SELECT
+	g.FNUMBER AS 'BINNO',
+	h.FNAME AS 'BINName' 
+FROM
+	T_BD_STOCK a
+	INNER JOIN T_BD_STOCK_L b ON a.FSTOCKID= b.FSTOCKID
+	INNER JOIN T_BD_STOCKFLEXITEM c ON a.FSTOCKID= c.FSTOCKID
+	INNER JOIN T_BAS_FLEXVALUES d ON c.FFLEXID= d.FID
+	INNER JOIN T_BAS_FLEXVALUES_L e ON d.FID= e.FID
+	INNER JOIN T_BD_STOCKFLEXDETAIL f ON c.FENTRYID= f.FENTRYID
+	INNER JOIN T_BAS_FLEXVALUESENTRY g ON f.FFLEXENTRYID= g.FENTRYID
+	INNER JOIN T_BAS_FLEXVALUESENTRY_L h ON g.FENTRYID= h.FENTRYID
+	<if test="stockid != null">
+	WHERE
+	a.FSTOCKID = '${stockid}'
+	</if>
+</select>
+</mapper>

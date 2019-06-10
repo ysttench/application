@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="/js/system/user/edit.js"
+	th:src="@{/js/system/user/edit.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js"
+	th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js"
+	th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js"
+	th:src="@{/plugin/antd/antd.js}"></script>
+<script type="text/javascript" src="/js/deptPlugin.js"
+	th:src="@{/js/deptPlugin.js}"></script>
+</head>
+<body>
+	<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/user/editEntity}">
+		<input type="hidden" class="form-control checkacc"
+			th:value="${user.userId}" name="sysUserFormMap.userId" id="userId" />
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div class="form-group">
+					<label class="control-label">账号:</label> <input type="text"
+						class="form-control" placeholder="请输入账号"
+						th:value="${user.userName}" name="sysUserFormMap.userName"
+						id="userName" readonly="readonly" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">密码：</label> <input type="text"
+						class="form-control" 
+						name="sysUserFormMap.password" th:value="${user.password}"
+						id="password" />
+				</div>
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div id="selGroup"
+					th:attr="data-url=@{/role/selRole?sysRoleFormMap.userId=} + ${user.userId}"></div>
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div class="form-group">
+					<label class="control-label">账号状态:</label> <select
+						class="form=-control" data-requireed="true"
+						name="sysUserFormMap.locked" id="locked">
+						<option value="0" th:selected="${user.locked eq '0'}">启用</option>
+						<option value="1" th:selected="${user.locked eq '1'}">禁用</option>
+					</select>
+				</div>
+				<div class="line line-dashed line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="control-label">描述:</label> <input type="text"
+						class="form-control" placeholder="请输入账号描述"
+						th:value="${user.description}" name="sysUserFormMap.description"
+						id="description" />
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">保存</button>
+			</footer>
+		</section>
+	</form>
+	<script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

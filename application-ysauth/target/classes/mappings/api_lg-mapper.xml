@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.LgMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO LGD (
+		<if test="pdNum != null">PD_NUM,</if>
+		<if test="pdName != null">PD_NAME,</if>
+		<if test="organ != null">ORGAN,</if>
+		<if test="jdDate != null">JD_DATE</if>
+		) VALUES (
+		<if test="pdNum != null">#{pdNum,jdbcType=VARCHAR},</if>
+		<if test="pdName != null">#{pdName,jdbcType=VARCHAR},</if>
+		<if test="organ != null">#{organ,jdbcType=VARCHAR},</if>
+		<if test="jdDate != null">#{jdDate,jdbcType=DATE}</if>
+		)
+	</insert>
+	<insert id="addEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO LGPD (
+		<if test="pdId != null">PD_ID,</if>
+		<if test="lgzcId != null">LGZC_ID</if>
+		) VALUES (
+		<if test="pdId != null">#{pdId,jdbcType=VARCHAR},</if>
+		<if test="lgzcId != null">#{lgzcId,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<select id="findAllPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+		SELECT
+		lgd.ID,
+		lgd.PD_NUM,
+		lgd.ORGAN,
+		lgd.PD_NAME,
+		lgd.JD_DATE,
+		lgd.STATUS,
+		lgpd.CP_NAME,
+		lgpd.FP_NAME
+		FROM
+		lgd
+		LEFT JOIN  lgpd ON lgd.ID = lgpd.PD_ID
+		WHERE ORGAN='${organ}'
+		<if test="pdNum != null and pdNum != ''">
+			AND PD_NUM LIKE '%${pdNum}%'
+		</if>
+		GROUP BY
+		lgd.ID,
+		lgd.PD_NUM,
+		lgd.ORGAN,
+		lgd.PD_NAME,
+		lgd.JD_DATE,
+		lgd.STATUS,
+		lgpd.CP_NAME,
+		lgpd.FP_NAME
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findAllPage1"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+		SELECT
+		lgd.ID,
+		lgd.PD_NUM,
+		lgd.ORGAN,
+		lgd.PD_NAME,
+		lgd.JD_DATE,
+		lgd.STATUS
+		FROM
+		lgd
+		LEFT JOIN  lgpd ON lgd.ID = lgpd.PD_ID
+		WHERE ORGAN='${organ}'
+		<if test="pdNum != null and pdNum != ''">
+			AND PD_NUM LIKE '%${pdNum}%'
+		</if>
+		GROUP BY
+		lgd.ID,
+		lgd.PD_NUM,
+		lgd.ORGAN,
+		lgd.PD_NAME,
+		lgd.JD_DATE,
+		lgd.STATUS
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findAllpyMsg"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+		SELECT
+		assets.ASSETS_NUM,
+		assets.ASSETS_NAME,
+		lgpd.ID,
+		lgpd.ZC_NUM,
+		lgpd.CP_NUM,
+		lgpd.FP_NUM,
+		lgpd.CP_NAME,
+		lgpd.FP_NAME,
+		lgpd.CP_QTY,
+		lgpd.FP_QTY
+		FROM
+		lgpd
+		LEFT JOIN assets ON lgpd.LGZC_ID = assets.ID
+		WHERE lgpd.CP_NUM > lgpd.ZC_NUM AND lgpd.PD_ID='${fid}' AND assets.DELETE_STATUS = 0
+	</select>
+	<select id="findAllMsg"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+		SELECT
+		assets.ASSETS_NUM,
+		assets.ASSETS_NAME,
+		lgpd.ID,
+		lgpd.ZC_NUM,
+		lgpd.CP_NUM,
+		lgpd.FP_NUM,
+		lgpd.CP_NAME,
+		lgpd.FP_NAME,
+		lgpd.CP_QTY,
+		lgpd.FP_QTY
+		FROM
+		lgpd
+		LEFT JOIN assets ON lgpd.LGZC_ID = assets.ID
+		WHERE  lgpd.PD_ID='${fid}' AND assets.DELETE_STATUS = 0
+	</select>
+		<select id="findAllMsg2"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+		SELECT
+		assets.ASSETS_NUM,
+		assets.ASSETS_NAME,
+		lgpd.ID,
+		lgpd.CP_NUM,
+		lgpd.FP_NUM,
+		lgpd.CP_NAME,
+		lgpd.FP_NAME,
+		lgpd.CP_QTY,
+		lgpd.FP_QTY
+		FROM
+		lgpd
+		LEFT JOIN assets ON lgpd.LGZC_ID = assets.ID
+		WHERE  lgpd.PD_ID='${fid}' AND assets.DELETE_STATUS = 0
+	</select>
+	<select id="findAllpkMsg" resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+			SELECT
+		assets.ASSETS_NUM,
+		assets.ASSETS_NAME,
+		lgpd.ID,
+		lgpd.ZC_NUM,
+		lgpd.CP_NUM,
+		lgpd.FP_NUM,
+		lgpd.CP_NAME,
+		lgpd.FP_NAME,
+		lgpd.CP_QTY,
+		lgpd.FP_QTY
+		FROM
+		lgpd
+		LEFT JOIN assets ON lgpd.LGZC_ID = assets.ID
+		WHERE   lgpd.ZC_NUM > lgpd.CP_NUM  AND assets.DELETE_STATUS = 0
+		<if test=" fid != null">
+		AND lgpd.PD_ID='${fid}'
+		</if>
+		<if test="id != null">
+		AND lgpd.ID='${id}'
+		</if>
+	</select>
+		<select id="finMsg" resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+		SELECT
+		lgpd.ZC_NUM
+		FROM
+		lgpd
+		LEFT JOIN assets ON lgpd.LGZC_ID = assets.ID
+		WHERE  assets.DELETE_STATUS = 0
+		<if test="id != null">
+		AND lgpd.ID='${id}'
+		</if>
+	</select>
+	<update id="edit" parameterType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+	UPDATE lgpd SET
+	<if test="cpNum != null">CP_NUM=#{cpNum,jdbcType=VARCHAR},</if>
+	<if test="cpQty != null">CP_QTY=#{cpQty,jdbcType=VARCHAR},</if>
+	<if test="cpName != null">CP_NAME=#{cpName,jdbcType=VARCHAR}</if>
+	<if test="fpNum != null">FP_NUM=#{fpNum,jdbcType=VARCHAR},</if>
+	<if test="fpQty != null">FP_QTY=#{fpQty,jdbcType=VARCHAR},</if>
+	<if test="fpName != null">FP_NAME=#{fpName,jdbcType=VARCHAR}</if>
+	WHERE ID=#{id}
+	</update>
+	<select id="getcount" resultType="com.ysttench.application.auth.settings.kernel.entity.LgDForMap">
+	SELECT COUNT(*) AS COUNT FROM assets where ID='${lgzcId}' AND STATUS='1'
+	</select>
+</mapper>

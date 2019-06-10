@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="../static/js/api/regional/add.js"
+	th:src="@{/js/api/regional/add.js}"></script>
+</head>
+<body>
+	<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/regionalinfo/addEntity}">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<div class="form-group">
+					<label class="control-label">名称</label> <input type="text"
+						class="form-control checkRole" placeholder="请输入名称"
+						name="regionalFormMap.name" id="name"
+						 />
+				</div>
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div class="form-group">
+					<label class="control-label">描述</label> <input type="text"
+						class="form-control " placeholder="请输入描述"
+						name="regionalFormMap.description" id="description"
+						 />
+				</div>
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div class="form-group" style="padding-top: 3px;">
+					<label class="control-label">上级区域</label> <select
+						class="form=-control" data-requireed="true"
+						name="regionalFormMap.parentId" id="parentId"
+						style="width: 500px; float: right; margin-right: 2px; height: 32px;">
+					</select>
+				</div>
+					<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+					<div class="form-group">
+						<label class=" control-label">状态:</label> <select
+							class="form=-control" data-requireed="true"
+							name="regionalFormMap.state" id="state">
+							<option value="1" selected="selected">启用</option>
+							<option value="0">不启用</option>
+						</select>
+					</div>
+					</div>
+				<footer class="panel-footer text-right bg-light lter">
+					<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+				</footer>
+		</section>
+	</form>
+</body>
+</html>

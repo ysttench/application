@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.equip.settings.kernel.mapper.LogUserLoginMapper">
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ID,
+        USER_ID,
+        USER_NAME,
+        LOGIN_TIME,
+        LOGIN_IP
+    </sql>
+     <select id="findByPage" resultType="com.ysttench.application.equip.settings.kernel.entity.LogUserLoginFormMap">
+    select 
+    <include refid="selectId" />
+    FROM LOG_USER_LOGIN
+    <if test="userName !='' and userName != null">
+      where USER_NAME like '%${userName}%'
+    </if>
+    <if test="column !=null and column != ''">
+      order by ${column} ${sort}
+    </if>
+    </select>
+    
+    <insert id="addlog" useGeneratedKeys="true" keyProperty="Id">
+        INSERT INTO `LOG_USER_LOGIN` (
+        <if test="userId!='' and userId!=null">`USER_ID`,</if>
+        <if test="userName!='' and userName!=null">`USER_NAME`,</if>
+        <if test="loginTime!='' and loginTime!=null">`LOGIN_TIME`,</if>
+        <if test="loginIp!='' and loginIp!=null">`LOGIN_IP`</if>
+        )
+        VALUES
+        (
+        <if test="userId!='' and userId!=null">#{userId,jdbcType=VARCHAR},</if>
+        <if test="userName!='' and userName!=null">#{userName,jdbcType=VARCHAR},</if>
+        <if test="loginTime!='' and loginTime!=null">#{loginTime,jdbcType=VARCHAR},</if>
+        <if test="loginIp!='' and loginIp!=null">#{loginIp,jdbcType=VARCHAR}</if>
+        );
+    </insert>
+</mapper>

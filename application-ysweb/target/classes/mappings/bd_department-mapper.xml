@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.BdDepartmentMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findMsg" resultType="com.ysttench.application.auth.settings.kernel.entity.BdDepartmentFormMap">
+	SELECT
+	T_BD_DEPARTMENT.FNUMBER,
+	T_BD_DEPARTMENT_L.FNAME 
+FROM
+	T_BD_DEPARTMENT
+	LEFT JOIN T_BD_DEPARTMENT_L ON T_BD_DEPARTMENT.FDEPTID = T_BD_DEPARTMENT_L.FDEPTID
+	LEFT JOIN T_ORG_ORGANIZATIONS_L ON T_BD_DEPARTMENT.FUSEORGID = T_ORG_ORGANIZATIONS_L.FORGID
+	<if test="organ != null">
+	WHERE T_ORG_ORGANIZATIONS_L.FNAME='${organ}'
+	</if>
+	</select>
+</mapper>

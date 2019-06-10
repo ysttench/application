@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="../static/js/api/product/list.js" th:src="@{/js/api/product/list.js}"></script>
+<div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+            <label class="control-label"> <span class="h4 font-thin v-middle">搜索内容:</span></label> 
+            <input class="input-medium ui-autocomplete-input" id="name" name="prdPickmtrlFormMap.searchValue" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a> <a href="javascript:grid.exportData('/product/export')" class="btn btn-info" id="search">导出excel</a>
+    </form>
+</div>
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

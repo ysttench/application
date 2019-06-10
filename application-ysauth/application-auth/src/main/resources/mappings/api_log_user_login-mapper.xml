@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiLogUserLoginMapper">
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ID,
+        USER_ID,
+        KEY,
+        LOGIN_TIME,
+        LOGIN_IP
+    </sql>
+     <select id="findByPage" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiLogUserLoginFormMap">
+            SELECT
+                a.*, b.API_NAME
+            FROM
+                API_LOG_USER_LOGIN a
+            LEFT JOIN API_APPLICATION b ON (
+                a.`APPLICATION_KEY` = b.SYS_KEY
+                AND b.DELETED_FLAG = '0'
+            )
+            WHERE
+                b.ID IS NOT NULL
+    <if test="apiName !='' and apiName != null">
+      and b.API_NAME = '${apiName}'
+    </if>
+    <if test="column !=null and column != ''">
+      order by ${column} ${sort}
+    </if>
+    </select>
+    <select id="getData" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiLogUserLoginFormMap">
+      SELECT
+          b.API_NAME
+      FROM
+          API_LOG_USER_LOGIN a
+      LEFT JOIN API_SYSTEM_INFO b ON a.`APPLICATION_KEY` = b.SYS_KEY
+      WHERE b.ID is not null
+      GROUP BY
+          b.API_NAME
+    </select>
+        <select id="getNum" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiLogUserLoginFormMap">
+            SELECT
+                b.API_NAME,
+                c.USER_ID,
+                COUNT(DISTINCT(c.USER_ID)) AS num
+            FROM
+                API_LOG_USER_LOGIN a
+            LEFT JOIN API_APPLICATION b ON a.`APPLICATION_KEY` = b.SYS_KEY
+            LEFT JOIN API_USER c ON a.USER_ID = c.USER_ID
+            GROUP BY
+                b.API_NAME,
+                c.USER_ID
+            HAVING
+                c.USER_ID IS NOT NULL
+    </select>
+</mapper>

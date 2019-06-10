@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.SysPrintMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findPrintPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysPrintForMap">
+		SELECT * FROM dprint
+		<if test="organ != null"> where ORGAN like '%${organ}%'</if>
+	</select>
+	<insert id="addEntity">
+		insert into dprint (
+		<if test="organ != null">ORGAN,</if>
+		<if test="num != null">NUM,</if>
+		<if test="wsdlUrl != null">WSDL_URL,</if>
+		<if test="nameSpace != null">NAME_SPACE,</if>
+		<if test="module != null">MODULE,</if>
+		<if test="type != null">TYPE,</if>
+		<if test="xNum != null">X_NUM,</if>
+		<if test="yNum != null">Y_NUM</if>
+		)
+		VALUES(
+		<if test="organ != null">#{organ,jdbcType=VARCHAR},</if>
+		<if test="num != null">#{num,jdbcType=VARCHAR},</if>
+		<if test="wsdlUrl != null">#{wsdlUrl,jdbcType=VARCHAR},</if>
+		<if test="nameSpace != null">#{nameSpace,jdbcType=VARCHAR},</if>
+		<if test="module != null">#{module,jdbcType=VARCHAR},</if>
+		<if test="type != null">#{type,jdbcType=VARCHAR},</if>
+		<if test="xNum != null">#{xNum,jdbcType=VARCHAR},</if>
+		<if test="yNum != null">#{yNum,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<select id="count"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysPrintForMap">
+		SELECT
+		count(*) as count
+		FROM
+		dprint
+		<if test="organ != null"> where ORGAN='${organ}'</if>
+		<if test="wsdlUrl != null"> where WSDL_URL='${wsdlUrl}'</if>
+		<if test="type != null"> and  TYPE = '${type}'</if>
+		<if test="id != null and id != ''">and ID != '${id}'</if>
+	</select>
+	<select id="findbyFrist"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysPrintForMap">
+		SELECT * FROM dprint where ID= #{id,jdbcType=VARCHAR}
+	</select>
+	<update id="editEntity"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.SysPrintForMap">
+		update dprint set
+		<if test="organ != null">ORGAN = #{organ,jdbcType=VARCHAR},</if>
+		<if test="num != null"> NUM = #{num,jdbcType=VARCHAR},</if>
+		<if test="wsdlUrl != null">WSDL_URL = #{wsdlUrl,jdbcType=VARCHAR},</if>
+		<if test="nameSpace != null">NAME_SPACE = #{nameSpace,jdbcType=VARCHAR},</if>
+		<if test="module != null">MODULE = #{module,jdbcType=VARCHAR},</if>
+		<if test="type != null">TYPE = #{type,jdbcType=VARCHAR},</if>
+		<if test="xNum != null">X_NUM = #{xNum,jdbcType=VARCHAR},</if>
+		<if test="yNum != null">Y_NUM = #{yNum,jdbcType=VARCHAR}</if>
+	where ID=#{id}
+	</update>
+	<delete id="deleteByAttribute">
+		delete from dprint where ID = #{id}
+	</delete>
+		<select id="findDetail"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysPrintForMap">
+		SELECT * FROM dprint where ORGAN = #{organ} 
+		<if test="type != null">
+		AND type = #{type}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,150 @@
+body{
+    background: url("../images/login_bg.jpg") no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    overflow-x:hidden;
+}
+.login,.register{
+    margin: 20% auto 0;
+    width: 500px;
+    height: 350px;
+    background: url("../images/img_login_input_bg.png") no-repeat top center;
+    position: relative;
+    background-size: contain;
+    padding:10px 30px;
+    box-sizing:border-box;
+}
+.register{
+    height: 480px;
+    margin-top:15%;
+    background-size: 100% 100%;
+}
+.login h2,.register h2{
+    font-size: 28px;
+    color: #fff;
+    text-align: center;
+}
+.register h2{
+    margin-top: 15px;
+}
+.login-select{
+    margin-top: 5px;
+    text-align: right;
+    color:#fff;
+}
+.login-select span{
+    margin-right: 30px;
+    cursor: pointer;
+}
+.login-select span.active{
+    color:#0ac3e5;
+}
+.login .content{
+    margin: 15px 30px 10px;
+}
+.login .content p{
+    height: 60px;
+    line-height: 60px;
+    padding-left:80px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #0db7db;
+}
+.login .content p input{
+    width: 100%;
+    border:none;
+    background:none;
+    border-left:1px solid #fff;
+    box-sizing:border-box;
+    padding-left:30px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 24px;
+    color: #fff;
+}
+.login .content p input:focus{color:#fff}
+.login .content p.username{
+    background: url("../images/icon_yh.png") no-repeat 5px 8px;
+}
+.login .content p.password{
+    background: url("../images/icon_mm.png") no-repeat 8px 8px;
+    margin-bottom: 10px;
+}
+.login .content span{
+    display: block;
+    text-align: right;
+    color:#fff;
+    /*visibility: hidden;*/
+}
+.login .content span b{
+    font-weight: normal;
+    color: #f5a610;
+}
+.login .content span b:hover{
+    cursor: pointer;
+    text-decoration: underline;;
+}
+.login .foot{
+    margin-left: 30px;
+}
+.login-btn,.login-pki-btn{
+    width: 66px;
+    height: 40px;
+    line-height: 46px;
+    background: url('../images/btn_login.png') no-repeat;
+    background-size: cover;
+    color:#0275a7;
+    margin-right: 20px;
+    text-align: center;
+    border: none;
+    box-sizing: content-box;
+}
+.login-btn:hover,.login-pki-btn:hover{
+    color: #fff;
+    background: url('../images/btn_login_pre.png') no-repeat; 
+    background-size: cover;
+}
+.footer{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom:10px;
+    background: url('../images/img_login_line.png') no-repeat top center;
+    /* background-size: contain; */
+    color: #536f88;
+    text-align: center;
+    padding-top: 10px;
+    /* margin-left: -250px; */
+    text-align: center;
+    min-width: 1024px;
+}
+.edit-table{
+    margin-top:25px;
+}
+.edit-table td{
+    color:#fff;
+}
+td.td-label{
+    width: 80px;
+}
+td.td-input input{
+    background: url('../images/img_login_input_1') repeat;
+    padding-left:20px;
+    box-sizing:border-box;
+    color:#fff;
+}
+td.td-input input::-webkit-input-placeholder{
+    color: #fff;
+}
+.logo-upload img,.logo-upload label,.logo-upload ul{
+    float: left;
+}
+.logo-upload label{
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+}
+.logo-upload ul{
+    margin-left: 10px;
+    display: inline-block;
+}

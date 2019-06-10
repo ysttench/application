@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/common :: copyCommon"></head>
+<head>
+<meta charset="UTF-8" />
+<title>系统注册激活</title>
+<link rel="stylesheet" th:href="@{/css/frame.css}" type="text/css" />
+<script type="text/javascript" src="../static/js/system/register/add.js" th:src="@{/js/system/register/add.js}"></script>
+</head>
+
+<body
+	style="background: url('../images/login_bg1.jpg') no-repeat; background-size: 100% 100%; background-attachment: fixed; overflow-x: hidden;">
+	<div class="register"
+		style="color: #fcf8e3; width: 54%; background: rgba(238, 238, 238, 0.09); margin: auto; height: 38%;">
+		<h2 style="text-align: center;">系统注册激活</h2>
+		<div class="l_err"
+			style="width: 100%; margin-top: 5px; display: none; height: 27px; color: red"></div>
+		<form id="form" name="form" class="form-horizontal" method="post"
+			th:action="@{/register/add}">
+			<table class="edit-table" style="margin-top: 0; padding: 0 20px">
+				<tbody>
+					<tr>
+						<td class="td-label" style="color: #eee;"><span
+							class="color-red">*</span>公司名：</td>
+						<td class="td-input"><input placeholder="请输入公司名"
+							name="sysSystemForMap.companyName" id="companyName"
+							style="width: 70%;" /></td>
+					</tr>
+					<tr>
+						<td class="td-label" style="color: #eee;"><span
+							class="color-red">*</span>邮箱：</td>
+						<td class="td-input"><input placeholder="请输入邮箱地址"
+							name="sysSystemForMap.email" id="email" style="width: 70%;" /></td>
+					</tr>
+					<tr>
+						<td class="td-label" style="color: #eee;"><span
+							class="color-red">*</span>手机号：</td>
+						<td class="td-input"><input placeholder="请输入手机号"
+							name="sysSystemForMap.mobile" id="mobile" style="width: 70%;" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="foot" style="text-align: center;">
+				<button class="mini-btn login-btn" type="submit">注册</button>
+				<button class="mini-btn login-pki-btn" type="button" id="close">返回登入界面</button>
+				<button class="mini-btn login-pki-btn" type="button" id="activeCode">激活码激活</button>
+			</div>
+		</form>
+	</div>
+</body>
+<script type="text/javascript">
+	$('#close').click(function() {
+		window.location.href = rootPath + '/login';
+	});
+	 $('#activeCode').click(function(){
+		 debugger
+         window.location.href=rootPath+'/register/edit';
+     });
+</script>
+</html>

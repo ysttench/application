@@ -1,0 +1,119 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    $(document).ready(function() {
+        $("#groupsForSelect").dblclick(function() {
+            selected();
+        });
+        $("#selectGroups").dblclick(function() {
+            unselected();
+        });
+    });
+    function selected() {
+        var selOpt = $("#groupsForSelect option:selected");
+
+        selOpt.remove();
+        var selObj = $("#selectGroups");
+        selObj.append(selOpt);
+
+        var selOpt = $("#selectGroups")[0];
+        ids = "";
+        for (var i = 0; i < selOpt.length; i++) {
+            ids += (selOpt[i].value + ",");
+        }
+
+        if (ids != "") {
+            ids = ids.substring(0, ids.length - 1);
+        }
+        $('#txtGroupsSelect').val(ids);
+    }
+
+    function selectedAll() {
+        var selOpt = $("#groupsForSelect option");
+
+        selOpt.remove();
+        var selObj = $("#selectGroups");
+        selObj.append(selOpt);
+
+        var selOpt = $("#selectGroups")[0];
+        ids = "";
+        for (var i = 0; i < selOpt.length; i++) {
+            ids += (selOpt[i].value + ",");
+        }
+
+        if (ids != "") {
+            ids = ids.substring(0, ids.length - 1);
+        }
+        $('#txtGroupsSelect').val(ids);
+    }
+
+    function unselected() {
+        var selOpt = $("#selectGroups option:selected");
+        selOpt.remove();
+        var selObj = $("#groupsForSelect");
+        selObj.append(selOpt);
+
+        var selOpt = $("#selectGroups")[0];
+        ids = "";
+        for (var i = 0; i < selOpt.length; i++) {
+            ids += (selOpt[i].value + ",");
+        }
+
+        if (ids != "") {
+            ids = ids.substring(0, ids.length - 1);
+        }
+        $('#txtGroupsSelect').val(ids);
+    }
+
+    function unselectedAll() {
+        var selOpt = $("#selectGroups option");
+        selOpt.remove();
+        var selObj = $("#groupsForSelect");
+        selObj.append(selOpt);
+
+        $('#txtGroupsSelect').val("");
+    }
+    /*]]>*/
+</script>
+<div class="form-group">
+    <input id="txtGroupsSelect" type="hidden" th:value="txtSpareSelect" name="txtGroupsSelect" /> 
+    <label for="host" class="control-label">配件:</label>
+    <table class="tweenBoxTable" id="groups_tweenbox">
+        <tbody>
+            <tr style="align:center">
+                <td>已分配配件</td>
+                <td></td>
+                <td>可调配配件</td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="selectGroups" multiple="multiple" class="input-large" name="selectGroups" style="height: 150px; width: 250px">
+                        <option th:each="equipSpare:${equipSpare}" th:value="${equipSpare.id}" th:text="${equipSpare.spareName}"></option>
+                    </select>
+                </td>
+                <td style="align:center">
+                    <div style="margin-left: 5px; margin-right: 5px">
+                        <button onclick="selectedAll()" class="btn btn-primary" type="button" style="width: 50px;" title="全选">&lt;&lt;</button>
+                    </div>
+                    <div style="margin-left: 5px; margin-right: 5px; margin-top: 5px;">
+                        <button onclick="selected()" class="btn btn-primary" type="button" style="width: 50px;" title="选择">&lt;</button>
+                    </div>
+                    <div style="margin-left: 5px; margin-right: 5px; margin-top: 5px;">
+                        <button onclick="unselected()" class="btn btn-primary" type="button" style="width: 50px;" title="取消">&gt;</button>
+                    </div>
+                    <div style="margin-left: 5px; margin-right: 5px; margin-top: 5px">
+                        <button onclick="unselectedAll()" class="btn btn-primary" type="button" style="width: 50px;" title="全取消">&gt;&gt;</button>
+                    </div>
+                </td>
+                <td>
+                    <select id="groupsForSelect" multiple="multiple" class="input-large" style="height: 150px; width: 250px">
+                        <option th:each="spare:${spare}" th:value="${spare.id}" th:text="${spare.spareName}"></option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</html>

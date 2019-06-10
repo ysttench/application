@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="/js/api/stassets/pd.js" th:src="@{/js/api/stassets/pd.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js" th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js" th:src="@{/plugin/antd/antd.js}"></script>
+<script type="text/javascript" src="/js/deptPlugin.js" th:src="@{/js/deptPlugin.js}"></script>
+<script type="text/javascript"
+	src="../static/js/date/My97DatePicker/WdatePicker.js"
+	th:src="@{/js/date/My97DatePicker/WdatePicker.js}"></script>
+<style type="text/css">
+#tab tr td {
+    border: solid 1px;
+    padding: 3px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<input type="hidden" class="form-control checkacc" th:value="${id}" name="lgForMap.id" id="id" />
+<input type="hidden" class="form-control checkacc" th:value="${type}" name="lgForMap.type" id="type" />
+<table id="tab" style="border: 1px solid;width: 100%; text-align: center;"></table>
+</body>
+</html>

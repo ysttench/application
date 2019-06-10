@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.XZQHBMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		DM,
+		MC,
+		BDLX,
+		ZWPY,
+		BDSJ,
+		WBPY,
+		ISGJ,
+		BZ,
+		DZBM,
+		QYBZ
+	</sql>
+	<select id="findByPage" parameterType="String"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.XZQHBFormMap">
+		select
+		<include refid="selectId" />
+		from XZQHB
+		<if test="column !=null and column != ''">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findCityByProvince" parameterType="String"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.XZQHBFormMap">
+		select
+		<include refid="selectId" />
+		from XZQHB
+		where QYBZ = '1'
+		and DM like '${_parameter}%'
+		and DM like
+		'%00'
+		and DM NOT LIKE '%0000'
+	</select>
+
+	<select id="findDistrictByCity" parameterType="String"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.XZQHBFormMap">
+		select
+		<include refid="selectId" />
+		from XZQHB
+		where QYBZ = '1'
+		and DM like '${_parameter}%'
+		and DM NOT LIKE
+		'%00'
+
+	</select>
+	<select id="findbyFrist" parameterType="String"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.XZQHBFormMap">
+		select
+		*
+		from XZQHB where 1=1
+		<if test="dm !=null and dm != ''">
+			and DM = #{dm}
+		</if>
+		<if test="dabm != null">
+			and DABM = #{dabm}
+		</if>
+		<if test="mc != null">
+			and MC = #{mc}
+		</if>
+	</select>
+	<insert id="addEntity">
+		insert into XZQHB (
+		<if test="dm != null">DM,</if>
+		<if test="mc != null">MC,</if>
+		<if test="bdlx != null">BDLX,</if>
+		<if test="zwpy != null">ZWPY,</if>
+		<if test="wbpy != null">WBPY,</if>
+		<if test="isgj != null">ISGJ,</if>
+		<if test="bz != null">BZ,</if>
+		<if test="dzbm != null">DZBM,</if>
+		<if test="qybz != null">QYBZ</if>
+		)
+		VALUES (
+		<if test="dm != null">#{dm,jdbcType=VARCHAR},</if>
+		<if test="mc != null">#{mc,jdbcType=VARCHAR},</if>
+		<if test="bdlx != null">#{bdlx,jdbcType=VARCHAR},</if>
+		<if test="zwpy != null">#{zwpy,jdbcType=VARCHAR},</if>
+		<if test="wbpy != null">#{wbpy,jdbcType=VARCHAR},</if>
+		<if test="isgj != null">#{isgj,jdbcType=VARCHAR},</if>
+		<if test="bz != null">#{bz,jdbcType=VARCHAR},</if>
+		<if test="dzbm != null">#{dzbm,jdbcType=VARCHAR},</if>
+		<if test="qybz != null">#{qybz,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<update id="editEntity">
+		UPDATE XZQHB SET
+		<if test="dm != null">DM = #{dm,jdbcType=VARCHAR},</if>
+		<if test="mc != null">MC = #{mc,jdbcType=VARCHAR},</if>
+		<if test="bdlx != null">BDLX = #{bdlx,jdbcType=VARCHAR},</if>
+		<if test="zwpy != null">ZWPY = #{zwpy,jdbcType=VARCHAR},</if>
+		<if test="wbpy != null">WBPY = #{wbpy,jdbcType=VARCHAR},</if>
+		<if test="isgj != null">ISGJ = #{isgj,jdbcType=VARCHAR},</if>
+		<if test="bz != null">BZ = #{bz,jdbcType=VARCHAR},</if>
+		<if test="dzbm != null">DZBM = #{dzbm,jdbcType=VARCHAR},</if>
+		<if test="qybz != null">QYBZ = #{qybz,jdbcType=VARCHAR}</if>
+	</update>
+	<select id="findByWhere">
+		select
+		<include refid="selectId" />
+		from XZQHB
+		<if test="where != null">#{where}</if>
+	</select>
+</mapper>

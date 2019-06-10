@@ -1,0 +1,78 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div><span>提示信息:</span><div th:text="${msg}" style="color:red"></div></div>
+	<form th:action="@{/down/updateoldpath}" method="post">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+							<div class="form-group">
+					<label class="control-label">材料文件位置：</label> <input type="text"
+						class="form-control checkacc" placeholder="请输入材料文件位置"
+						id="oldpath" name="oldpath" th:value="${oldpath}"/>
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+		<form th:action="@{/down/updatenewpath}" method="post">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+							<div class="form-group">
+					<label class="control-label">生成文件位置：</label> <input type="text"
+						class="form-control checkacc" placeholder="请输入材料文件位置"
+						 id="newpath" name="newpath" th:value="${newpath}" />
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+	<form th:action="@{/down/addimgsg}" method="post">
+		<section class="panel panel-default">
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交多余文件信息</button>
+			</footer>
+		</section>
+	</form>
+			<form th:action="@{/down/deleteimg}" method="post">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+							<div class="form-group">
+					<label class="control-label">清除多余图片：</label> 
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+			<form th:action="@{/down/updatemsg}" method="post">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+							<div class="form-group">
+					<label class="control-label">图片修改：</label> 
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+				<form th:action="@{/down/updatemsg1}" method="post">
+		<section class="panel panel-default">
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">再次提交</button>
+			</footer>
+		</section>
+	</form>
+</body>
+</html>

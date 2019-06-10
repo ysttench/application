@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript"
+	src="../static/js/api/modbuspoint/edit.js"
+	th:src="@{/js/api/modbuspoint/edit.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js"
+	th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js"
+	th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js"
+	th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js"
+	th:src="@{/plugin/antd/antd.js}"></script>
+
+</head>
+<body>
+	<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/modbuspoint/editEntity}">
+		<input type="hidden" name="modbusPointFormMap.id"
+			class="form-control checkacc" th:value="${obj.id}" id="id">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<div class="form-group">
+					<label class="control-label">modbus点位名称：</label> <input type="text"
+						class="form-control checkacc" placeholder="请输入modbus点位名称"
+						th:value="${obj.pointName}" name="modbusPointFormMap.pointName"
+						id="pointName" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">modbus点位值：</label> <input type="text"
+						class="form-control checkacc" placeholder="请输入modbus点位值"
+						th:value="${obj.pointVal}" name="modbusPointFormMap.pointVal"
+						id="pointVal" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">点位类型：</label> <select id="pointType"
+						name="modbusPointFormMap.pointType">
+						<option value="1" th:selected="${obj.pointType eq '1'}">元件取用提示灯</option>
+						<option value="2" th:selected="${obj.pointType eq '2'}">led显示屏</option></select>
+				</div>
+				<div class="form-group">
+					<label class="control-label">提示灯对应led屏:</label> 
+					<input type="hidden"id="led" th:value="${obj.upId}"
+						th:attr="data-name=${obj.upName}" >
+				<select id="upId"
+						name="modbusPointFormMap.upId"></select>
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+	<script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

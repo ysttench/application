@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common/common :: copyCommon"></head>
+<script type="text/javascript" src="/js/system/xzqhb/list.js" th:src="@{/js/system/xzqhb/list.js}"></script>
+
+<!-- <div th:include="common/top :: copyTop" class="list-top"></div> -->
+<div class="center-content">
+    <!-- <div th:include="common/submenu :: copyData"></div> -->
+
+    <div class="center-content xzqh" id="xzqh" style="top: 100px;z-index: 1;padding: 20px;">
+        <div class="inner-content scattered-list">
+            <div class="table-top-search">
+                <form class="form-inline" id="searchForm" name="searchForm">
+                    <span class="search-param clearfix">
+                        <input type="text" placeholder="请输入关键字" id="searchValue" name="xzqhbFormMap.searchValue" />
+                        <span id="search" class="list-btn btn_search">查询</span>
+                        <span id="addXZQHB" class="list-btn btn_add">新增</span>
+                        <span id="editXZQHB" class="list-btn btn_edit">编辑</span>
+                        <span id="delXZQHB" class="list-btn btn_delete">删除</span>
+                    </span>
+                </form>
+            </div>
+            <div class="module-body">
+                <div class="table-responsive">
+                    <div id="paging" class="pagclass"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+  <!--  <section class="scrollable">
+        <div class="center-content" style="padding: 40px 0;">
+            <div class="center-module">
+                <div class="module">
+                    <div class="module-title">
+                        <label>行政区划管理</label>
+                        <div class="right">
+                            <form class="form-inline" id="searchForm" name="searchForm">
+                                <div class="text-input left">
+                                    <input type="text" placeholder="行政区划名称" id="mc" name="xzqhbFormMap.mc" />
+                                    <span class="search-icon" id="search">查询</span>
+                                </div>
+                            </form>
+                            <button type="button" id="addXZQHB" class="btn btn-primary marR10">新增</button>
+                            <button type="button" id="editXZQHB" class="btn btn-info marR10">编辑</button>
+                            <button type="button" id="delXZQHB" class="btn btn-danger marR10">删除</button>
+                        </div>
+                    </div>
+                    <div class="module-body">
+                        <div class="table-responsive">
+                            <div id="paging" class="pagclass"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+</div>
+<div th:include="common/footer :: copyfoot" class="list-footer"></div>
+</html>

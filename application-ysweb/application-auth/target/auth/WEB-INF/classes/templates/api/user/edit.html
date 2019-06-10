@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="/js/api/user/edit.js" th:src="@{/js/api/user/edit.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js" th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js" th:src="@{/plugin/antd/antd.js}"></script>
+<script type="text/javascript" src="/js/deptPlugin.js" th:src="@{/js/deptPlugin.js}"></script>
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;" id="l_err"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/apiUser/editEntity}" enctype="multipart/form-data">
+        <input type="hidden" class="form-control checkacc" th:value="${user.userId}" name="apiUserFormMap.userId" id="userId" />
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                    <label class="control-label">用户名:</label> <input type="text" class="form-control" placeholder="请输入账号" th:value="${user.userName}" name="apiUserFormMap.name" id="userName"
+                        readonly="readonly"
+                    />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">姓名:</label> <input type="text" class="form-control" placeholder="请输入姓名" th:value="${user.name}" name="apiUserFormMap.name" id="name" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">身份证号码:</label> <input type="text" class="form-control" placeholder="请输入身份证号码" th:value="${user.sfzh}" name="apiUserFormMap.sfzh" id="sfzh"
+                        onblur="checkSFZH1()"
+                    />
+                </div>
+                 <div class="form-group">
+                    <label class="control-label">性别:</label> <select id="gender" name="apiUserFormMap.gender">
+                        <option value="0" th:selected="${user.sex eq '0'}">男</option>
+                        <option value="1" th:selected="${user.sex eq '1'}">女</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">警号：</label> <input type="text" class="form-control " placeholder="请输入警号" th:value="${user.policeId}" name="sysUserFormMap.policeId" id="policeId"
+                        readonly="readonly"
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="control-label uploadFile" >头像：</label><img th:src="${'data:image/jpeg|png|gif;base64,'+user.avatar}"/> <a href="javascrip:;" class="a-upload "><input type="file" name="file"  class="form-control uploadFile" /></a>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">所属部门</label> <input type="hidden" name="apiUserFormMap.departmentId" id="parentId" class="deptcode" th:value="${user.deptId}"
+                        th:attr="data-name=${user.deptName}"
+                    />
+                    <!--<span class="screen-content form-control" id="deptcode" ></span>-->
+                    <input type="text" placeholder="请选择上级部门" class="deptcode" id="deptcodeText" th:value="${user.deptName}" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">手机号码:</label> <input type="text" class="form-control checkacc" placeholder="请输入手机号码" th:value="${user.phone}" name="apiUserFormMap.mobile" id="mobile"
+                        onblur="checkPhone1()"
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">邮箱:</label> <input type="text" class="form-control checkacc" placeholder="请输入email" th:value="${user.email}" name="apiUserFormMap.email" id="email"
+                        onblur="checkEmail1()"
+                    />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <!-- <div id="selGroup" th:attr="data-url=@{/apiRole/selRole?apiRoleFormMap.userId=} + ${user.userId}" style="visibility: none"></div> -->
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">用户状态:</label> <select id="enabledFlag" name="apiUserFormMap.enabledFlag">
+                        <option value="1" th:selected="${user.enabledFlag eq '1'}">禁用</option>
+                        <option value="0" th:selected="${user.enabledFlag eq '0'}">可用</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">备注：</label> <input type="text" class="form-control"  name="apiUserFormMap.comment" th:value="${user.comment}" id="comment"  />
+                </div>
+                <div class="line line-dashed line-lg pull-in"></div>
+<!--                 <div class="form-group">
+                    <label class="control-label">是否禁用:</label> <select id="deleteFlag" name="apiUserFormMap.deleteFlag">
+                        <option value="0" th:selected="${user.deleteFlag eq '0'}">否</option>
+                        <option value="1" th:selected="${user.deleteFlag eq '1'}">是</option>
+                    </select>
+                </div> -->
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">保存</button>
+            </footer>
+        </section>
+    </form>
+    <script type="text/javascript">
+                    onloadurl();
+                </script>
+</body>
+</html>

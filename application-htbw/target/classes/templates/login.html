@@ -1,0 +1,68 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Google Chrome Frame也可以让IE用上Chrome的引擎: -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width" />
+<link href="/favicon.ico" type="image/x-icon" rel="icon" />
+<link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" href="css/base.css" th:href="@{/login_css/base.css}">
+<link rel="stylesheet" href="css/frame.css" th:href="@{/login_css/frame.css}">
+<link rel="stylesheet" type="text/css" href="/login_css/login.css" th:href="@{/login_css/login_new.css}" />
+<script type="text/javascript" th:src="@{/js/jquery/jquery-1.8.3.js}" ></script>
+<!--<script type="text/javascript" th:src="@{/js/login.js}" ></script>-->
+<script type="text/javascript" src="/js/jquery/jquery-validation/jquery.validate.min.js" th:src="@{/js/jquery/jquery-validation/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer-v1.9.2/layer/layer.js}"></script>
+<script type="text/javascript" src="/common/common.js" th:src="@{/common/common.js}"></script>
+</head>
+<body>
+<div class="login" style="margin: 5% auto 0;">
+ <h2 style="color: black;"><img src="../static/images/yslogo.png" th:src="@{/images/yslogo.png}"  style="width:25px;" th:text="${system.systemName}"/></h2>
+ <input type="hidden" class="form-control checkacc" th:value="${system.email}" id="email" />
+    <div class="content">
+        <form method="post" id="loginform" name="loginform" th:action="@{/login}">
+            <p class="username"><input class="ipt" type="text" name="username" placeholder="user"/></p>
+            <p class="password"><input type="password" name="password" placeholder="password"/></p>
+            <span>还没有激活？<b id="register">立即激活</b></span>
+        </form>
+    </div>
+    <div class="foot">
+        <span class="mini-btn login-btn" onclick="checkUserForm()">登陆</span>
+        <span class="mini-btn login-pki-btn" onclick="forgetPassword()">找回密码</span>
+    </div>
+</div>
+<div class="footer" style="color:black">
+   浙江优勝科技股份有限公司开发&nbsp;&nbsp;@2019 &nbsp;&nbsp;当前版本: V1.0.0
+</div>
+</body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+	var rootPath = [[${#httpServletRequest.getContextPath()}]];
+    $('#register').click(function(){
+            window.location.href=rootPath+'/register/list';
+        });
+    var error = [[${error}]];
+    if (error != null) {
+        alert(error);
+    };
+    function checkUserForm() {
+        document.loginform.submit();
+    }
+    function to_top() {
+        if (window != top) {
+            top.location.href = location.href;
+        }
+    }
+    function forgetPassword(){
+    	var email = $('#email').val();
+    	alert("请联系管理员修改密码！管理员邮箱是：'"+email+"'");    }
+    function register(){
+    	var email = $('#email').val();
+    	alert("请联系管理员创建用户！管理员邮箱是：'"+email+"'");    }
+/*]]>*/
+</script>
+</html>

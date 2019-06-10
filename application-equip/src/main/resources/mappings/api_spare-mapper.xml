@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.equip.settings.kernel.mapper.ApiSpareMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findSparePage"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		SELECT SPARE.*,unit.name as UNIT_NAME FROM SPARE
+		LEFT JOIN unit ON
+		SPARE.unit = UNIT.CODE
+		WHERE SPARE.ENTRY_NAME='${userName}'
+		<if test="spareNum != null and spareNum != ''">
+			AND SPARE.SPARE_NUM LIKE '%${spareNum}%'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findSparePage2"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		SELECT
+		equip_spare.ID AS UID,
+		spare.*,
+		equip_spare.NUM,
+		unit.name as UNIT_NAME,
+		equip_spare.ENABLE_TIME
+		FROM
+		api_equipment
+		LEFT JOIN equip_spare ON api_equipment.ID =
+		equip_spare.EQUIP_ID
+		LEFT JOIN spare ON equip_spare.SPARE_ID = spare.ID
+		LEFT JOIN unit ON SPARE.UNIT = unit.CODE
+		WHERE
+		SPARE.ENTRY_NAME='${userName}' AND api_equipment.ID = '${equipid}'
+		AND
+		spare.STATUS = '0'
+		<if test="spareNum != null and spareNum != ''">
+			AND SPARE.SPARE_NUM LIKE '%${spareNum}%'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<insert id="addEntity" useGeneratedKeys="true" keyProperty="Id">
+		INSERT INTO SPARE(
+		<if test="spareName">SPARE_NAME,</if>
+		<if test="spareNum">SPARE_NUM,</if>
+		<if test="spareSpec">SPARE_SPEC,</if>
+		<if test="entryName">ENTRY_NAME,</if>
+		<if test="unit">UNIT,</if>
+		<if test="life">LIFE,</if>
+		<if test="status">STATUS</if>
+		) VALUES (
+		<if test="spareName">#{spareName,jdbcType=VARCHAR},</if>
+		<if test="spareNum">#{spareNum,jdbcType=VARCHAR},</if>
+		<if test="spareSpec">#{spareSpec,jdbcType=VARCHAR},</if>
+		<if test="entryName">#{entryName,jdbcType=VARCHAR},</if>
+		<if test="unit">#{unit,jdbcType=VARCHAR},</if>
+		<if test="life">#{life,jdbcType=VARCHAR},</if>
+		<if test="status">#{status,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<update id="editEntity"
+		parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		UPDATE SPARE SET
+		<if test="spareNum">SPARE_NUM= #{spareNum,jdbcType=VARCHAR},</if>
+		<if test="spareSpec">SPARE_SPEC=#{spareSpec,jdbcType=VARCHAR},</if>
+		<if test="entryName">ENTRY_NAME=#{entryName,jdbcType=VARCHAR},</if>
+		<if test="unit">UNIT = #{unit,jdbcType=VARCHAR},</if>
+		<if test="life">LIFE = #{life,jdbcType=VARCHAR},</if>
+		<if test="status">STATUS=#{status,jdbcType=VARCHAR},</if>
+		<if test="spareName">SPARE_NAME=#{spareName,jdbcType=VARCHAR}</if>
+		WHERE ID=#{id}
+	</update>
+	<update id="editEntity1"
+		parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		UPDATE SPARE SET
+		<if test="status">STATUS=#{status,jdbcType=VARCHAR}</if>
+		WHERE ID=#{id}
+	</update>
+	<select id="findDetailSpare"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		SELECT SPARE.*,unit.name as UNIT_NAME
+		FROM SPARE
+		LEFT JOIN unit ON SPARE.UNIT = unit.CODE
+		WHERE
+		SPARE.ID=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findByWhere"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		select
+		*
+		from SPARE where status = 0
+		<if test="id != null">
+			and ID not in (${id})
+		</if>
+	</select>
+	<select id="seletEquipSpare"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiSpareFormMap">
+		SELECT * FROM SPARE
+		WHERE SPARE.ID IN
+		(
+		SELECT SPARE_ID FROM
+		EQUIP_SPARE WHERE EQUIP_ID = #{equipId}
+		) AND SPARE.STATUS=0
+	</select>
+	<update id="editEquimentSpare" parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentSpareFormMap">
+	UPDATE EQUIP_SPARE SET
+	<if test="enableTime != null">ENABLE_TIME = #{enableTime,jdbcType=VARCHAR}</if>
+	WHERE ID=#{id}
+	</update>
+	<select id="findDetailEquipmentSpare" resultType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentSpareFormMap">
+	SELECT
+	spare.SPARE_NUM,
+	spare.SPARE_NAME,
+	equip_spare.ID,
+	equip_spare.NUM
+FROM
+	spare
+	LEFT JOIN equip_spare ON spare.ID = equip_spare.SPARE_ID
+	WHERE equip_spare.ID =#{id,jdbcType=VARCHAR}
+	</select>
+	<update id="editNum" parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentSpareFormMap">
+	UPDATE EQUIP_SPARE SET
+	<if test="num != null">NUM = #{num,jdbcType=VARCHAR}</if>
+	WHERE ID=#{id}
+	</update>
+</mapper>

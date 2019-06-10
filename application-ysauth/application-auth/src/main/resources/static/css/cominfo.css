@@ -1,0 +1,223 @@
+/*!widget/public/pageCtrl/1.0.0/css/pageCtrl.less*/
+
+.page-box {
+  bottom: 0;
+  left: 0;
+  opacity: 0.95;
+  padding-bottom: 8px;
+  padding-left: 30px;
+  padding-top: 8px;
+  right: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+.page-box .page-prev-btn {
+  background-color: #dddee0;
+  border-radius: 25px;
+  color: #888;
+  cursor: pointer;
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  width: 45px;
+  float: left;
+  margin-right: 10px;
+}
+.page-box .page-prev-btn i {
+  height: 22px;
+  width: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  background: url("/publish/view/1.0.0/img/page-left.png") no-repeat;
+}
+.page-box .page-next-btn {
+  background-color: #dddee0;
+  border-radius: 25px;
+  color: #888;
+  cursor: pointer;
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  width: 45px;
+  float: left;
+  margin-right: 10px;
+}
+.page-box .page-next-btn i {
+  height: 22px;
+  width: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  background: url("/publish/view/1.0.0/img/page-right.png") no-repeat;
+}
+.page-box .page-recored {
+  float: left;
+  line-height: 45px;
+  margin-right: 10px;
+}
+.page-box .page-btn {
+  background-color: #dddee0;
+  color: #888;
+  cursor: pointer;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  min-width: 30px;
+  float: left;
+  margin-right: 10px;
+}
+.page-box .page-btn.page-btn-cur {
+  background-color: #f39019;
+  color: #ffffff;
+}
+.page-box .page-btn:hover {
+  text-decoration: none;
+}
+.page-box.shuyin .page-btn {
+  background-color: #dddee0;
+  border-radius: 25px;
+  color: #888;
+  cursor: pointer;
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  width: 45px;
+  float: left;
+  margin-right: 10px;
+}
+.page-box.shuyin .page-btn.page-btn-cur {
+  background-color: #f39019;
+  color: #ffffff;
+}
+.page-box.shuyin .page-btn:hover {
+  text-decoration: none;
+}
+.page-box .page-dot {
+  float: left;
+  margin-right: 10px;
+}
+.page-box .page-dot i {
+  background-color: #d3d3d3;
+  border-radius: 15em;
+  display: inline-block;
+  height: 15px;
+  margin: 17px 5px 15px;
+  width: 15px;
+}
+/*!widget/public/departSelect/1.0.0/css/departSelect.less*/
+.depart {
+  padding:0 10px;
+}
+.depart h2 {
+  font-size: 14px;
+  font-weight: normal;
+  text-align: center;
+  line-height: 30px;
+}
+.depart .select-text {
+  border: 1px solid #ccc;
+  padding: 0px 10px 8px;
+  overflow-y: auto;
+  max-height: 94px;
+  min-height:44px;
+}
+.depart .select-text ul li {
+  float: left;
+  margin-right: 10px;
+  background: #3091f2;
+  padding: 5px 5px;
+  color: #fff;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+.depart .select-text ul li em {
+  display: inline-block;
+  border-left: 1px solid #fff;
+  font-style: normal;
+  margin-left: 5px;
+  padding-left: 5px;
+  cursor: pointer;
+}
+.depart .select-title {
+  line-height: 30px;
+  white-space: normal;
+}
+.depart .select-title a.title-item {
+  display: inline-block;
+  color: #333;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+.depart .select-title a.title-item:hover {
+  text-decoration: underline;
+  color: #428bca;
+}
+.depart .select-content .select-all {
+  position: relative;
+  display: block;
+  min-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.depart .select-content .select-all label {
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+.depart .select-content .select-all label input {
+  margin-right: 10px;
+}
+.depart .select-content ul {
+  margin: 0;
+  padding: 0 0 0 20px;
+  border-top: 1px solid #CCC;
+  max-height: 192px;
+  overflow-x: hidden;
+}
+.depart .select-content ul li {
+  border-bottom: 1px solid #CCC;
+  position: relative;
+  cursor: pointer;
+}
+.depart .select-content ul li input {
+  margin-left: -15px;
+  position: absolute;
+  top: 50%;
+  margin-top: -7px;
+}
+.depart .select-content ul li a.item {
+  color: #000;
+  font-weight: bold;
+  padding: 15px 0;
+  overflow: hidden;
+  margin-left: 5px;
+  display: block;
+}
+.depart .select-content ul li a.item span.right {
+  color: #999;
+  font-weight: normal;
+}
+.depart .select-foot {
+  text-align: right;
+  margin-top: 10px;
+}
+.depart .select-foot button {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+}
+.depart .select-foot button.confirm {
+  background: #3091f2;
+  color: #fff;
+}

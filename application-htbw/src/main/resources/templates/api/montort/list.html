@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/api/montort/list.js}" th:src="@{/js/api/montort/list.js}"></script>
+<script type="text/javascript" src="/js/api/montort/jquery-1.6.2.min.js}" th:src="@{/js/api/montort/jquery-1.6.2.min.js}"></script>
+<script type="text/javascript" src="/js/api/montort/echart-new.min.js}" th:src="@{/js/api/montort/echart-new.min.js}"></script>
+<script type="text/javascript" src="/js/api/montort/temperature.js}" th:src="@{/js/api/montort/temperature.js}"></script>
+<head>
+ <style type="text/css">
+ tr{
+ height:10px;
+ }
+ tr td{
+ height:10px;
+ font-size: 15px;
+ text-align: center;
+ }
+ </style>
+</head>
+<div class="m-b-md">
+        <div class="form-group">
+        		<label class="control-label"> <span
+			class="h4 font-thin v-middle">区域:</span></label><select id="doc-buttons"></select> 
+            <label class="control-label"> <span class="h4 font-thin v-middle">设备名称:</span></label> <input class="input-medium ui-autocomplete-input" id="searchValue"  />
+        <button type='button' class='btn btn-primary marR10' onclick='search()'>查询</button>
+        </div>
+</div>
+<header class="panel-heading">
+	<div class="layui-btn-group">
+		<div class="doc-buttons"></div>
+	</div>
+	<div id="showechart2" style="height: 100%"></div>
+</header>
+</html>

@@ -1,0 +1,82 @@
+@charset "utf-8";
+html, body{height: 100%; width: 100%; overflow: hidden; font-size: 12px; margin: 0;}
+.btn{height: 30px; line-height: 30px; padding: 0 20px; background-color: #ffffff; border: 1px solid #aaaaaa; border-radius: 2px; cursor: pointer; color: #000000;display: inline-block;
+    margin-left: 20px;}
+.bgcolor-blue,.btn-success{
+    background-color: #53acff;
+    color: #ffffff;
+    border-color: #53acff;
+}
+.btn-s-xs{
+	border:1px solid #18929B !important;
+	color:#18929B !important;
+    border-radius: 5px !important;
+}
+.table{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+table.table td {
+    height: 40px;
+    padding: 2px 0;
+    text-align: center;
+}
+.table td input, .table td select, .table td textarea {
+    height: 28px;
+    width: 80%;
+    border: 1px solid #e5e6e7;
+    border-radius: 2px;
+    text-align: left;
+    text-indent: 4px;
+}
+.form-group{
+    /*height: 30px;*/
+    padding: 2px 0;
+    width: 100%;
+    text-align: center;
+    margin: 4px 0 0 0;
+}
+.form-group .control-label{
+    width: 20%;
+    height: 28px;
+    line-height: 28px;
+    display: inline-block;
+    float: left;
+}
+.form-group .form-control{
+    height: 28px;
+    border-radius: 2px;
+    text-indent: 4px;
+    width: 65%;
+    float: right;
+    margin-right: 10%;
+}
+.form-group input, .form-group select, .form-group textarea{
+    border: 1px solid #e5e6e7;
+    text-align: left;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 2px;
+    text-indent: 4px;
+    width: 65%;
+    float: right;
+    margin-right: 10%;
+}
+
+.panel-footer{
+    text-align: right;
+    margin: 20px 10% 20px 0;
+}
+.l_err {
+    background: none repeat scroll 0 0 #FFFCC7;
+    border: 1px solid #FFC340;
+    font-size: 12px;
+    padding: 4px 8px;
+    width: 200px;
+    display: none;
+}
+
+.error {
+    border: 3px solid #FFCCCC;
+}

@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="/js/system/sysname/list.js"
+	th:src="@{/js/system/sysname/list.js}"></script>
+<style>
+</style>
+</head>
+<body>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/systemn/editEntity}">
+		<input type="hidden" class="form-control checkacc"
+			th:value="${system.id}" name="sysSystemForMap.id" id="id" />
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div class="form-group">
+					<label class="control-label" style="text-align:center">系统名称:</label> <input type="text"
+						class="form-control" style="float: right;"
+						placeholder="请输入系统名称" th:value="${system.systemName}"
+						name="sysSystemForMap.systemName" id="systemName" />
+				</div>
+							<div class="form-group">
+					<label class="control-label" style="text-align:center">URL:</label> <input type="text"
+						class="form-control" style="float: right;"
+						placeholder="请输入URL" th:value="${system.url}"
+						name="sysSystemForMap.url" id="url" />
+				</div>
+							<div class="form-group">
+					<label class="control-label" style="text-align:center">DBID:</label> <input type="text"
+						class="form-control" style="float: right;"
+						placeholder="请输入DBID" th:value="${system.dbid}"
+						name="sysSystemForMap.dbid" id="dbid" />
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">保存更改</button>
+			</footer>
+		</section>
+	</form>
+</body>
+</html>

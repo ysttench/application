@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="../static/js/api/user/recover.js" th:src="@{/js/api/user/recover.js}"></script>
+</head>
+<body>
+    <form id="form" name="form" class="form-horizontal" method="post" action="/apiUser/recoverEntity">
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+                <div class="form-group">
+                    <label class="control-label">请输入要恢复的账号名：</label> <input type="text" class="form-control" placeholder="请输入账号" name="userName" id="userName" />
+                </div>
+            </div>
+                <button type="submit" class="btn btn-success btn-s-xs">恢复</button>
+        </section>
+    </form>
+</body>
+</html>

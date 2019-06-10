@@ -1,0 +1,135 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<head>
+<script type="text/javascript" src="../plugin/echarts/echarts-3.1.2/echarts.min.js" th:src="@{/plugin/echarts/echarts-3.1.2/echarts.min.js}"></script>
+<script type="text/javascript" src="/js/system/index/list.js" th:src="@{/js/system/index/list.js}"></script>
+<style>
+body, ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none
+}
+
+.left {
+	float: left
+}
+
+.right {
+	float: right;
+    text-align:left;
+}
+
+.clear {
+	clear: both
+}
+.list{
+    margin-left:30px;
+}
+.list ul li {
+	float: left;
+	background: #2a8ad9;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.list ul li div.left {
+	width: 100px;
+	text-align: center;
+	height: 100px;
+}
+
+.list ul li div.left img {
+	width: 50px;
+	height: 50px;
+	margin-top: 25px;
+}
+
+.list ul li div.right {
+	max-width: 180px;
+    height:100px;
+    padding:25px 10px;;
+}
+
+.list ul li div.right p {
+	padding: 0 15px;
+	color: #fff;
+}
+
+.list ul li div.right p.num {
+	text-align: center;
+	font-weight: bold
+}
+</style>
+</head>
+<body>
+    <div class="list">
+        <ul>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/jk.png}" />
+                </div>
+                <div class="right">
+                    <p>监控数量</p>
+                    <p class="num" id="jk">2684</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/yc.png}" />
+                </div>
+                <div class="right">
+                    <p>异常数量</p>
+                    <p class="num" id="yc">32</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/jb.png}" />
+                </div>
+                <div class="right">
+                    <p>警报列表</p>
+                    <p class="num" id="jb">6</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+        </ul>
+                <ul>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/gz.png}" />
+                </div>
+                <div class="right">
+                    <p>故障通知</p>
+                    <p class="num" id="gz">2684</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/jbjl.png}" />
+                </div>
+                <div class="right">
+                    <p>交班记录</p>
+                    <p class="num" id="jbjl">32</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/gl.png}" />
+                </div>
+                <div class="right">
+                    <p>管理规定</p>
+                    <p class="num" id="gl">6</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

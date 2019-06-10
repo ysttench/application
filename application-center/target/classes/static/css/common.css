@@ -1,0 +1,275 @@
+@charset "utf-8";
+/* CSS Document */
+/*******************  pagination  ******************/
+
+.mini-btn {border: 1px solid #0089fa; color: #0089fa;line-height: 25px; padding: 0 6px;border-radius: 5px;cursor: pointer;background-color: #ffffff;}
+.mini-btn.grey{ color: #999999; border-color: #999;}
+.mini-btn.orange{ color: #ef6c00; border-color: #ef6c00;}
+.mini-btn.green{ color: #18929b; border-color: #18929b;}
+.managementTab li {
+    cursor: pointer;
+    font-size: 14px;
+    float: left;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    width: 103px;
+    margin-left: 1%;
+}
+.managementTab li.selected {
+    color: #0089fa;
+    border-bottom: 4px solid #0089fa;
+}
+
+.pagclass{
+	padding: 0px 10px;
+}
+
+.pagclass table td, .pagclass table th {
+	font-size: 12px;
+}
+
+.pagination a:hover, .pagination .active a {
+	background-color: #f5f5f5;
+}
+
+.color-red {
+	color: #ff0000;
+}
+
+.pagination .active a {
+	color: #999999;
+	cursor: default;
+	border-color: #999999
+}
+
+.pagination .disabled span, .pagination .disabled a, .pagination .disabled a:hover
+	{
+	color: #999999;
+	background-color: transparent;
+	cursor: default;
+}
+
+.pagination li:first-child a {
+	border-left-width: 1px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.pagination li:last-child a {
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.pagination-centered {
+	text-align: center;
+}
+
+.pagination-right {
+	text-align: right;
+}
+
+.pager {
+	margin-left: 0;
+	margin-bottom: 18px;
+	list-style: none;
+	text-align: center;
+	*zoom: 1;
+}
+
+.pager:before, .pager:after {
+	display: table;
+	content: "";
+}
+
+.pager:after {
+	clear: both;
+}
+
+.pager li {
+	display: inline;
+}
+
+.pager a {
+	display: inline-block;
+	padding: 5px 14px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+.pager a:hover {
+	text-decoration: none;
+	background-color: #f5f5f5;
+}
+
+.pager .next a {
+	float: right;
+}
+
+.pager .previous a {
+	float: left;
+}
+
+.pager .disabled a, .pager .disabled a:hover {
+	color: #999999;
+	background-color: #fff;
+	cursor: default;
+}
+
+.pagination {
+	margin: 10px 0;
+}
+
+/*******************  pagination  ******************/
+.tree {
+	width: 16px;
+	height: 27px;
+	float: left;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.panel-heading {
+	padding: 5px;
+}
+
+.panel {
+	margin-bottom: 0px;
+}
+
+.table {
+	margin: 0px;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+	.table>tbody>tr>td, .table>tfoot>tr>td {
+	padding-bottom: 8px;
+	padding-top: 8px;
+}
+
+.ly_tree {
+	width: 16px;
+	height: 27px;
+	float: left;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.table-bordered>thead>tr>th, .table-bordered>thead>tr>td {
+	border-bottom-width: 0px;
+}
+
+.wj-glyph-up {
+	display: inline-block;
+	border-right: .4em solid transparent;
+	border-bottom: .5em solid;
+	border-left: .4em solid transparent;
+	opacity: .75;
+	margin-left: 3px;
+}
+
+.wj-glyph-down {
+	display: inline-block;
+	border-top: .5em solid;
+	border-right: .4em solid transparent;
+	border-left: .4em solid transparent;
+	opacity: .75;
+	margin-left: 3px;
+}
+/*table操作按钮*/
+.table-top-search{
+	margin-bottom: 20px;
+}
+.table-top-search .search-param{
+	display: block;
+}
+.table-top-search .search-param .search-input{
+	position: relative;
+	display: inline-block;
+}
+.table-top-search .search-param input{
+	width: 20%;
+	margin-left: 0;
+	height: 36px;
+	line-height: 36px;
+	border:1px solid #ddd;
+	padding-left:15px;
+	float: left;
+	border-right: none;
+	box-sizing: border-box;
+}
+.table-top-search .search-param label{
+	height: 36px;
+	line-height: 36px;
+	float: left;
+	display: inline-block;
+}
+.table-top-search .search-param select{
+	height: 36px;
+	line-height: 36px;
+	border:1px solid #ddd;
+	float: left;
+	box-sizing: border-box;
+	margin-right: 10px;
+}
+.table-top-search .search-param span.list-btn{
+	float: left;
+	height: 36px;
+	line-height: 34px;
+	border-radius: 2px;
+	margin-right: 5px;
+	padding:0 15px 0 35px;
+	border: 1px solid;
+	color: #fff;
+	cursor: pointer;
+}
+.table-top-search .search-param span.btn_search{
+	background: #aaa url("../images/list/btn_search.png") no-repeat;
+	border-color: #aaa;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_add{
+	background: #6289f0 url("../images/list/btn_Added.png") no-repeat;
+	border-color: #6289f0;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_edit{
+	background: #4cc0c0 url("../images/list/btn_edit.png") no-repeat;
+	border-color: #4cc0c0;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_delete{
+	background: #faa709 url("../images/list/btn_delete.png") no-repeat;
+	border-color: #faa709;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_report{
+	background: #0bbffa url("../images/list/btn_Reported.png") no-repeat;
+	border-color: #0bbffa;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_pass{
+	background: #0bbffa url("../images/list/btn_pass.png") no-repeat;
+	border-color: #0bbffa;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_unqualified{
+	background: #0bbffa url("../images/list/btn_unqualified.png") no-repeat;
+	border-color: #0bbffa;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_moveup{
+	background: #0bbffa url("../images/list/btn_moveup.png") no-repeat;
+	border-color: #0bbffa;
+	background-position: 15px center;
+}
+.table-top-search .search-param span.btn_movedown{
+	background: #0bbffa url("../images/list/btn_movedown.png") no-repeat;
+	border-color: #0bbffa;
+	background-position: 15px center;
+}

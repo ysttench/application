@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiAccessTokenMapper">
+    <!--mybatis ehcache缓存配置 -->
+    <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> -->
+    <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ID,
+        ACCESS_TOKEN,
+        USER_ID,
+        UPDATE_TIME,
+        EXPIRES_IN
+    </sql>
+</mapper>

@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<script type="text/javascript" src="/js/api/user/list.js}" th:src="@{/js/api/user/list.js}"></script>
+<div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+            <label class="control-label"> <span class="h4 font-thin v-middle">客户公司名称:</span></label> <input class="input-medium ui-autocomplete-input" id="companyName" name="apiUserFormMap.companyName" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a> <a href="javascript:grid.exportData('/apiuser/export')" class="btn btn-info" id="search">导出excel</a>
+    </form>
+</div>
+<header class="panel-heading">
+    <div class="doc-buttons">
+        <button type="button" id="addAccount" class="btn btn-primary marR10">新增</button>
+        <button type="button" id="editAccount" class="btn btn-info marR10">编辑</button>
+        <button type="button" id="delAccount" class="btn btn-danger marR10">删除</button>
+    </div>
+    <div>
+    </div>
+</header>
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

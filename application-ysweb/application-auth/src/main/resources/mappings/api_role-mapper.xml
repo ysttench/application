@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiRoleMapper">
+  <!--mybatis ehcache缓存配置 -->
+  <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> -->
+  <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+  <!-- 以下与实体类的中字段一致 -->
+  <sql id="selectId">
+    ROLE_ID,
+    ROLE_NAME,
+    ROLE_DESC,
+    COMMENT,
+    DELETE_FLAG,
+    CREATE_TIME,
+    UPDATE_TIME,
+    APPLY_ID
+  </sql>
+  <select id="seletUserRole" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiRoleFormMap">
+    select
+    <include refid="selectId" />
+    from API_ROLE
+    where API_ROLE.ROLE_ID
+    in (select ROLE_ID from API_USER_ROLE where
+    USER_ID=#{userId})
+  </select>
+
+  <select id="findRoleByPage" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiRoleFormMap">
+        SELECT
+            a.*, b.API_NAME
+        FROM
+            API_ROLE a
+        LEFT JOIN API_APPLICATION b ON a.APPLICATION_ID = b.ID
+        WHERE
+            a.DELETE_FLAG = '0'
+    <if test="applyId !='' and applyId != null">
+      and a.APPLICATION_ID = '${applyId}'
+    </if>
+    <if test="roleName !='' and roleName != null">
+      and ROLE_NAME like '%${roleName}%'
+    </if>
+    <if test="column !=null and column != ''">
+      order by ${column} ${sort}
+    </if>
+  </select>
+
+  <update id="setDeleteById" parameterType="java.lang.String">
+    update API_ROLE
+    <set>
+      DELETE_FALG = 1
+    </set>
+    WHERE ROLE_ID = #{id}
+  </update>
+       <select id="findXT" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiRoleFormMap">
+          SELECT
+              b.ID,
+              b.API_NAME
+          FROM
+              API_ROLE a
+          LEFT JOIN API_APPLICATION b ON a.APPLICATION_ID = b.ID
+          WHERE
+              a.DELETE_FLAG = '0'
+    </select>
+    
+    <select id="findDetail" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiRoleFormMap">
+            SELECT
+            a.*, b.API_NAME
+        FROM
+            API_ROLE a
+        LEFT JOIN API_APPLICATION b ON a.APPLICATION_ID = b.ID
+        WHERE
+            a.DELETE_FLAG = '0'
+            and a.ROLE_ID='${roleId}'
+    </select>
+            <select id="count" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiRoleFormMap">
+            SELECT
+                count(*) as count
+            FROM
+                API_ROLE 
+            WHERE
+                DELETE_FLAG = '0'
+        <if test="id != null and id != ''">
+            and ROLE_ID != '${id}'
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and ROLE_NAME = '${roleName}'
+        </if>
+        </select>
+</mapper>

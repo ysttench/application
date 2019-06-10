@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head ></head>
+<script type="text/javascript" src="/js/system/xzqhb/xzqhbCom.js" th:src="@{/js/system/xzqhb/xzqhbCom.js}"></script>
+<script type="text/javascript" src="/js/system/department/list.js" th:src="@{/js/system/department/list.js}"></script>
+<style>
+</style>
+<!-- <div th:include="common/top :: copyTop" class="list-top"></div> -->
+<div class="center-content">
+    <!-- <div th:include="common/submenu :: copyData"></div> -->
+
+    <div class="center-content managementContent jsgl" id="ajgl" style="top: 100px;z-index: 1;padding: 20px;">
+        <div class="inner-content scattered-list">
+            <div class="table-top-search">
+                <form class="form-inline" id="searchForm" name="searchForm">
+                    <span class="search-param clearfix">
+                        <input type="text" placeholder="请输入关键字" id="searchValue" name="sysDepartmentFormMap.searchValue" />
+                        <span id="search" class="list-btn btn_search">查询</span>
+                        <span id="addDepartment" class="list-btn btn_add">新增</span>
+                        <span id="editDepartment" class="list-btn btn_edit">编辑</span>
+                        <span id="delDepartment" class="list-btn btn_delete">删除</span>
+                    </span>
+                </form>
+            </div>
+            <div class="module-body">
+                <div class="table-responsive">
+                    <div id="paging" class="pagclass"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div th:include="common/footer :: copyfoot" class="list-footer"></div> -->
+</html>

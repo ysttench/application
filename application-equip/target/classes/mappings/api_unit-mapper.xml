@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.equip.settings.kernel.mapper.ApiUnitMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findUnitByPage" resultType="com.ysttench.application.equip.settings.kernel.entity.ApiUnitFormMap">
+	select * from unit
+	<if test="name != null">
+	where NAME like '%${name}%'
+	</if>
+	<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<insert id="insertUnit" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into unit (
+		<if test="code != null">CODE,</if>
+		<if test="name != null">NAME</if>
+		) values (
+		<if test="code != null">#{code,jdbcType=VARCHAR},</if>
+		<if test="name != null">#{name,jdbcType=VARCHAR}</if>
+		)
+		</insert>
+		<select id="count" resultType="com.ysttench.application.equip.settings.kernel.entity.ApiUnitFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		unit
+		WHERE 0=0
+		<if test="code != null">
+			AND CODE = '${code}'</if>
+		<if test="name != null ">
+			AND NAME = '${name}'</if>
+		<if test="id != null">
+			and ID != '${id}'
+		</if>
+		</select>
+		<select id="findDetailUnit" resultType="com.ysttench.application.equip.settings.kernel.entity.ApiUnitFormMap">
+		select * from unit where ID='${id}'
+		</select>
+		<update id="editUnit" parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiUnitFormMap">
+		update unit set
+		<if test="code != null">CODE=#{code,jdbcType=VARCHAR}</if>
+		<if test="name != null">,NAME=#{name,jdbcType=VARCHAR}</if>
+		where ID=  #{id,jdbcType=INTEGER}
+		</update>
+		<delete id="deleteById">
+		delete from unit where ID=#{id,jdbcType=INTEGER}
+		</delete>
+</mapper>

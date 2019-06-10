@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.equip.settings.kernel.mapper.ApiEquipmentMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findEquipmentPage"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentFormMap">
+		SELECT API_EQUIPMENT.* FROM API_EQUIPMENT
+		WHERE
+		API_EQUIPMENT.STATUS='0' AND API_EQUIPMENT.ENTRY_NAME='${userName}'
+		<if test="equipmentNum != null and equipmentNum !=''">
+			AND API_EQUIPMENT.EQUIPMENT_NUM LIKE '%${equipmentNum}%'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findCkEquipmentPage"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentFormMap">
+		SELECT
+		API_EQUIPMENT.EQUIPMENT_NUM,API_EQUIPMENT_L.*,API_EQUIPMENT.EQUIPMENT_NAME
+		FROM API_EQUIPMENT_L LEFT JOIN API_EQUIPMENT ON
+		API_EQUIPMENT_L.EQUIPMENT_NUM = API_EQUIPMENT.EQUIPMENT_NUM
+		WHERE
+		API_EQUIPMENT.STATUS='0' AND API_EQUIPMENT.ENTRY_NAME='${userName}'
+		<if test="equipmentNum != null and equipmentNum != ''">
+			AND API_EQUIPMENT.EQUIPMENT_NUM LIKE '%${equipmentNum}%'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<insert id="addEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO API_EQUIPMENT (
+		<if test="equipmentNum != null">EQUIPMENT_NUM,</if>
+		<if test="equipmentName != null">EQUIPMENT_NAME,</if>
+		<if test="manufacturer != null">MANUFACTURER,</if>
+		<if test="equipmentXh != null">EQUIPMENT_XH,</if>
+		<if test="entryName != null">ENTRY_NAME,</if>
+		<if test="manuDate != null">MANU_DATE,</if>
+		<if test="equipmentComm != null">EQUIPMENT_COMM</if>
+		) VALUES (
+		<if test="equipmentNum != null">#{equipmentNum,jdbcType=VARCHAR},</if>
+		<if test="equipmentName != null">#{equipmentName,jdbcType=VARCHAR},</if>
+		<if test="manufacturer != null">#{manufacturer,jdbcType=VARCHAR},</if>
+		<if test="equipmentXh != null">#{equipmentXh,jdbcType=VARCHAR},</if>
+		<if test="entryName != null">#{entryName,jdbcType=VARCHAR},</if>
+		<if test="manuDate != null">#{manuDate,jdbcType=DATE},</if>
+		<if test="equipmentComm != null">#{equipmentComm,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<insert id="addEntityru"
+		parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentSpareFormMap">
+		insert into EQUIP_SPARE (
+		<if test="equipId != null">EQUIP_ID,</if>
+		<if test="spareId != null">SPARE_ID</if>
+		)
+		VALUES
+		(
+		<if test="equipId != null">#{equipId,jdbcType=VARCHAR},</if>
+		<if test="spareId != null">#{spareId,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<update id="editEquipment">
+		UPDATE API_EQUIPMENT SET
+		<if test="status != null"> STATUS = #{status,jdbcType=VARCHAR}</if>
+		WHERE ID = #{id}
+	</update>
+	<delete id="deleteEquipmentSpare">
+		DELETE FROM EQUIP_SPARE WHERE EQUIP_ID = #{equipId}
+	</delete>
+	<select id="findDetailEquip"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentFormMap">
+		SELECT * FROM API_EQUIPMENT WHERE ID = #{id}
+	</select>
+	<update id="editEntity"
+		parameterType="com.ysttench.application.equip.settings.kernel.entity.ApiEquipmentFormMap">
+		UPDATE API_EQUIPMENT SET
+		<if test="equipmentNum != null">EQUIPMENT_NUM = #{equipmentNum,jdbcType=VARCHAR},</if>
+		<if test="equipmentName != null">EQUIPMENT_NAME = #{equipmentName,jdbcType=VARCHAR},</if>
+		<if test="manufacturer != null">MANUFACTURER = #{manufacturer,jdbcType=VARCHAR},</if>
+		<if test="equipmentXh != null">EQUIPMENT_XH = #{equipmentXh,jdbcType=VARCHAR},</if>
+		<if test="entryName != null">ENTRY_NAME =#{entryName,jdbcType=VARCHAR},</if>
+		<if test="manuDate != null">MANU_DATE = #{manuDate,jdbcType=VARCHAR},</if>
+		<if test="equipmentComm != null">EQUIPMENT_COMM = #{equipmentComm,jdbcType=VARCHAR}</if>
+		WHERE ID = #{id}
+	</update>
+	<select id="findExceptByPage"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiExceptFormMap">
+		SELECT
+		excepts.*,
+		api_equipment.EQUIPMENT_NAME
+		FROM
+		excepts
+		LEFT JOIN
+		api_equipment ON api_equipment.EQUIPMENT_NUM =
+		excepts.EQUIPMENT_NUM
+		WHERE
+		api_equipment.ENTRY_NAME='${userName}' AND api_equipment.ID =
+		'${equipid}'
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findgainByPage"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiGrainFormMap">
+		SELECT
+		grain.*,
+		api_equipment.EQUIPMENT_NAME
+		FROM
+		grain
+		LEFT JOIN
+		api_equipment ON api_equipment.EQUIPMENT_NUM =
+		grain.EQUIPMENT_NUM
+		WHERE
+		api_equipment.ENTRY_NAME='${userName}' AND api_equipment.ID =
+		'${equipid}'
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findmntenceByPage"
+		resultType="com.ysttench.application.equip.settings.kernel.entity.ApiMntenceFormMap">
+		SELECT
+		mntence.*,
+		api_equipment.EQUIPMENT_NAME
+		FROM
+		mntence
+		LEFT JOIN
+		api_equipment ON api_equipment.EQUIPMENT_NUM =
+		mntence.EQUIPMENT_NUM
+		WHERE
+		api_equipment.ENTRY_NAME='${userName}' AND api_equipment.ID =
+		'${equipid}'
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+</mapper>

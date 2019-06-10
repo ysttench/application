@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.center.settings.kernel.mapper.ApiUserMapper">
+  <!--mybatis ehcache缓存配置 -->
+  <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> -->
+  <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+  <!-- 以下与实体类的中字段一致 -->
+<select id="findUserPage" resultType="com.ysttench.application.center.settings.kernel.entity.ApiUserFormMap">
+select * from api_user where DELETE_STATUS=0
+		<if test="companyName != null and companyName != ''">
+			and COMPANY_NAME LIKE '%${companyName}%'
+		</if>
+		<if test="where != null and where != ''">
+			${where}
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+</select>
+
+<select id="findDetailUser" resultType="com.ysttench.application.center.settings.kernel.entity.ApiUserFormMap">
+select * from api_user where ID = '${id}'
+</select>
+<select id="count" resultType="com.ysttench.application.center.settings.kernel.entity.ApiUserFormMap">
+SELECT
+		count(*) as count
+		FROM
+		api_user
+		WHERE
+		DELETE_STATUS = '0'
+		<if test="id != null and id != ''">
+			and ID != '${id}'
+		</if>
+		<if test="companyName != null and companyName != ''">
+			and COMPANY_NAME = '${companyName}'
+		</if>
+		<if test="email != null and email != ''">
+			and EMAIL = '${email}'
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and MOBILE = '${mobile}'
+		</if>
+</select>
+</mapper>

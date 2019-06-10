@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="/js/api/stassets/list2.js}" th:src="@{/js/api/stassets/list2.js}"></script>
+<div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+            <label class="control-label"> <span class="h4 font-thin v-middle">资产编号:</span></label> <input class="input-medium ui-autocomplete-input" id="assetsNum" name="apiStAssetsForMap.assetsNum" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
+    </form>
+</div>
+<header class="panel-heading">
+    <div class="doc-buttons">
+        <button type="button" id="shAccount" class="btn btn-info marR10">审核</button>
+        <button type="button" id="fshAccount" class="btn btn-danger marR10">反审核</button>
+    </div>
+</header>
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

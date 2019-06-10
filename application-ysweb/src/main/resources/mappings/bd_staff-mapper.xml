@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.BdStaffMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findMsg" resultType="com.ysttench.application.auth.settings.kernel.entity.BdStaffFormMap">
+SELECT DISTINCT
+	T_BD_STAFF_L.FNAME 
+FROM
+	T_BD_STAFF
+	LEFT JOIN T_BD_DEPARTMENT_L ON T_BD_STAFF.FDEPTID= T_BD_DEPARTMENT_L.FDEPTID
+	LEFT JOIN T_BD_STAFF_L ON T_BD_STAFF.FSTAFFID = T_BD_STAFF_L.FSTAFFID
+	LEFT JOIN T_ORG_ORGANIZATIONS_L ON T_BD_STAFF.FUSEORGID = T_ORG_ORGANIZATIONS_L.FORGID 
+	<if test="organ != null">
+	WHERE  T_BD_STAFF.FFORBIDSTATUS ='A' AND T_ORG_ORGANIZATIONS_L.FNAME='${organ}'
+	</if>
+	<if test="department != null">
+	AND T_BD_DEPARTMENT_L.FNAME ='${department}'
+	</if>
+	</select>
+</mapper>

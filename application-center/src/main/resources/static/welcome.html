@@ -1,0 +1,11 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <div class="col-md-12" style="margin:0 auto;vertical-align: middle">
+        <div class="alert alert-warning alert-block">
+            <h1 id="banner_notification"></h1>
+        </div>
+    </div>
+    <script>
+    	var  login_user_name_show =$("#login_user_name_show").val();
+    	$("#banner_notification").html(login_user_name_show+",欢迎您登录服务系统管理后台");
+    </script>
+</html>

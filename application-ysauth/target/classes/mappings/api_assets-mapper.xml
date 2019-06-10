@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiStAssetsMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findAllPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+       SELECT
+		assets.*,
+		office.LOCATION_NAME
+		FROM
+		assets
+		LEFT JOIN office ON assets.PLACE = office.ID
+		WHERE  assets.DELETE_STATUS = 0
+		<if test="searchValue != null and searchValue != ''">
+			AND (assets.ASSETS_NUM like '%${searchValue}%' OR assets.ASSETS_NAME like '%${searchValue}%' OR assets.KEEPER like '%${searchValue}%' OR office.LOCATION_NAME like '%${searchValue}%' OR assets.KEEPDEPART like '%${searchValue}%' OR assets.SQER like '%${searchValue}%' OR assets.ORGAN like '%${searchValue}%')
+		</if>
+		<if test="status != null">
+		AND assets.STATUS = '${status}'
+		</if>
+		<if test="id != null">
+			AND assets.ID = '${id}'
+		</if>
+		<if test="organ != null">
+			AND assets.ORGAN = '${organ}'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	
+		<select id="findAllPrint"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+       SELECT
+	assets.ASSETS_NUM,
+	LEFT(assets.ASSETS_NAME,20) AS ASSETS_NAME,
+	assets.ASSETS_TYPE,
+	assets.KEEPER,
+	assets.KEEPDEPART,
+	assets.ORGAN 
+FROM
+	assets
+WHERE
+	assets.DELETE_STATUS = 0
+		<if test="searchValue != null and searchValue != ''">
+			AND (assets.ASSETS_NUM like '%${searchValue}%' OR assets.ASSETS_NAME like '%${searchValue}%' OR assets.KEEPER like '%${searchValue}%' OR office.LOCATION_NAME like '%${searchValue}%' OR assets.KEEPDEPART like '%${searchValue}%' OR assets.SQER like '%${searchValue}%' OR assets.ORGAN like '%${searchValue}%')
+		</if>
+		<if test="status != null">
+		AND assets.STATUS = '${status}'
+		</if>
+		<if test="id != null">
+			AND assets.ID = '${id}'
+		</if>
+		<if test="organ != null">
+			AND assets.ORGAN = '${organ}'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+		<select id="findAllPage1"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+		SELECT
+		assets.*
+		FROM
+		assets
+		WHERE 1=1
+		<if test="id != null">
+			AND assets.ID = '${id}'
+		</if>
+	</select>
+	<insert id="addEntity" useGeneratedKeys="true" keyProperty="id">
+		insert assets (
+		<if test="assetsNum != null">ASSETS_NUM,</if>
+		<if test="assetsName != null">ASSETS_NAME,</if>
+		<if test="assetstatus != null">ASSETSTATUS,</if>
+		<if test="assetsType != null">ASSETS_TYPE,</if>
+		<if test="place != null">PLACE,</if>
+		<if test="keeper != null">KEEPER,</if>
+		<if test="xh != null">XH,</if>
+		<if test="xlh != null">XLH,</if>
+		<if test="keepdepart != null">KEEPDEPART,</if>
+		<if test="gmdate != null">GMDATE,</if>
+		<if test="organ != null">ORGAN,</if>
+		<if test="sqer != null">SQER</if>
+		)
+		VALUES (
+		<if test="assetsNum != null">#{assetsNum,jdbcType=VARCHAR},</if>
+		<if test="assetsName != null">#{assetsName,jdbcType=VARCHAR},</if>
+		<if test="assetstatus != null">#{assetstatus,jdbcType=VARCHAR},</if>
+		<if test="assetsType != null">#{assetsType,jdbcType=VARCHAR},</if>
+		<if test="place != null">#{place,jdbcType=VARCHAR},</if>
+		<if test="keeper != null">#{keeper,jdbcType=VARCHAR},</if>
+		<if test="xh != null">#{xh,jdbcType=VARCHAR},</if>
+		<if test="xlh != null">#{xlh,jdbcType=VARCHAR},</if>
+		<if test="keepdepart != null">#{keepdepart,jdbcType=VARCHAR},</if>
+		<if test="gmdate != null">#{gmdate,jdbcType=DATE},</if>
+		<if test="organ != null">#{organ,jdbcType=VARCHAR},</if>
+		<if test="sqer != null">#{sqer,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<update id="edit"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+		UPDATE assets SET
+		<if test="assetsNum != null">ASSETS_NUM=#{assetsNum,jdbcType=VARCHAR},</if>
+		<if test="deleteStatus != null">DELETE_STATUS=#{deleteStatus,jdbcType=VARCHAR},</if>
+		<if test="assetsName != null">ASSETS_NAME=#{assetsName,jdbcType=VARCHAR},</if>
+		<if test="assetsType != null">ASSETS_TYPE=#{assetsType,jdbcType=VARCHAR},</if>
+		<if test="assetstatus != null">ASSETSTATUS=#{assetstatus,jdbcType=VARCHAR},</if>
+		<if test="place != null">PLACE=#{place,jdbcType=VARCHAR},</if>
+		<if test="xh != null">XH=#{xh,jdbcType=VARCHAR},</if>
+		<if test="xlh != null">XLH=#{xlh,jdbcType=VARCHAR},</if>
+		<if test="keepdepart != null">KEEPDEPART=#{keepdepart,jdbcType=VARCHAR},</if>
+		<if test="gmdate != null">GMDATE=#{gmdate,jdbcType=VARCHAR},</if>
+		<if test="assinfoId != null">ASSINFO_ID=#{assinfoId,jdbcType=VARCHAR},</if>
+		<if test="keeper != null">KEEPER=#{keeper,jdbcType=VARCHAR},</if>
+		<if test="sqer != null">SQER=#{sqer,jdbcType=VARCHAR}</if>
+		<if test="sper != null">SPER=#{sper,jdbcType=VARCHAR},</if>
+		<if test="status != null">STATUS=#{status,jdbcType=VARCHAR}</if>
+		WHERE ID=#{id}
+	</update>
+	<update id="editEntity"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+		UPDATE assets SET
+		<if test="assetsName != null">ASSETS_NAME=#{assetsName,jdbcType=VARCHAR},</if>
+		<if test="deleteStatus != null">DELETE_STATUS=#{deleteStatus,jdbcType=VARCHAR},</if>
+		<if test="assetsType != null">ASSETS_TYPE=#{assetsType,jdbcType=VARCHAR},</if>
+		<if test="assetstatus != null">ASSETSTATUS=#{assetstatus,jdbcType=VARCHAR},</if>
+		<if test="place != null">PLACE=#{place,jdbcType=VARCHAR},</if>
+		<if test="xh != null">XH=#{xh,jdbcType=VARCHAR},</if>
+		<if test="xlh != null">XLH=#{xlh,jdbcType=VARCHAR},</if>
+		<if test="keepdepart != null">KEEPDEPART=#{keepdepart,jdbcType=VARCHAR},</if>
+		<if test="gmdate != null">GMDATE=#{gmdate,jdbcType=VARCHAR},</if>
+		<if test="assinfoId != null">ASSINFO_ID=#{assinfoId,jdbcType=VARCHAR},</if>
+		<if test="sqer != null">SQER=#{sqer,jdbcType=VARCHAR},</if>
+		<if test="keeper != null">KEEPER=#{keeper,jdbcType=VARCHAR}</if>
+		<if test="sper != null">SPER=#{sper,jdbcType=VARCHAR},</if>
+		<if test="status != null">STATUS=#{status,jdbcType=VARCHAR}</if>
+		WHERE ASSETS_NUM=#{assetsNum}
+	</update>
+	<delete id="delete">
+		UPDATE assets SET DELETE_STATUS = 1
+		WHERE ID=#{id}
+	</delete>
+	<select id="count"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+		SELECT
+		count(*) as count
+		FROM
+		assets
+		WHERE
+		<if test="assetsNum != null and assetsNum != ''">
+			ASSETS_NUM = '${assetsNum}'
+		</if>
+		<if test="id != null and id != ''">
+			AND ID != '${id}'
+		</if>
+	</select>
+	<select id="findDetailMsg" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiStAssetsForMap">
+	SELECT
+	assets.*,
+	o1.ID AS LOCATION_CODE,
+	o1.LOCATION_NAME,
+	o2.LOCATION_CODE AS SUPER_CODE,
+	o2.LOCATION_NAME AS UP_PLACE 
+FROM
+	assets
+	LEFT JOIN office o1 ON assets.PLACE = o1.ID
+	LEFT JOIN office o2 ON o1.SUPER_CODE = o2.ID 
+WHERE
+	assets.ID='${id}'
+	</select>
+</mapper>

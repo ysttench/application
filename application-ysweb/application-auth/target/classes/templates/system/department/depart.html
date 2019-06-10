@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+    <link rel="stylesheet" href="/css/dialog.css" th:href="@{/css/cominfo.css}" />
+    <script type="text/javascript" th:src="@{/plugin/mod/mod.js}"></script>
+    <script type="text/javascript" th:src="@{/plugin/mod/cominfo.tpl.js}"></script>
+    <script type="text/javascript" th:src="@{/plugin/mod/cominfo.js}"></script>
+
+</head>
+<body style="min-width:600px;overflow:auto">
+    <div class="depart"></div>
+</body>
+<script type="text/javascript">
+    var Depart = require('widget/public/departSelect/1.0.0/js/departSelect');
+    var depart = new Depart($('.depart'));
+    $.getJSON(rootPath + "/sysdepartment/getAllDepartmentTreeData",function(data){
+        var type = 0;
+        var array = new Array();
+        getArrayobj(array,JSON.parse(data));
+        depart.init(array,type,fnConfirm,fnCancel);
+    });
+
+    function getArrayobj(array,data){
+        for(var i in data){
+            var param = new Object();
+            param.id = data[i].id;
+            param.name = data[i].label;
+            param.parentId = data[i].parentId;
+            param.value = data[i].value;
+            array.push(param);
+            if(data[i].children.length>0){
+                getArrayobj(array,data[i].children);
+            }
+        }
+    }
+
+    function fnConfirm(){
+        var name = $('.select-text').find('ul li').attr('title');
+        var id = $('.select-text').find('ul li').attr('data-id');
+        var input = window.location.search.substring(1).split('&')[0].split('=')[1];
+        var hidden = window.location.search.substring(1).split('&')[1].split('=')[1];
+        var $input = $(parent.window.document).find('#'+input);
+        var $input2 = $(parent.window.document).find('#'+hidden);
+        $input.val(name);
+        $input2.val(id);
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+    function fnCancel(){
+        parent.layer.closeAll();
+    }
+</script>
+</html>

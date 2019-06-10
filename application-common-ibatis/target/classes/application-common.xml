@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+    http://www.springframework.org/schema/task 
+    http://www.springframework.org/schema/task/spring-task-4.1.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.1.xsd"
+  default-lazy-init="false">
+  
+    <!-- 统一异常处理方式 -->
+    <bean id="exceptionHandler" class="com.ysttench.application.common.exception.MyExceptionHandler" />
+
+  <!-- 初始化数据 -->
+    <bean id="pagePlugin" class="com.ysttench.application.common.plugin.PagePlugin">
+        <property name="properties">
+            <props>
+                <prop key="dialect">${spring.datasource.dialect}</prop>
+                <prop key="pageSqlId">.*query.*</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动匹配Mapper映射文件 -->
+        <property name="mapperLocations" value="classpath:mappings/*-mapper.xml" />
+        <property name="typeAliasesPackage" value="${spring.datasource.mybatis.entity}" />
+        <property name="plugins">
+            <array>
+                <ref bean="pagePlugin" />
+            </array>
+        </property>
+    </bean>
+
+    <!-- 通过扫描的模式，扫描目录在com.ysttench.etl.settings.kernel.mapper目录下，所有的mapper都继承SqlMapper接口的接口， 这样一个bean就可以了 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ysttench.application.database.ibatis.mapper" />
+    </bean>
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.htbw.settings.kernel.mapper.LogOperateMapper">
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ID,
+        USER_NAME,
+        MODULE,
+        METHOD,
+        ACTION_TIME,
+        USER_IP_ADDRESS,
+        OPERATE_TIME,
+        DESCRIPTION
+    </sql>
+</mapper>

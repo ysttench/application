@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.htbw.settings.kernel.mapper.HuimdtyMapper">
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="finHumByPage"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.HuimdtyFormMap">
+		SELECT HUIMDTY.*,EQUIPMENT.EQUIPMENT_NAME FROM HUIMDTY
+		LEFT JOIN EQUIPMENT ON HUIMDTY.EQUIPMENT_ID = EQUIPMENT.ID
+		WHERE 1=1
+		<if test="checkValue != null and checkValue !=''">
+		AND (EQUIPMENT.EQUIPMENT_NAME LIKE '%${checkValue}%')
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+</mapper>

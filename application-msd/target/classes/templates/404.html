@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="css/base.css" th:href="@{/css/base.css}">
+<title>404</title>
+<style>
+body {
+    background: #dad9d7;
+    min-width: inherit;
+}
+
+.container {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.container .title {
+    width: 50%;
+    /*height: 509px;*/
+    margin: 0px auto;
+    /*background: url("images/404/bg.png") no-repeat;*/
+    text-align: center;
+}
+
+.container .title img {
+    margin-top: 30%;
+}
+
+.container .title .content h2 {
+    font-weight: normal;
+    margin-top: 20px;
+    /*margin-bottom: 10px;*/
+}
+
+.container .title .content a {
+    padding-left: 25px;
+    display: inline-block;
+    margin-right: 30px;
+    line-height: 20px;
+    height: 20px;
+}
+
+.container .title .content a.returnPrev {
+    background: url("./images/404/icon-returnPrev.png") no-repeat top left;
+    background-size: contain;
+    margin-right: 0;
+}
+
+.container .title .content a.returnIndex {
+    background: url("./images/404/icon-returnIndex.png") no-repeat top left;
+    background-size: contain;
+    margin-right: 0;
+}
+
+.container .title .content p {
+    margin-top: 20px;
+    color: #999;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <img src="images/404/title.png" th:src="@{/images/404/title.png}">
+            <div class="content">
+                <h2>哎呀...您访问的页面不存在</h2>
+                <p>
+                    &nbsp;您现在位于：&nbsp;
+                    <script type="text/javascript">
+                    <!--
+                            url = (window.location.origin || (window.location.protocol + "//" + window.location.host)) + window.location.pathname;
+                            document.write(url);
+                    //-->
+                    </script>
+                    <a href="javascript:;" onclick="if(parent.window.length!=0){parent.layer.closeAll();history.back(-1)}else{history.back(-1)}" class="returnPrev">返回上页</a> <a href="index"
+                        th:href="@{/index}" class="returnIndex">返回首页</a>
+                <p>对不起，您可能输入了错误的网址，或该网页已经不存在！</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

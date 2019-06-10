@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.htbw.settings.kernel.mapper.AnnountMapper">
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findMsg"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.AnnountFormMap">
+		SELECT * FROM ANNOUNMENT
+		<if test="searchValue != null and searchValue !=''">
+			WHERE (ANNOUNMENT.FB_NAME LIKE '%{searchValue}%' OR ANNOUNMENT.GG_DESC
+			LIKE '%{searchValue}%' OR ANNOUNMENT.GG_MSG LIKE '%{searchValue}%')
+		</if>
+	</select>
+</mapper>

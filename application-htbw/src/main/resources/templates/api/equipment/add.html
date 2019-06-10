@@ -1,0 +1,127 @@
+﻿<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="../static/js/api/equipment/add.js"
+	th:src="@{/js/api/equipment/add.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js"
+	th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js"
+	th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js"
+	th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js"
+	th:src="@{/plugin/antd/antd.js}"></script>
+<script type="text/javascript"
+	src="../static/js/date/My97DatePicker/WdatePicker.js"
+	th:src="@{/js/date/My97DatePicker/WdatePicker.js}"></script>
+</head>
+<body>
+	<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/equipment/addEntity}">
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<div class="form-group">
+					<label class="control-label">设备编号：</label> <input type="text"
+						class="form-control checkacc" placeholder="请输入设备编号"
+						name="equipmentFormMap.equipmentNum" id="equipmentNum" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">设备名称：</label> <input type="text"
+						class="form-control checkacc" placeholder="请输入设备名称"
+						name="equipmentFormMap.equipmentName" id="equipmentName" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">区域：</label> <select
+						class="form-control" name="equipmentFormMap.updomain"
+						id="updomain"></select> <select class="form-control"
+						name="equipmentFormMap.domain" id="domain"></select>
+				</div>
+				<div class="form-group">
+					<label class="control-label">设备IP:</label> <input type="text"
+						class="form-control" placeholder="请输入设备IP"
+						name="equipmentFormMap.equipmentIp" id="equipmentIp" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">温湿度端口:</label> <input type="text"
+						class="form-control" placeholder="请输入温湿度端口"
+						name="equipmentFormMap.wsPort" id="wsPort" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">设备分类：</label> <select
+						class="form-control" name="equipmentFormMap.equiptypeId"
+						id="equiptypeId"></select> 
+				</div>
+								<div class="form-group">
+					<label class="control-label">设备校验时间：</label><input type="text"
+						class="form-control " placeholder="请选择设备校验时间"
+						name="equipmentFormMap.checkDate" id="checkDate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" />
+				</div>
+<!-- 				<div class="form-group">
+					<label class="control-label">Led屏端口:</label> <input type="text"
+						class="form-control" placeholder="请输入Led屏端口"
+						name="equipmentFormMap.pmPort" id="pmPort" />
+				</div> -->
+				<div class="form-group" id="selUser" th:attr="data-url=@{/user/selUser}"></div>
+				<div class="form-group">
+					<label class=" control-label">设备重要性:</label> <select
+						class="form=-control" data-requireed="true"
+						name="equipmentFormMap.import" id="import">
+						<option value="A" selected="selected">A</option>
+						<option value="B">B</option>
+						<option value="C">C</option>
+						<option value="D">D</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class=" control-label">运行状态:</label> <select
+						class="form=-control" data-requireed="true"
+						name="equipmentFormMap.enableStatus" id="enableStatus">
+						<option value="1" selected="selected">运行</option>
+						<option value="0">调试</option>
+						<option value="-1">报废</option>
+                                                                                                <option value="3">离线</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label">温度监控:</label>
+					<div>
+						<input type="text" style="width: 45%; float: left"
+							placeholder="请输入预警下限" name="equipmentFormMap.alarmMinTemperature"
+							id="alarmMinTemperature" />
+					</div>
+					<div style="float: left">——</div>
+					<div>
+						<input type="text" style="width: 45%" placeholder="请输入预警上限"
+							name="equipmentFormMap.alarmMaxTemperature"
+							id="alarmMaxTemperature" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">湿度监控:</label>
+					<div>
+						<input type="text" style="width: 45%; float: left"
+							placeholder="请输入预警下限" name="equipmentFormMap.alarmMinHumidity"
+							id="alarmMinHumidity" />
+					</div>
+					<div style="float: left">——</div>
+					<div>
+						<input type="text" style="width: 45%" placeholder="请输入预警上限"
+							name="equipmentFormMap.alarmMaxHumidity"
+							id="alarmMaxHumidity" />
+					</div>
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">提交</button>
+			</footer>
+		</section>
+	</form>
+	<script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

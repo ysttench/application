@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="/js/system/systemsg/list.js"
+	th:src="@{/js/system/systemsg/list.js}"></script>
+<style>
+</style>
+</head>
+<body>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/systemsg/editEntity}">
+		<input type="hidden" class="form-control checkacc"
+			th:value="${system.id}" name="sysSystemForMap.id" id="id" />
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<!-- <div class="line line-dashed line-lg pull-in"></div> -->
+				<div class="form-group">
+					<label class="control-label" style="text-align: center">系统名称:</label>
+					<input type="text" class="form-control" style="float: right;"
+						placeholder="请输入系统名称" th:value="${system.systemName}"
+						name="sysSystemForMap.systemName" id="systemName" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" style="text-align: center">激活中心Ip:</label>
+					<input type="text" class="form-control" style="float: right;"
+						placeholder="请输入系统名称" th:value="${system.centerIp}"
+						name="sysSystemForMap.centerIp" id="centerIp" readonly="readonly"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label" style="text-align: center">激活中心端口:</label>
+					<input type="text" class="form-control" style="float: right;"
+						placeholder="请输入系统名称" th:value="${system.centerPort}"
+						name="sysSystemForMap.centerPort" id="centerPort" readonly="readonly" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" style="text-align: center">激活时间:</label>
+					<input type="text" class="form-control" style="float: right;"
+						placeholder="请输入激活时间" th:value="${system.activDate}"
+						name="sysSystemForMap.activDate" id="activDate" readonly="readonly" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" style="text-align: center">管理员邮箱:</label>
+					<input type="text" class="form-control" style="float: right;"
+						placeholder="请输入管理员邮箱" th:value="${system.email}"
+						name="sysSystemForMap.email" id="email" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" style="text-align: center">数据采集间隔(分钟):</label>
+					<input type="text" class="form-control" style="float: right;"
+						placeholder="请输入数据采集间隔" th:value="${system.cjtime}"
+						name="sysSystemForMap.cjtime" id="cjtime" />
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">保存系统信息</button>
+			</footer>
+		</section>
+	</form>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="/js/system/user/edit.js" th:src="@{/js/system/user/edit.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js" th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js" th:src="@{/plugin/antd/antd.js}"></script>
+<script type="text/javascript" src="/js/deptPlugin.js" th:src="@{/js/deptPlugin.js}"></script>
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/msdqd/bakingEntity}">
+        <input type="hidden" class="form-control checkacc" th:value="${baking}" name="apiMsdQDFormMap.id" id="id" />
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                   确认元件放入
+                </div>
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">确认</button>
+            </footer>
+        </section>
+    </form>
+    <script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

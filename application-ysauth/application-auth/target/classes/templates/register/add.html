@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/common :: copyCommon"></head>
+<head>
+    <meta charset="UTF-8"/>
+    <title>应用用户通用注册</title>
+    <link rel="stylesheet"  th:href="@{/css/frame.css}" type="text/css" />
+    <script type="text/javascript" th:src="@{/js/register/add.js}"></script>
+</head>
+<body>
+<div class="register">
+    <h2 style="text-align: center;">应用用户通用注册</h2>
+    <div class="l_err" style="width: 100%;margin-top: 5px;display:none;height: 27px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/apiUser/addEntity}" enctype="multipart/form-data">
+        <table class="edit-table" style="margin-top: 0;padding:0 20px">
+            <tbody>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>用户名：</td>
+                <td class="td-input"><input  placeholder="请输入用户名"  name="apiUserFormMap.userName"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>密码：</td>
+                <td class="td-input"><input type="password" placeholder="请输入您的密码" name="apiUserFormMap.password" id="password"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>确认密码：</td>
+                <td class="td-input"><input type="password" placeholder="请再次输入您的密码" name="apiUserFormMap.password_again"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>姓名：</td>
+                <td class="td-input"><input  placeholder="请输入姓名"  name="apiUserFormMap.xm"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>警号：</td>
+                <td class="td-input"><input   placeholder="请输入警号" name="apiUserFormMap.policeId"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>身份证号：</td>
+                <td class="td-input"><input  placeholder="请输入身份证号" name="apiUserFormMap.sfzh"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>邮箱地址：</td>
+                <td class="td-input"><input   placeholder="请输入邮箱地址" name="apiUserFormMap.email"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>手机号码：</td>
+                <td class="td-input"><input   placeholder="请输入您的手机号码" name="apiUserFormMap.mobile"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>头像：</td>
+                <td class="td-input"><input type="file" name="file"/></td>
+            </tr>
+            <tr>
+                <td class="td-label"><span class="color-red">*</span>备注：</td>
+                <td class="td-input"><textarea   name="apiUserFormMap.comment"></textarea></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="foot" style="text-align: center;">
+            <button class="mini-btn login-btn" type="submit">注册</button>
+            <button class="mini-btn login-pki-btn" type="button" onclick="history.go(-1);">取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

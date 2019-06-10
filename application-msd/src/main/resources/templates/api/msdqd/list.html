@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<script type="text/javascript" src="/js/api/msdqd/list.js}" th:src="@{/js/api/msdqd/list.js}"></script>
+<div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+           <label class="control-label"> <span class="h4 font-thin v-middle">msd编号:</span></label> <input class="input-medium ui-autocomplete-input" id="msdNum" name="apiMsdQDFormMap.msdNum" />
+        <label class="control-label"> <span class="h4 font-thin v-middle">批号:</span></label> <input class="input-medium ui-autocomplete-input" id="flot" name="apiMsdQDFormMap.flot" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
+    </form>
+    <div class="form-group">
+           <label class="control-label"> <span class="h4 font-thin v-middle">状态:</span></label><select id="status" name="apiMsdQDFormMap.status"><option value="0">可用</option><option value="1">不可用</option></select>
+        </div>
+</div>
+<header class="panel-heading">
+    <div class="doc-buttons">
+    <button type="button" id="addAccount" class="btn btn-danger marR10">存放</button>
+        <button type="button" id="takAccount" class="btn btn-danger marR10">取用</button>
+        <button type="button" id="takoverAccount" class="btn btn-danger marR10">取用完成</button>
+        <button type="button" id="returnAccount" class="btn btn-danger marR10">还原</button>
+    </div>
+    <div>
+    </div>
+</header>
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

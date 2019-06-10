@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.htbw.settings.kernel.mapper.ModbusPointMapper">
+    <!-- 以下与实体类的中字段一致 -->
+    <select id="findMpByPage" resultType="com.ysttench.application.htbw.settings.kernel.entity.ModbusPointFormMap">
+SELECT
+	a.*,
+	b.POINT_NAME AS UP_NAME 
+FROM
+	modbus_point a
+	LEFT JOIN modbus_point b ON a.UP_ID = b.ID
+	<if test="checkValue">
+	WHERE a.POINT_NAME like '%${checkValue}%'
+	</if>
+	<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+    </select>
+        <select id="findDetail" resultType="com.ysttench.application.htbw.settings.kernel.entity.ModbusPointFormMap">
+SELECT
+	a.*,
+	b.POINT_NAME AS UP_NAME 
+FROM
+	modbus_point a
+	LEFT JOIN modbus_point b ON a.UP_ID = b.ID
+WHERE a.ID='${id}'
+    </select>
+</mapper>

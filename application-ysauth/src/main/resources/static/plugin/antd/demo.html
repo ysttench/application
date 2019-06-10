@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="./antd.css">
+
+
+	<script src="./react.js"></script>
+	<script src="./react-dom.js"></script>
+	<script src="./antd.js"></script>
+</head>
+<body>
+
+<div id="components-calendar-demo-basic"></div>
+  <script>
+  (function(){
+    'use strict';
+    var options = [{
+	  value: 'zhejiang',
+	  label: '浙江',
+	  children: [{
+	    value: 'hangzhou',
+	    label: '杭州',
+	    children: [{
+	      value: 'xihu',
+	      label: '西湖',
+	    }],
+	  }],
+	}, {
+	  value: 'jiangsu',
+	  label: '江苏',
+	  children: [{
+	    value: 'nanjing',
+	    label: '南京',
+	    children: [{
+	      value: 'zhonghuamen',
+	      label: '中华门',
+	    }],
+	  }],
+	}];
+
+	function onChange(value) {
+	  console.log(value);
+	}
+    ReactDOM.render(React.createElement(antd.Cascader, {
+      options: options, expandTrigger: "hover", onChange: onChange
+    }), document.getElementById('components-calendar-demo-basic'));})();
+
+
+
+
+
+ /*
+	ReactDOM.render(
+	  <Cascader options={options} expandTrigger="hover"
+	    displayRender={displayRender} onChange={onChange} />
+	, mountNode);*/
+  </script>
+	
+</body>
+</html>

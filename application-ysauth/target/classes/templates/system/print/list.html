@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="../static/js/system/print/list.js" th:src="@{/js/system/print/list.js}"></script>
+<div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+            <label class="control-label"> <span class="h4 font-thin v-middle">仓库名称:</span></label> 
+            <input class="input-medium ui-autocomplete-input" id="name" name="sysPrintForMap.stockName" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
+    </form>
+</div>
+<header class="panel-heading">
+    <div class="doc-buttons">
+        <button type="button" id="addPrint" class="btn btn-primary marR10">新增</button>
+        <button type="button" id="editPrint" class="btn btn-info marR10">编辑</button>
+        <button type="button" id="delPrint" class="btn btn-danger marR10">删除</button>
+    </div>
+</header>
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

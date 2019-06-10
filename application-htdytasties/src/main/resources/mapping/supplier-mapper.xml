@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.htdytasties.settings.kernel.mapper.SupplierMapper">
+	<!-- 以下与实体类的中字段一致 -->
+	
+	<select id="count"
+		resultType="com.ysttench.application.htdytasties.settings.kernel.entity.SupplierFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		supplier where DELETE_STATUS='0'
+		<if test="id != null and id != ''">
+			and ID != '${id}'
+		</if>
+		<if test="name != null and name != ''">
+			and NAME = '${name}'
+		</if>
+		<if test="phone != null and phone != ''">
+			and PHONE = '${phone}'
+		</if>
+	</select>
+</mapper>

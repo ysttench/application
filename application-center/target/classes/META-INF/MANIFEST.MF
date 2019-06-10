@@ -1,0 +1,61 @@
+Manifest-Version: 1.0
+Built-By: Administrator
+Class-Path: ./ lib/soap-2.3.jar lib/ksoap2-android-assembly-3.5.0.jar 
+ lib/jxl-2.6.10.jar lib/log4j-1.2.14.jar lib/application-common-2.0.1-
+ SNAPSHOT.jar lib/jackson-core-lgpl-1.9.6.jar lib/jackson-mapper-asl-1
+ .9.5.jar lib/jackson-core-asl-1.9.5.jar lib/fastjson-1.2.17.jar lib/p
+ oi-scratchpad-3.14.jar lib/poi-3.14.jar lib/poi-ooxml-3.14.jar lib/cu
+ rvesapi-1.03.jar lib/xdocreport-1.0.6.jar lib/poi-ooxml-schemas-3.14.
+ jar lib/xmlbeans-2.6.0.jar lib/stax-api-1.0.1.jar lib/ooxml-schemas-1
+ .3.jar lib/jdom2-2.0.6.jar lib/dom4j-1.6.1.jar lib/xml-apis-1.0.b2.ja
+ r lib/xstream-1.4.7.jar lib/xmlpull-1.1.3.1.jar lib/xpp3_min-1.1.4c.j
+ ar lib/slf4j-api-1.7.24.jar lib/slf4j-ext-1.7.24.jar lib/jcl-over-slf
+ 4j-1.7.24.jar lib/jul-to-slf4j-1.7.24.jar lib/log4j-over-slf4j-1.7.24
+ .jar lib/log4j-api-2.6.2.jar lib/log4j-core-2.6.2.jar lib/logback-cla
+ ssic-1.1.11.jar lib/logback-core-1.1.11.jar lib/commons-io-2.4.jar li
+ b/commons-codec-1.10.jar lib/json-lib-2.4-jdk15.jar lib/commons-beanu
+ tils-1.8.0.jar lib/commons-collections-3.2.1.jar lib/commons-lang-2.5
+ .jar lib/commons-logging-1.1.1.jar lib/ezmorph-1.0.6.jar lib/ehcache-
+ core-2.5.0.jar lib/commons-fileupload-1.3.2.jar lib/tomcat-jdbc-8.5.1
+ 1.jar lib/tomcat-juli-8.5.11.jar lib/commons-csv-1.4.jar lib/commons-
+ lang3-3.8.jar lib/core-3.2.1.jar lib/javase-3.2.1.jar lib/jcommander-
+ 1.48.jar lib/commons-net-3.5.jar lib/jfreechart-1.0.13.jar lib/jcommo
+ n-1.0.16.jar lib/javax.mail-1.5.5.jar lib/activation-1.1.jar lib/comm
+ ons-httpclient-3.1.jar lib/application-common-ibatis-2.0.1-SNAPSHOT.j
+ ar lib/mybatis-3.2.8.jar lib/mybatis-spring-1.2.2.jar lib/mysql-conne
+ ctor-java-8.0.11.jar lib/protobuf-java-2.6.0.jar lib/mssql-jdbc-6.2.2
+ .jre8.jar lib/thymeleaf-layout-dialect-2.2.1.jar lib/groovy-2.4.6.jar
+  lib/thymeleaf-expression-processor-1.1.2.jar lib/woodstox-core-asl-4
+ .4.1.jar lib/stax-api-1.0-2.jar lib/stax2-api-3.1.4.jar lib/spring-co
+ ntext-4.3.7.RELEASE.jar lib/spring-aop-4.3.7.RELEASE.jar lib/spring-c
+ ore-4.3.7.RELEASE.jar lib/spring-expression-4.3.7.RELEASE.jar lib/spr
+ ing-webmvc-4.3.7.RELEASE.jar lib/spring-web-4.3.7.RELEASE.jar lib/spr
+ ing-orm-4.3.7.RELEASE.jar lib/spring-jdbc-4.3.7.RELEASE.jar lib/sprin
+ g-tx-4.3.7.RELEASE.jar lib/spring-test-4.3.7.RELEASE.jar lib/spring-c
+ ontext-support-4.3.7.RELEASE.jar lib/spring-beans-4.3.7.RELEASE.jar l
+ ib/javax.inject-1.jar lib/asm-3.3.1.jar lib/aspectjweaver-1.8.9.jar l
+ ib/spring-boot-starter-web-1.5.2.RELEASE.jar lib/spring-boot-starter-
+ 1.5.2.RELEASE.jar lib/spring-boot-starter-logging-1.5.2.RELEASE.jar l
+ ib/snakeyaml-1.17.jar lib/spring-boot-starter-tomcat-1.5.2.RELEASE.ja
+ r lib/tomcat-embed-core-8.5.11.jar lib/tomcat-embed-el-8.5.11.jar lib
+ /tomcat-embed-websocket-8.5.11.jar lib/jackson-databind-2.8.7.jar lib
+ /jackson-annotations-2.8.0.jar lib/jackson-core-2.8.7.jar lib/spring-
+ boot-starter-thymeleaf-1.5.2.RELEASE.jar lib/thymeleaf-spring4-3.0.3.
+ RELEASE.jar lib/thymeleaf-3.0.3.RELEASE.jar lib/ognl-3.1.12.jar lib/j
+ avassist-3.20.0-GA.jar lib/attoparser-2.0.2.RELEASE.jar lib/unbescape
+ -1.1.4.RELEASE.jar lib/spring-boot-starter-actuator-1.5.2.RELEASE.jar
+  lib/spring-boot-actuator-1.5.2.RELEASE.jar lib/spring-boot-autoconfi
+ gure-1.5.2.RELEASE.jar lib/spring-boot-1.5.2.RELEASE.jar lib/spring-b
+ oot-devtools-1.5.2.RELEASE.jar lib/junit-4.11.jar lib/hamcrest-core-1
+ .3.jar lib/cxf-rt-frontend-jaxws-3.1.6.jar lib/xml-resolver-1.2.jar l
+ ib/asm-5.0.4.jar lib/cxf-core-3.1.6.jar lib/xmlschema-core-2.2.1.jar 
+ lib/cxf-rt-bindings-soap-3.1.6.jar lib/cxf-rt-wsdl-3.1.6.jar lib/wsdl
+ 4j-1.6.3.jar lib/cxf-rt-databinding-jaxb-3.1.6.jar lib/jaxb-impl-2.2.
+ 11.jar lib/jaxb-core-2.2.11.jar lib/cxf-rt-bindings-xml-3.1.6.jar lib
+ /cxf-rt-frontend-simple-3.1.6.jar lib/cxf-rt-ws-addr-3.1.6.jar lib/cx
+ f-rt-ws-policy-3.1.6.jar lib/neethi-3.0.3.jar lib/cxf-rt-transports-h
+ ttp-3.1.6.jar lib/XmlSchema-1.4.7.jar
+Build-Jdk: 1.8.0_181
+Created-By: Maven Integration for Eclipse
+Main-Class: com.ysttench.application.center.Application
+

@@ -1,0 +1,114 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="/js/api/stassets/edit.js"
+	th:src="@{/js/api/stassets/edit.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js"
+	th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js"
+	th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js"
+	th:src="@{/plugin/antd/antd.js}"></script>
+<script type="text/javascript" src="/js/deptPlugin.js"
+	th:src="@{/js/deptPlugin.js}"></script>
+<script type="text/javascript"
+	src="../static/js/date/My97DatePicker/WdatePicker.js"
+	th:src="@{/js/date/My97DatePicker/WdatePicker.js}"></script>
+</head>
+<body>
+	<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+	<form id="form" name="form" class="form-horizontal" method="post"
+		th:action="@{/stassets/editEntity}">
+		<input type="hidden" class="form-control checkacc"
+			th:value="${assets.id}" name="apiStAssetsForMap.id" id="id" />
+		<section class="panel panel-default">
+			<div class="panel-body" style="margin-right: 15px">
+				<div class="form-group" style="width: 50%;">
+					<label class="control-label">资产编号：</label> <input type="text"
+						readOnly="true" class="form-control checkacc"
+						th:value="${assets.assetsNum}" placeholder="请输入资产编号"
+						name="apiStAssetsForMap.assetsNum" id="assetsNum" />
+				</div>
+				<div class="form-group"
+					style="width: 50%; float: right; margin-top: -74px;">
+					<label class="control-label">资产名称：</label> <input type="text"
+						class="form-control checkacc" th:value="${assets.assetsName}"
+						placeholder="请输入资产名称" name="apiStAssetsForMap.assetsName"
+						id="assetsName" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">资产分类：</label> <input id="type1"
+						type="hidden" th:value="${assets.assetsType}"
+						th:attr="data-name=${assets.assetsType}"> <select
+						name="apiStAssetsForMap.assetsType"
+						style="width: 38%; height: 33px;" id="assetsType"></select>
+				</div>
+				<div class="form-group"
+					style="float: right; width: 50%; margin-top: -71px;">
+					<label class="control-label">型号：</label> <input type="text"
+						class="form-control checkacc" th:value="${assets.xh}"
+						placeholder="请输入型号" name="apiStAssetsForMap.xh" id="xh" />
+				</div>
+								<div class="form-group">
+					<label class="control-label">资产状态：</label> <select
+						name="apiStAssetsForMap.assetstatus"
+						style="width: 38%; height: 33px;" id="assetstatus">
+						<option value="0" th:selected="${assets.assetstatus eq '0'}">闲置</option>
+						<option value="1" th:selected="${assets.assetstatus eq '1'}">已领用</option>
+						<option value="-1" th:selected="${assets.assetstatus eq '-1'}">报废</option>
+						</select>
+				</div>
+				<div class="form-group"
+					style="float: right; width: 50%; margin-top: -71px;">
+					<label class="control-label">序列号：</label> <input type="text"
+						class="form-control checkacc" th:value="${assets.xlh}"
+						placeholder="请输入序列号" name="apiStAssetsForMap.xlh" id="xlh" />
+				</div>
+				<div class="form-group" style="padding-top: 3px;">
+					<label class="control-label">位置：</label> <input id="cur"
+						type="hidden" th:value="${assets.superCode}"
+						th:attr="data-name=${assets.upPlace}"> <input id="cur1"
+						type="hidden" th:value="${assets.locationCode}"
+						th:attr="data-name=${assets.locationName}"> <select
+						class="form=-control" data-requireed="true"
+						style="width: 40%; margin-right: 409px; float: right; height: 32px;"
+						id="superplace">
+					</select> <select class="form=-control" data-requireed="true"
+						name="apiStAssetsForMap.place" id="place"
+						style="width: 47%; margin-right: -718px; float: right; height: 32px; display: block;">
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label">保管部门：</label> <input type="hidden"
+						id="keepdepart1" th:value="${assets.keepdepart}"
+						th:attr="data-name=${assets.keepdepart}" /> <select
+						name="apiStAssetsForMap.keepdepart"
+						style="width: 37%; height: 30px;" id="keepdepart"></select>
+				</div>
+				<div class="form-group"
+					style="float: right; width: 50%; margin-top: -53px;">
+					<label class="control-label">保管人：</label> <input type="hidden"
+						id="keeper1" th:value="${assets.keeper}"
+						th:attr="data-name=${assets.keeper}" /> <select
+						name="apiStAssetsForMap.keeper" style="width: 84%; height: 30px;"
+						id="keeper"></select>
+				</div>
+				<div class="form-group">
+					<label class="control-label">购买时间：</label> <input type="text"
+						class="form-control " placeholder="请选择购买时间"
+						name="apiStAssetsForMap.gmdate" th:value="${assets.gmdate}"
+						id="gmdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" />
+				</div>
+			</div>
+			<footer class="panel-footer text-right bg-light lter">
+				<button type="submit" class="btn btn-success btn-s-xs">保存</button>
+			</footer>
+		</section>
+	</form>
+	<script type="text/javascript">
+		onloadurl();
+	</script>
+</body>
+</html>

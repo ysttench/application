@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="../static/js/system/print/edit.js" th:src="@{/js/system/print/edit.js}"></script>
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/print/editEntity}">
+    <input type="hidden" class="form-control checkacc" th:value="${dprint.id}" name="sysPrintForMap.id" id="id" />
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                    <label class="control-label">组织名称：</label> 
+                    <input type="text" class="form-control checkacc" placeholder="请输入组织名称" th:value="${dprint.organ}" name="sysPrintForMap.organ" id="organ" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">url地址：</label> 
+                    <input type="text"  maxlength="60" class="form-control" placeholder="请输入url地址" th:value="${dprint.wsdlUrl}" name="sysPrintForMap.wsdlUrl" id="wsdlUrl" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">命名空间：</label> 
+                    <input type="text"  maxlength="50" class="form-control" placeholder="请输入命名空间" th:value="${dprint.nameSpace}"name="sysPrintForMap.nameSpace" id="nameSpace" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">x轴距离：</label> 
+                    <input type="text"  maxlength="50" class="form-control" placeholder="请输入x轴距离" th:value="${dprint.xNum}" name="sysPrintForMap.xNum" id="xNum" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">y轴距离：</label> 
+                    <input type="text"  maxlength="50" class="form-control" placeholder="请输入y轴距离" th:value="${dprint.yNum}" name="sysPrintForMap.yNum" id="yNum" />
+                </div>
+                  <div class="form-group">
+                    <label class="control-label">打印方法：</label> 
+                    <input type="text"  maxlength="50" class="form-control" placeholder="请输入打印方法" th:value="${dprint.module}" name="sysPrintForMap.module" id="module" />
+                </div>
+                 <div class="form-group">
+                    <label class="control-label">打印分类：</label>
+                    <select name="sysPrintForMap.type" id="type" th:value>
+                    <option value="0" th:selected="${dprint.type eq '0'}">出入库</option>
+                     <option value="1" th:selected="${dprint.type eq '1'}">固定资产</option>
+                      <option value="2" th:selected="${dprint.type eq '2'}">列管资产</option>
+                      <option value="3" th:selected="${dprint.type eq '3'}">excel打印管理</option>
+                      <option value="4" th:selected="${dprint.type eq '4'}">excel打印仓储</option>
+                    </select>
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">一次打印上限：</label> 
+                    <input type="text"  maxlength="50" class="form-control" placeholder="请输入一次打印上限" th:value="${dprint.num}" name="sysPrintForMap.num" id="num" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+            </footer>
+        </section>
+    </form>
+</body>
+</html>

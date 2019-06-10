@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiOfficeMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findOfficeByPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+		SELECT
+		a.*,
+		b.LOCATION_NAME AS SUPER_NAME
+		FROM
+		office a
+		LEFT JOIN office b ON a.SUPER_CODE = b.ID
+		<if test="locationName != null">
+			HAVING a.LOCATION_NAME like '%${locationName}%'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findsuperOffice"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+		select * from office where SUPER_CODE=0
+		<if test="id != null">
+			and ID != '${id}'
+		</if>
+	</select>
+	<insert id="insertOffice" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into office (
+		<if test="locationCode!='' and locationCode!=null">LOCATION_CODE,</if>
+		<if test="superCode!='' and superCode!=null">SUPER_CODE,</if>
+		<if test="locationName!='' and locationName!=null">LOCATION_NAME</if>
+		) values (
+		<if test="locationCode!='' and locationCode!=null">#{locationCode,jdbcType=VARCHAR},</if>
+		<if test="superCode!='' and superCode!=null">#{superCode,jdbcType=VARCHAR},</if>
+		<if test="locationName!='' and locationName!=null">#{locationName,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<select id="count"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		office
+		WHERE 0=0
+		<if test="locationCode!=null">
+			AND LOCATION_CODE = '${locationCode}'</if>
+		<if test="locationName!=null ">
+			AND LOCATION_NAME = '${locationName}'</if>
+		<if test="id != null">
+			and ID != '${id}'
+		</if>
+	</select>
+
+	<select id="findDetailOffice"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+		SELECT
+		a.*,
+		b.LOCATION_NAME AS SUPER_NAME
+		FROM
+		office a
+		LEFT JOIN office b ON a.SUPER_CODE = b.ID 
+WHERE  a.ID='${id}'
+	</select>
+	<delete id="deleteById">
+		delete from office WHERE
+		 ID=#{id,jdbcType=INTEGER}
+	</delete>
+	<update id="editOffice"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+		update office set
+		<if test="locationCode != null">LOCATION_CODE=#{locationCode,jdbcType=VARCHAR}</if>
+		<if test="locationName != null ">,LOCATION_NAME = #{locationName,jdbcType=VARCHAR}</if>
+		<if test="superCode != null">,SUPER_CODE=#{superCode,jdbcType=VARCHAR}</if>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="findupOffice" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+SELECT
+	o1.* 
+FROM
+	office o1
+	LEFT JOIN office o2 ON o1.SUPER_CODE = o2.ID
+	<if test = "locationCode != null">
+	WHERE  o2.LOCATION_NAME='${locationCode}'
+	</if>
+	</select>
+	<select id="findsuperid" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiOfficeFormMap">
+	SELECT
+	o1.ID 
+FROM
+	office o1
+WHERE
+	o1.LOCATION_NAME = '${locationName}'
+	AND o1.SUPER_CODE !=0
+	</select>
+</mapper>

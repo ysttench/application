@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.SysCodeConfigMapper">
+    <!-- mybatis ehcache缓存配置 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+        /> <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ID,
+        CONFIG_VALUE,
+        NAME_CODE
+    </sql>
+    <select id="findSysCodeConfig" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        select
+        <include refid="selectId" />
+        from SYS_CODE_CONFIG
+    </select>
+    <select id="findByNameCode" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        select
+        ID,
+        PARENT_ID,
+        CONFIG_NAME,
+        CONFIG_VALUE,
+        DISPLAY_ORDER
+        from SYS_CODE_CONFIG where CONFIG_CODE = '${configCode}'
+    </select>
+    <select id="findChildsByParent" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        select
+        ID,
+        CONFIG_NAME,
+        PARENT_ID,
+        DETAIL_FLAG,
+        DELETED_FLAG,
+        CONFIG_VALUE,
+        DISPLAY_ORDER,
+        CREATE_TIME,
+        (Select
+        tmp.CONFIG_NAME from SYS_CODE_CONFIG tmp where tmp.ID = '${parentId}' and tmp.PARENT_ID = 0)
+        PARENT_NAME
+        from SYS_CODE_CONFIG t
+        where 1=1
+        <if test="parentId !=0">
+            and t.PARENT_ID = ${parentId}
+        </if>
+        <if test="where !=null and where != ''">
+            ${where}
+        </if>
+        <if test="column !=null and column != ''">
+            order by ${column} ${sort}
+        </if>
+
+    </select>
+    <select id="findByDetailDis" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        select
+        ID,
+        CONFIG_NAME,
+        PARENT_ID,
+        DETAIL_FLAG,
+        CONFIG_VALUE,
+        DELETED_FLAG,
+        DESCRIPTION,
+        CREATE_TIME,
+        CONFIG_CODE,
+        DISPLAY_ORDER
+        from SYS_CODE_CONFIG
+        where DELETED_FLAG = 0 and <!-- DETAIL_DISTINGUISH= '${detailDistinguish}' 
+            and -->
+        PARENT_ID = '${parentId}'
+        <if test="configName !='' and configName != null">
+            and (CONFIG_NAME like '%${configName}%'
+            or CONFIG_VALUE like '%${configName}%'
+            or
+            DESCRIPTION like '%${configName}%'
+            or CONFIG_CODE like '%${configName}%'
+            )
+        </if>
+        <if test="column !=null and column != ''">
+            order by ${column} ${sort}
+        </if>
+    </select>
+    <select id="findByParentName" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        select
+        ID,
+        CONFIG_NAME,
+        PARENT_ID,
+        DETAIL_FLAG,
+        CONFIG_VALUE,
+        DELETED_FLAG,
+        DESCRIPTION,
+        CREATE_TIME,
+        CONFIG_CODE,
+        DISPLAY_ORDER
+        from SYS_CODE_CONFIG where CONFIG_NAME =
+        '${parentName}'
+    </select>
+    <select id="findConfigName" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        select
+        scc.*
+        from SYS_CODE_CONFIG scc where scc.CONFIG_VALUE = '${configValue}' and scc.PARENT_ID in (select id from
+        SYS_CODE_CONFIG temp where temp.PARENT_ID=0 and temp.CONFIG_CODE='${configCode}')
+    </select>
+    <insert id="insertSysCodeConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into SYS_CODE_CONFIG
+        (ID,CONFIG_NAME,PARENT_ID, DETAIL_FLAG,CONFIG_VALUE,DELETED_FLAG,
+        DESCRIPTION,CONFIG_CODE,CREATE_TIME,DISPLAY_ORDER)
+        values
+        (#{id,jdbcType=NUMERIC},#{configName,
+        jdbcType=VARCHAR}, #{parentId,
+        jdbcType=NUMERIC},#{detailFlag,jdbcType=VARCHAR},#{configValue,jdbcType=VARCHAR},#{deletedFlag,jdbcType=CHAR},
+        #{description, jdbcType=VARCHAR},#{configCode,
+        jdbcType=VARCHAR},sysdate,#{displayOrder,jdbcType=NUMERIC})
+    </insert>
+
+    <update id="editByAttribute">
+        update SYS_CODE_CONFIG set DELETED_FLAG= '1' where id in (${id})
+    </update>
+
+    <update id="updateSortOrder" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SYS_CODE_CONFIG
+            <set>
+                DISPLAY_ORDER = ${item.displayOrder}
+            </set>
+            where id = ${item.id}
+        </foreach>
+    </update>
+    <select id="transByConfigCodeAndValue" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        SELECT
+        b.CONFIG_NAME
+        FROM
+        SYS_CODE_CONFIG a,
+        SYS_CODE_CONFIG b
+        WHERE a.CONFIG_CODE = '${configCode}'
+        AND
+        b.PARENT_ID = a.ID
+        AND
+        b.CONFIG_VALUE = '${configValue}'
+        LIMIT 1
+    </select>
+    <select id="transByConfigCodeAndMultiValue" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        SELECT
+        b.CONFIG_NAME
+        FROM
+        SYS_CODE_CONFIG a,
+        SYS_CODE_CONFIG b
+        WHERE a.CONFIG_CODE = '${configCode}'
+        AND
+        b.PARENT_ID = a.ID
+        AND
+        b.CONFIG_VALUE in (${configValue})
+    </select>
+    
+    <select id="findByConfigName" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        SELECT
+        s.ID,
+        s.CONFIG_NAME,
+        s.CONFIG_VALUE
+        FROM
+        SYS_CODE_CONFIG s
+        WHERE
+        s.CONFIG_VALUE = '${configValue}'
+        AND
+        s.PARENT_ID =
+        (SELECT
+        ID
+        FROM
+        SYS_CODE_CONFIG
+        WHERE
+        CONFIG_CODE = 'C0002')
+    </select>
+    <select id="findByAppId" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        SELECT
+        s.ID,
+        s.CONFIG_NAME,
+        s.CONFIG_VALUE
+        FROM
+        SYS_CODE_CONFIG s
+        WHERE
+        s.CONFIG_VALUE = (
+        SELECT
+        ba.INPUT_SOURCE
+        FROM
+        BATCH_APPLICATION ba
+        WHERE
+        ba.APP_ID = ${appId}
+        )
+        AND s.PARENT_ID = (
+        SELECT
+        ID
+        FROM
+        SYS_CODE_CONFIG
+        WHERE
+        CONFIG_CODE = 'C0002'
+        )
+    </select>
+
+    <select id="getIncrementDS" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        SELECT
+        a.ID,
+        a.CONFIG_NAME
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        SYS_CODE_CONFIG
+        WHERE
+        PARENT_ID = (
+        SELECT
+        ID
+        FROM
+        SYS_CODE_CONFIG
+        WHERE
+        CONFIG_CODE = "C0002"
+        )
+        ) a
+        INNER JOIN (
+        SELECT
+        *
+        FROM
+        SYS_CODE_CONFIG
+        WHERE
+        PARENT_ID = (
+        SELECT
+        ID
+        FROM
+        SYS_CODE_CONFIG
+        WHERE
+        CONFIG_CODE = "C0005"
+        )
+        ) b ON a.CONFIG_NAME = b.CONFIG_NAME
+    </select>
+    
+    <select id="findIncrementDataSourceByAppID" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+    SELECT
+    scc.*
+    FROM
+    BATCH_APPLICATION ba,
+    SYS_CODE_CONFIG scc
+    WHERE
+    ba.APP_ID = ${appId}
+    AND
+    scc.ID = ba.INPUT_SOURCE
+    </select>
+    <select id="findAllConfig" resultType="com.ysttench.application.auth.settings.kernel.entity.SysCodeConfigFormMap">
+        SELECT
+        *
+        FROM
+        SYS_CODE_CONFIG scc
+        WHERE
+        scc.PARENT_ID NOT IN (0)
+        AND scc.DELETED_FLAG = 0  
+        AND scc.PARENT_ID = (
+        SELECT
+        sc.ID
+        FROM
+        SYS_CODE_CONFIG sc
+        WHERE
+        sc.CONFIG_CODE ='C0002')
+    </select>
+</mapper>

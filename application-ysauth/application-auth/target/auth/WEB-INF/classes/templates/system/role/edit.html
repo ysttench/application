@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="../static/js/system/role/edit.js" th:src="@{/js/system/role/edit.js}"></script>
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/role/editEntity}">
+        <input type="hidden" class="form-control checkacc" th:value="${role.roleId}" name="sysRoleFormMap.roleId" id="roleId" />
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                    <label class="control-label">角色名：</label> 
+                    <input type="text" class="form-control checkacc" placeholder="请输入角色名" name="sysRoleFormMap.name" id="name" th:value="${role.name}" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+<!--                 <div class="form-group">
+                    <label class="control-label">角色Key：</label> 
+                    <input type="text" maxlength="20" class="form-control" placeholder="请输入roleKey" name="sysRoleFormMap.roleKey" id="roleKey" th:value="${role.roleKey}" />
+                </div> -->
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">备注:</label> 
+                    <input type="text" maxlength="50" class="form-control" placeholder="请输入角色描述" name="sysRoleFormMap.description" id="description" th:value="${role.description }" />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">是否禁用:</label> 
+                    <select class="form=-control" data-requireed="true" name="sysRoleFormMap.state" id="state">
+                        <option value="0" th:selected="${role.state eq '0'}">可用</option>
+                        <option value="1" th:selected="${role.state eq '1'}">禁用</option>
+                    </select>
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+            </footer>
+        </section>
+    </form>
+    <script type='text/javascript'>
+            /* $(function(){
+            	$("from input[name='enable'][value='${role.enable}']").attr("checked","checked");
+            	alert("input[name='enable'][value='${role.enable}']");
+            }); */
+        </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<head>
+</head>
+<style type="text/css">
+#mytable {
+    width: 660px;
+    padding: 0;
+    margin: 0;
+}
+
+caption {
+    padding: 0 0 5px 0;
+    width: 660px;
+    font: italic 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    text-align: right;
+}
+
+th {
+    font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+}
+
+th.nobg {
+    border-top: 0;
+    border-left: 0;
+    border-right: 1px solid #C1DAD7;
+    system: none;
+}
+
+#mytable td {
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    system: #fff;
+    font-size: 11px;
+    padding: 6px 6px 6px 12px;
+    color: #4f6b72;
+}
+
+td.alt {
+    system: #F5FAFA;
+    color: #797268;
+}
+
+th.spec {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    system: #fff;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+th.specalt {
+    border-left: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    system: #f5fafa;
+    font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #797268;
+}
+/*---------for IE 5.x bug*/
+html>body td {
+    font-size: 13px;
+}
+</style>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    function smenu(obj, id) {
+        $("input[_key='menu_1_" + id + "']").each(function() {
+            $(this).prop("checked", obj.checked);
+        });
+        $("input[_key='menu_1_1_" + id + "']").each(function() {
+            $(this).prop("checked", obj.checked);
+        });
+    };
+    function menu2(obj, id, pid) {
+        $("input[_key_2='menu_1_1_" + id + "']").each(function() {
+            $(this).prop("checked", obj.checked);
+        });
+        if (obj.checked == true) {
+            $("input[_key='menu_" + pid + "']").each(function() {
+                $(this).prop("checked", obj.checked);
+            });
+        }
+    };
+    function menu_1_1(obj, id, pid) {
+        if (obj.checked == true) {
+            $("input[_key_1='menu_1_1_" + id + "']").each(function() {
+                $(this).prop("checked", obj.checked);
+            });
+            $("input[_key='menu_" + pid + "']").each(function() {
+                $(this).prop("checked", obj.checked);
+            });
+        }
+    }
+    function closeWin() {
+        layer.confirm('是否关闭窗口？', {
+            icon : 3,
+        }, function(index) {
+            parent.layer.close(parent.pageii);
+            return false;
+        });
+    }
+    function sub() { 
+        ly.ajax({
+            async : false, //请勿改成异步，下面有些程序依赖此请数据
+            type : "POST",
+            data : $("#from").serializeJson(),
+            url : rootPath + "/right/addMenuRight",
+            dataType : 'json',
+            success : function(json) {
+                if (json == "success") {
+                    layer.confirm('分配成功！是否关闭窗口？', {
+                        icon : 3,
+                    }, function(index) {
+                        parent.layer.close(parent.pageii);
+                        return false;
+                    });
+                } else {
+                    layer.alert(json, {
+                        icon : 2,
+                    });
+                }
+                ;
+            }
+        });
+        // window.location="${pageContext.servletContext.contextPath }/function/addRoleFun?roleId=${roleId}&functionId="+fids;
+    }
+    /*]]>*/
+</script>
+<body>
+    <form method="post" id="from" name="form">
+        <input id='roleId' name="roleId" type="hidden" th:value="${roleId}" />
+        <table id="mytable" >
+            <tr>
+                <th scope="row" abbr="L2 Cache" class="specalt">一级菜单</th>
+                <th scope="row" abbr="L2 Cache" class="specalt"><span>二级菜单</span>
+                <span style="float: right;margin-right: 150px;">按扭</span></th>
+            </tr>
+            <tr th:each="permission : ${permissions}">
+                <th scope="row" abbr="L2 Cache" class="specalt">
+                    <input type="checkbox" name="menuId" th:attr="id='menu_' +${permission.id}, _key='menu_' + ${permission.id}, onclick='smenu(this,' +${permission.id} +')', value=${permission.id}" /> <label th:text="${permission.name}" th:attr="for='menu_' + ${permission.id}"></label>
+                </th>
+                <th scope="row" abbr="L2 Cache" class="specalt">
+                    <table id="mytable" style="width: 100%;height: 100%;">
+                        <tr th:each="children : ${permission.children}">
+                            <th scope="row" abbr="L2 Cache" class="specalt">
+                                <input type="checkbox" name="menuId" th:attr="id='menu_1_'+${children.id}, _key='menu_1_'+${permission.id}, _key_1='menu_1_1_'+${children.id}, onclick='menu2(this,'+${children.id}+','+${permission.id}+')', value=${children.id}" /> <label th:text="${children.name}" th:attr="for='menu_1_'+${children.id}"></label>
+                            </th>
+                            <th th:if="${not #lists.isEmpty(children.children)}">
+                                <table id="mytable" style="width: 100%;height: 100%;">
+                                    <tr th:each="child : ${children.children}">
+                                        <th scope="row" abbr="L2 Cache" class="specalt">
+                                        <input type="checkbox" name="menuId" th:attr="id='menu_1_1_'+${child.id}, _key='menu_1_1_'+${permission.id}, _key_2='menu_1_1_'+${children.id}, onclick='menu_1_1(this,'+${children.id}+','+${permission.id}+')', value=${child.id}" /> <label th:text="${child.name}" th:attr="for='menu_1_1_'+${child.id}"></label></th>
+                                    </tr>
+                                </table>
+                            </th>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+        </table>
+        <br/>
+        <div class="doc-buttons" style="text-align: center;">
+            <a href="#" class="btn btn-s-md btn-success btn-rounded" onclick="sub()">保存</a> 
+            <a href="#" class="btn btn-s-md btn-info btn-rounded" onclick="closeWin();">关闭</a>
+        </div>
+        <br/>
+    </form>
+</body>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        $.ajax({
+            type : "POST",
+            data : {
+                "sysMenuFormMap.roleId" : [[${roleId}]]
+            },
+            url : rootPath + "/menu/findRoleMenu",
+            dataType : 'json',
+            success : function(json) {
+                for (index in json) {
+                    $("input[name='menuId']:checkbox[value='" + json[index].menuId + "']").prop("checked", "true");
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</html>

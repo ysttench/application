@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+select{
+    height: 30px;
+    line-height: 30px;
+}
+
+#dataSourceCondition select{
+    width:200px;
+}
+.nav-ul-div{
+    height:120px
+}
+.nav-ul-div ul{
+    list-style:none;
+    width: 950px;
+    margin: 0 auto;
+    text-align:center;
+}
+.nav-ul-div ul li{
+    float:left;
+    position:relative;
+}
+.nav-div-num{
+    display: block;
+    width: 60px;
+    height: 60px;
+    border: 3px solid #999;
+    border-radius: 30px;
+    text-align: center;
+}
+.nav-ul-div ul li.active .nav-div-num{
+    border: 3px solid #2DA2FF;
+}
+.nav-div-num p{
+    font-size: 30px;
+    margin-top: 7px;
+    font-weight: bold;
+    color:#999
+}
+.nav-ul-div ul li.active .nav-div-num p{
+    color:#2DA2FF;
+}
+.nav-line{
+    width: 100px;
+    height: 3px;
+    background-color: #999;
+    margin-top: 30px;
+}
+.nav-div-title{
+    font-size: 18px;
+    width: 100px;
+    position: absolute;
+    top: 70px;
+    left: -20px;
+}
+.nav-ul-div ul li.active .nav-div-title{
+    color:#2DA2FF;
+}
+
+#divDataSourceIn{
+    margin-bottom:30px
+}
+
+#selector .btn.active {
+    background-position-x: 15px;
+    background-position-y: 6px;
+}
+#selector .btn.active {
+    background: #2DA2FF;
+    color: #fff;
+}
+#selector .btn {
+    background-position-x: 15px;
+    background-position-y: 6px;
+}
+#selector .btn {
+    padding: 6px 20px 6px 20px;
+    margin-right: 12px;
+}
+#searchForm{
+    margin-bottom:20px
+}
+
+.btn-primary.red {
+   color: #fff;
+   background-color: #d9534f;
+   border-color: #d43f3a;
+   font-size: 12px;
+}
+
+.btn-primary.blue {
+    color: #fff;
+    background-color: #5bc0dc;
+    border-color: #46b8da;
+    font-size:12px;
+}
+
+.btn-primary.green {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    font-size:12px;
+}
+
+.btn-primary.red:hover, .btn-primary.red:focus{
+    background-color: #c9302c;
+    border-color: #ac2925;
+    color: #fff;
+}
+
+.btn-primary.green:hover, .btn-primary.green:focus{
+    background-color: #419641;
+    border-color: #398439;
+    color: #fff;
+}
+
+.btn-primary.blue:hover, .btn-primary.blue:focus{
+    background-color: #2aabd2;
+    border-color: #269abc;
+    color: #fff;
+}

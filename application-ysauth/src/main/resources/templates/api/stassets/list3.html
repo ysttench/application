@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="/js/api/stassets/list3.js}"
+	th:src="@{/js/api/stassets/list3.js}"></script>
+<div class="m-b-md">
+	<form class="form-inline" id="searchForm" name="searchForm">
+		<div class="form-group">
+			<label class="control-label"> <span
+				class="h4 font-thin v-middle">搜索内容:</span></label> <input
+				class="input-medium ui-autocomplete-input" id="assetsNum"
+				name="apiStAssetsForMap.searchValue" />
+		</div>
+		<a href="javascript:void(0)" class="btn btn-default" id="search">查询</a><a href="javascript:grid.exportData('/stassets/export1')" class="btn btn-info" id="search">导出excel</a>
+	</form>
+</div>
+<header class="panel-heading">
+	<div class="doc-buttons">
+	<button type="button" id="print" class="btn btn-primary marR10">打印</button>
+		<button type="button" id="createAccount"
+			class="btn btn-primary marR10">新建盘点单</button>
+		<button type="button" id="addPdAccount" class="btn btn-primary marR10">添加到盘点单</button>
+	</div>
+</header>
+<div class="table-responsive"
+	>
+	<div id="paging" class="pagclass" style="overflow-y: hidden; overflow-x: scroll; width: 1145px;"></div>
+</div>
+</html>

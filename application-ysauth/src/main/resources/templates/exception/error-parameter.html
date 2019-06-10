@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Exception!</title>
+</head>
+<body>
+    <H2 style="color: blue;" th:text="'参数错误:' + ${#httpServletRequest.getAttribute('ex').getClass().getName()}"></H2>
+    <hr />
+    <P>错误描述：</P>
+    <span style="color: red;" th:text="${#httpServletRequest.getAttribute('ex').getMessage()}"></span>
+    <P>错误信息：</P>
+    <span style="color: blue;" th:text="${#httpServletRequest.getAttribute('ex').printStackTrace()}"></span>
+</body>
+</html>

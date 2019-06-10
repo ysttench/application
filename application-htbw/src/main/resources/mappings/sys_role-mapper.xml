@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.htbw.settings.kernel.mapper.SysRoleMapper">
+    <!--mybatis ehcache缓存配置 -->
+    <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> -->
+    <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ROLE_ID,
+        STATE,
+        NAME,
+        ROLE_KEY,
+        CREATE_TIME,
+        DESCRIPTION
+    </sql>
+    <select id="seletUserRole" resultType="com.ysttench.application.htbw.settings.kernel.entity.SysRoleFormMap">
+        select
+        <include refid="selectId" />
+        from SYS_ROLE
+        where SYS_ROLE.ROLE_ID
+        in (select ROLE_ID from SYS_USER_ROLE where
+        USER_ID=#{userId})
+        AND SYS_ROLE.STATE='0'
+    </select>
+    <select id="findRolePage" resultType="com.ysttench.application.htbw.settings.kernel.entity.SysRoleFormMap">
+        select
+        <include refid="selectId" />
+        from SYS_ROLE
+        where 1 = 1
+        <if test="name != null and name != ''">
+            and NAME like '%${name}%'
+            OR DESCRIPTION like '%${name}%'
+        </if>
+                <if test="state != null and state != ''">
+            and STATE = '${state}'
+        </if>
+        <if test="column != null">
+            order by ${column} ${sort}
+        </if>
+    </select>
+        <select id="count" resultType="com.ysttench.application.htbw.settings.kernel.entity.SysRoleFormMap">
+            SELECT
+                count(*) as count
+            FROM
+                SYS_ROLE
+            WHERE
+                STATE = '0'
+        <if test="roleId != null and roleId != ''">
+            and ROLE_ID != '${roleId}'
+        </if>
+        <if test="name != null and name != ''">
+            and NAME = '${name}'
+        </if>
+    </select>
+    
+</mapper>

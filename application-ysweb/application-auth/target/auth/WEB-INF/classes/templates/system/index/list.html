@@ -1,0 +1,106 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script type="text/javascript" src="../plugin/echarts/echarts-3.1.2/echarts.min.js" th:src="@{/plugin/echarts/echarts-3.1.2/echarts.min.js}"></script>
+<script type="text/javascript" src="/js/system/index/list.js" th:src="@{/js/system/index/list.js}"></script>
+<style>
+body, ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none
+}
+
+.left {
+	float: left
+}
+
+.right {
+	float: right;
+    text-align:left;
+}
+
+.clear {
+	clear: both
+}
+.list{
+    margin-left:30px;
+}
+.list ul li {
+	float: left;
+	background: #a30af1;
+	margin-right: 10px
+}
+
+.list ul li div.left {
+	width: 100px;
+	text-align: center;
+	height: 100px;
+}
+
+.list ul li div.left img {
+	width: 50px;
+	height: 50px;
+	margin-top: 25px;
+}
+
+.list ul li div.right {
+	max-width: 180px;
+    height:100px;
+    padding:25px 10px;;
+}
+
+.list ul li div.right p {
+	padding: 0 15px;
+	color: #fff;
+}
+
+.list ul li div.right p.num {
+	text-align: center;
+	font-weight: bold
+}
+</style>
+</head>
+<body>
+    <div class="list">
+        <ul>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/u177.png}" />
+                </div>
+                <div class="right">
+                    <p>用户数量</p>
+                    <p class="num" id="yh">2684</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/u183.png}" />
+                </div>
+                <div class="right">
+                    <p>部门数量</p>
+                    <p class="num" id="bm">32</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="left">
+                    <img th:src="@{images/u185.png}" />
+                </div>
+                <div class="right">
+                    <p>接入系统</p>
+                    <p class="num" id="xt">6</p>
+                </div>
+                <div class="clear"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="userNum-echart">
+        <h2>不同系统的用户数量</h2>
+        <div id="echart" style="min-width: 800px; width: 90%; height: 400px;"></div>
+    </div>
+</body>
+</html>

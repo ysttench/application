@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.htbw.settings.kernel.mapper.LogRecordMapper">
+    <!-- 以下与实体类的中字段一致 -->
+    <select id="findMsg" resultType="com.ysttench.application.htbw.settings.kernel.entity.LogRecordFormMap">
+    SELECT * FROM LOG_RECORD
+    <if test="searchValue != null and searchValue !=''">
+    WHERE (LOG_RECORD.JB_DESC LIKE '%{searchValue}%')
+    </if>
+    AND LOG_RECORD.JB_NAME= '${jbName}'
+    </select>
+</mapper>

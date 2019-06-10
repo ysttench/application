@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ysttench.application.common</groupId>
+	<artifactId>application-common-ibatis</artifactId>
+	<packaging>jar</packaging>
+	<version>2.0.1-SNAPSHOT</version>
+	<name>application-common-ibatis</name>
+	<!-- 项目属性 -->
+	<properties>
+		<!-- jar 版本设置 -->
+		<mybatis.version>3.2.8</mybatis.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<mysql.version>8.0.11</mysql.version>
+		<oracleserver.version>11.2.0.3</oracleserver.version>
+		<appcommon.version>2.0.1-SNAPSHOT</appcommon.version>
+		<sqlserver.version>4.0</sqlserver.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+		<!--支持使用 JDBC 访问数据库 -->
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+<!-- 	<dependency>
+		<groupId>com.oracle.db</groupId>
+		<artifactId>oracle-jdbc</artifactId>
+		<version>${oracleserver.version}</version>
+	</dependency> -->
+        <!--支持使用 JDBC 访问数据库 -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>6.2.2.jre8</version>
+        </dependency>
+		<dependency>
+			<groupId>com.ysttench.application.common</groupId>
+			<artifactId>application-common</artifactId>
+			<version>${appcommon.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>common-ibatis</finalName>
+		<plugins>
+			<plugin>
+				<groupId>com.ysttench.application.common</groupId>
+				<artifactId>application-common-ibatis</artifactId>
+				<version>2.0.1-SNAPSHOT</version>
+				<configuration>
+					<webAppConfig>
+						<contextPath>/application-common-ibatis</contextPath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
+				<dependencies>
+					<!-- spring热部署 -->
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.5.2.RELEASE</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<!-- 打包源码一起发布到maven仓库中 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

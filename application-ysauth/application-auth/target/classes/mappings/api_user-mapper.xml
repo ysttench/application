@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiUserMapper">
+  <!--mybatis ehcache缓存配置 -->
+  <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> -->
+  <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+  <!-- 以下与实体类的中字段一致 -->
+  <sql id="selectId">
+    USER_ID,
+    USER_NAME,
+    PASSWORD,
+    (SELECT group_concat(ROLE_NAME) FROM API_ROLE WHERE ROLE_ID IN (
+    SELECT
+    API_USER_ROLE.ROLE_ID
+    FROM
+    API_USER_ROLE
+    WHERE
+    API_USER_ROLE.USER_ID = API_USER.USER_ID))
+    ROLE_NAME,
+    NAME,
+    SFZH,
+    SEX,
+    PHONE,
+    EMAIL,
+    AVATAR,
+    DEPT_ID,
+    ENABLED_FLAG,
+    ENABLED_TIME,
+    DELETE_FLAG,
+    DELETE_TIME,
+    CREATE_TIME,
+    UPDATE_TIME,
+  </sql>
+      <insert id="insertApiUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO `API_USER` (
+        <if test="userName!='' and userName!=null">`USER_NAME`,</if>
+        <if test="password!='' and password!=null">`PASSWORD`,</if>
+        <if test="name!='' and name!=null">`NAME`,</if>
+        <if test="policeId!='' and policeId!=null">`POLICE_ID`,</if>
+        <if test="deptId!='' and deptId!=null">`DEPT_ID`,</if>
+        <if test="sfzh!='' and sfzh!=null">`SFZH`,</if>
+        <if test="sex!='' and sex!=null">`SEX`,</if>
+        <if test="phone!='' and phone!=null">`PHONE`,</if>
+        <if test="email!='' and email!=null">`EMAIL`,</if>
+        <if test="avatar!='' and avatar!=null">`AVATAR`,</if>
+        <if test="comment!='' and comment!=null">`COMMENT`,</if>
+        <if test="enabledFlag!='' and enabledFlag!=null">`ENABLED_FLAG`,</if>
+        <if test="deleteFlag!='' and deleteFlag!=null">`DELETE_FLAG`,</if>
+        <if test="updateTime!='' and updateTime!=null">`UPDATE_TIME`,</if>
+        <if test="createTime!='' and createTime!=null">`CREATE_TIME`</if>
+        )
+        VALUES
+        (
+        <if test="userName!='' and userName!=null">#{userName,jdbcType=VARCHAR},</if>
+        <if test="password!='' and password!=null">#{password,jdbcType=VARCHAR},</if>
+        <if test="name!='' and name!=null">#{name,jdbcType=VARCHAR},</if>
+        <if test="policeId!='' and policeId!=null">#{policeId,jdbcType=VARCHAR},</if>
+        <if test="deptId!='' and deptId!=null">#{deptId,jdbcType=VARCHAR},</if>
+        <if test="sfzh!='' and sfzh!=null">#{sfzh,jdbcType=VARCHAR},</if>
+        <if test="sex!='' and sex!=null">#{sex,jdbcType=VARCHAR},</if>
+        <if test="phone!='' and phone!=null">#{phone,jdbcType=VARCHAR},</if>
+        <if test="email!='' and email!=null">#{email,jdbcType=VARCHAR},</if>
+        <if test="avatar!='' and avatar!=null">#{avatar,jdbcType=BLOB},</if>
+        <if test="comment!='' and comment!=null">#{comment,jdbcType=VARCHAR},</if>
+        <if test="enabledFlag!='' and enabledFlag!=null">#{enabledFlag,jdbcType=VARCHAR},</if>
+        <if test="deleteFlag!='' and deleteFlag!=null">#{deleteFlag,jdbcType=VARCHAR},</if>
+        <if test="updateTime!='' and updateTime!=null">#{updateTime,jdbcType=DATE},</if>
+        <if test="createTime!='' and createTime!=null">#{createTime,jdbcType=DATE}</if>
+        );
+    </insert>
+         <update id="editApiUSer" parameterType="com.ysttench.application.auth.settings.kernel.entity.ApiUserFormMap">
+        update API_USER SET 
+        <if test="updateTime!=null">`UPDATE_TIME`=#{updateTime,jdbcType=DATE}</if>
+        <if test="userName!=null">,`USER_NAME`=#{userName,jdbcType=VARCHAR}</if>
+        <if test="password!=null">,`PASSWORD`=#{password,jdbcType=VARCHAR}</if>
+        <if test="name!=null">,`NAME`=#{name,jdbcType=VARCHAR}</if>
+        <if test="policeId!=null">,`POLICE_ID`=#{policeId,jdbcType=VARCHAR}</if>
+        <if test="deptId!=null">,`DEPT_ID`=#{deptId,jdbcType=VARCHAR}</if>
+        <if test="sfzh!=null">,`SFZH`=#{sfzh,jdbcType=VARCHAR}</if>
+        <if test="sex!=null">,`SEX`=#{sex,jdbcType=VARCHAR}</if>
+        <if test="phone!=null">,`PHONE`=#{phone,jdbcType=VARCHAR}</if>
+        <if test="email!=null">,`EMAIL`=#{email,jdbcType=VARCHAR}</if>
+        <if test="avatar!=null">,`AVATAR`=#{avatar,jdbcType=BLOB}</if>
+        <if test="comment!=null">,`COMMENT`=#{comment,jdbcType=VARCHAR}</if>
+        <if test="enabledFlag!=null">,`ENABLED_FLAG`=#{enabledFlag,jdbcType=VARCHAR}</if>
+        <if test="deleteFlag!=null">,`DELETE_FLAG`=#{deleteFlag,jdbcType=VARCHAR}</if>
+          WHERE `USER_ID` = #{userId,jdbcType=INTEGER};
+    </update>
+  <select id="findUserPage" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiUserFormMap">
+        SELECT
+            a.*, b.DEPT_NAME
+        FROM
+            API_USER a
+        LEFT JOIN SYS_DEPARTMENT b ON a.DEPT_ID = b.ID
+        WHERE
+            a.DELETE_FLAG = '0'
+    <if test="userName != null and userName != ''">
+      and a.USER_NAME like '%${userName}%'
+    </if>
+    <if test="enableFlag != null and enableFlag != ''">
+      and a.ENABLED_FLAG = '${enableFlag}'
+    </if>
+        <if test="departmentId != null and departmentId != ''">
+      and a.DEPT_ID = '${departmentId}'
+    </if>
+    <if test="column != null">
+      order by ${column} ${sort}
+    </if>
+  </select>
+  <update id="updateByIds" parameterType="java.util.List" >
+    <foreach collection = "list" item = "item" index="index" open="" close="" separator=";">
+    
+    update API_USER
+    <set>
+     DELETE_FALG= 1
+    </set>
+    where USER_ID = ${item}
+    </foreach>
+  </update>
+  <select id="findDetailUser" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiUserFormMap">
+          SELECT
+              a.*, b.DEPT_NAME
+          FROM
+              API_USER a
+          LEFT JOIN SYS_DEPARTMENT b ON a.DEPT_ID = b.ID
+          WHERE
+              a.DELETE_FLAG = '0'
+          AND a.USER_ID='${id}'
+    </select>
+    <select id="findBM" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiUserFormMap">
+          SELECT
+              a.DEPT_ID,
+              b.DEPT_NAME
+          FROM
+              API_USER a
+          LEFT JOIN SYS_DEPARTMENT b ON a.DEPT_ID = b.ID
+          WHERE
+              a.DELETE_FLAG = '0'
+    </select>
+        <select id="count" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiUserFormMap">
+            SELECT
+                count(*) as count
+            FROM
+                API_USER 
+            WHERE
+                DELETE_FLAG = '0'
+        <if test="userId != null and userId != ''">
+            and USER_ID != '${userId}'
+        </if>
+        <if test="userName != null and userName != ''">
+            and USER_NAME = '${userName}'
+        </if>
+        <if test="email != null and email != ''">
+            and EMAIL = '${email}'
+        </if>
+        <if test="sfzh != null and sfzh != ''">
+            and SFZH = '${sfzh}'
+        </if>
+        <if test="phone != null and phone != ''">
+            and PHONE = '${phone}'
+        </if>
+         <if test="policeId != null and policeId != ''">
+            and POLICE_ID = '${policeId}'
+        </if>
+        </select>
+        <select id="getCount" resultType="java.lang.String">
+          SELECT
+              count(*)
+          FROM
+              API_USER
+          WHERE
+              DELETE_FLAG = '0'
+        </select>
+</mapper>

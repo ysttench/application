@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.StkInventoryMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findventoryMsg"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.StkInventoryFormMap">
+		SELECT DISTINCT 
+		T_STK_INVENTORY.FBaseQty as COUNT,
+		T_BD_STOCK_L.FNAME AS MNAME,
+		T_BD_MATERIAL.FNUMBER,
+		T_BD_MATERIAL_L.FNAME,
+		T_BD_MATERIAL_L.FSPECIFICATION
+		FROM
+		T_STK_INVENTORY
+		LEFT JOIN T_ORG_ORGANIZATIONS_L ON T_STK_INVENTORY.FSTOCKORGID =
+		T_ORG_ORGANIZATIONS_L.FORGID
+		LEFT JOIN T_BD_STOCK_L ON T_STK_INVENTORY.FSTOCKID = T_BD_STOCK_L.FSTOCKID
+		LEFT JOIN T_BD_STOCK ON T_STK_INVENTORY.FSTOCKID = T_BD_STOCK.FSTOCKID
+		LEFT JOIN T_BD_MATERIAL ON T_STK_INVENTORY.FMATERIALID =
+		T_BD_MATERIAL.FMATERIALID
+		LEFT JOIN T_BD_MATERIAL_L ON T_STK_INVENTORY.FMATERIALID =
+		T_BD_MATERIAL_L.FMATERIALID
+		<if test="organ != null">
+			WHERE T_ORG_ORGANIZATIONS_L.FORGID ='${organ}' AND
+			T_STK_INVENTORY.FBaseQty != 0
+		</if>
+		<if test="ck != null">
+			AND T_BD_STOCK_L.FNAME ='${ck}'
+		</if>
+		GROUP BY
+		T_STK_INVENTORY.FBaseQty,
+		T_BD_STOCK_L.FNAME ,
+		T_BD_MATERIAL.FNUMBER,
+		T_BD_MATERIAL_L.FNAME,
+		T_BD_MATERIAL_L.FSPECIFICATION
+	</select>
+	<select id="findventoryMsgByPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.StkInventoryFormMap">
+		SELECT
+		T_BD_MATERIAL.FNUMBER,
+		T_BD_MATERIAL_L.FNAME,
+		T_STK_INVENTORY.FLOT,
+		T_BD_UNIT_L.FNAME AS UNITNAME,
+		T_BD_STOCK_L.FNAME AS MNAME,
+		T_STK_INVENTORY.FBASEQTY,
+		T_ORG_ORGANIZATIONS_L.FNAME AS ORGNAME
+		FROM
+		T_STK_INVENTORY
+		LEFT JOIN T_ORG_ORGANIZATIONS_L ON T_STK_INVENTORY.FSTOCKORGID =
+		T_ORG_ORGANIZATIONS_L.FORGID
+		LEFT JOIN T_BD_STOCK_L ON T_STK_INVENTORY.FSTOCKID = T_BD_STOCK_L.FSTOCKID
+		LEFT JOIN T_BD_STOCK ON T_STK_INVENTORY.FSTOCKID = T_BD_STOCK.FSTOCKID
+		LEFT JOIN T_BD_MATERIAL ON T_STK_INVENTORY.FMATERIALID =
+		T_BD_MATERIAL.FMATERIALID
+		LEFT JOIN T_BD_MATERIAL_L ON T_STK_INVENTORY.FMATERIALID =
+		T_BD_MATERIAL_L.FMATERIALID
+		LEFT JOIN T_BD_UNIT_L ON T_STK_INVENTORY.FSTOCKUNITID =
+		T_BD_UNIT_L.FUNITID
+		WHERE 1=1
+		<if test="searchValue != null and searchValue != ''">
+			AND (T_BD_MATERIAL.FNUMBER like '%${searchValue}%' OR
+			T_BD_MATERIAL_L.FNAME like '%${searchValue}%' OR T_STK_INVENTORY.FLOT
+			like '%${searchValue}%' OR T_BD_STOCK_L.FNAME like '%${searchValue}%'
+			OR T_ORG_ORGANIZATIONS_L.FNAME like '%${searchValue}%')
+		</if>
+		<if test="organ != null">
+			AND T_ORG_ORGANIZATIONS_L.FNAME ='${organ}' AND T_STK_INVENTORY.FBaseQty != 0
+		</if>
+		GROUP BY
+		T_BD_MATERIAL.FNUMBER,
+		T_BD_MATERIAL_L.FNAME,
+		T_STK_INVENTORY.FLOT,
+		T_BD_UNIT_L.FNAME,
+		T_BD_STOCK_L.FNAME,
+		T_STK_INVENTORY.FBASEQTY,
+		T_ORG_ORGANIZATIONS_L.FNAME
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+</mapper>

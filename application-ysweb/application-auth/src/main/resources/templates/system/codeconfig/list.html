@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="/js/system/codeconfig/list.js" th:src="@{/js/system/codeconfig/list.js}"></script>
+<body>
+    <div class="table-content white-bg">
+        <div>
+            <div id="divTab">
+                <ul id="ulTab" class="managementTab"></ul>
+            </div>
+        </div>
+        <div>
+            <div id="opdiv">
+                <button type="button" id="addCodeConfig" class="btn btn-primary marR10">
+                    <i class="fa fa-plus"></i> 添加
+                </button>
+                <button type="button" id="editCodeConfig" class="btn btn-info marR10" style="font-size:12px">编辑</button>
+                <button type="button" id="delCodeConfig" class="btn btn-danger marR10" style="font-size:12px">删除</button>
+            </div>
+            <div>
+                <div>
+                    <form class="form-inline" style="float: right;" id="searchForm" name="searchForm">
+                        <div class="form-group">
+                            <label class="control-label"> <span>配置名：</span></label> 
+                            <input class="input-medium ui-autocomplete-input form-control" id="searchName" name="sysCodeConfigFormMap.searchName" placeholder="快捷搜索" />
+                        </div>
+                        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="module-body">
+            <div id="paging" class="pagclass"></div>
+        </div>
+    </div>
+</body>
+</html>

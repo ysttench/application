@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/api/montor/list.js}"
+	th:src="@{/js/api/montor/list.js}"></script>
+	<script type="text/javascript" src="/js/api/montor/hum.js}"
+	th:src="@{/js/api/montor/hum.js}"></script>
+<script type="text/javascript"
+	src="../plugin/echarts/echarts-3.1.2/echarts.min.js"
+	th:src="@{/plugin/echarts/echarts-3.1.2/echarts.min.js}"></script>
+<head>
+</head>
+<div class="m-b-md">
+	<div class="form-group">
+		<label class="control-label"> <span
+			class="h4 font-thin v-middle">区域:</span></label><select id="doc-buttons"></select> <label
+			class="control-label"> <span class="h4 font-thin v-middle">设备名称:</span></label>
+		<input class="input-medium ui-autocomplete-input" id="searchValue" />
+		<button type='button' class='btn btn-primary marR10'
+			onclick='search()'>查询</button>
+	</div>
+</div>
+<header class="panel-heading"> </header>
+<div id="showechart1"></div>
+</html>

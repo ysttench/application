@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="../static/js/system/menu/list.js" th:src="@{/js/system/menu/list.js}"></script>
+<div class="m-b-md">
+    <form class="form-inline" id="searchForm" name="searchForm">
+        <div class="form-group">
+            <label class="control-label"> <span class="h4 font-thin v-middle">一级菜单名:</span></label> 
+            <input class="input-medium ui-autocomplete-input" id="name" name="sysMenuFormMap.name" />
+        </div>
+        <a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
+    </form>
+</div>
+<header class="panel-heading">
+    <div class="doc-buttons">
+        <button type="button" id="addFun" class="btn btn-primary marR10">新增</button>
+        <button type="button" id="editFun" class="btn btn-info marR10">编辑</button>
+        <button type="button" id="delFun" class="btn btn-danger marR10">删除</button>
+        <button type="button" id="lyGridUp" class="btn btn-success marR10">上移</button>
+        <button type="button" id="lyGridDown" class="btn btn btn-success marR10">下移</button>
+    </div>
+</header>
+<div class="table-responsive">
+    <div id="paging" class="pagclass"></div>
+</div>
+</html>

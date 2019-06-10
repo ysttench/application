@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.auth.settings.kernel.mapper.ApiAssetsTypeMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findAssetsTypeByPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiAssetsTypeFormMap">
+		select * from assets_type
+		<if test="name != null">
+			where NAME like '%${name}%'
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<insert id="insertAssetsType" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into assets_type (
+		<if test="code != null">CODE,</if>
+		<if test="name != null">NAME</if>
+		) values (
+		<if test="code != null">#{code,jdbcType=VARCHAR},</if>
+		<if test="name != null">#{name,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<select id="count"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiAssetsTypeFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		assets_type
+		WHERE 0=0
+		<if test="code != null">
+			AND CODE = '${code}'</if>
+		<if test="name != null ">
+			AND NAME = '${name}'</if>
+		<if test="id != null">
+			and ID != '${id}'
+		</if>
+	</select>
+	<select id="findDetailType"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.ApiAssetsTypeFormMap">
+		select * from assets_type where ID='${id}'
+	</select>
+	<update id="editType"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.ApiAssetsTypeFormMap">
+		update assets_type set
+		<if test="code != null">CODE=#{code,jdbcType=VARCHAR}</if>
+		<if test="name != null">,NAME=#{name,jdbcType=VARCHAR}</if>
+		where ID= #{id,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteById">
+		delete from assets_type where
+		ID=#{id,jdbcType=INTEGER}
+	</delete>
+	<select id="findType" resultType="com.ysttench.application.auth.settings.kernel.entity.ApiAssetsTypeFormMap">
+		SELECT
+		*
+		FROM
+		assets_type
+	</select>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.SysDepartmentMapper">
+    <!--mybatis ehcache缓存配置 -->
+    <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> -->
+    <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+    <!-- 以下与实体类的中字段一致 -->
+<sql id="selectId">
+        ID,
+        DEPT_NAME,
+        PARENT_ID,
+        STATUS
+    </sql>
+
+    <select id="findParent" resultType="com.ysttench.application.auth.settings.kernel.entity.SysDepartmentFormMap">
+        select
+        <include refid="selectId" />
+        from SYS_DEPARTMENT
+        where SUBSTR(ID, 7) ='000'
+            and STATUS = 0
+        order by ID
+    </select>
+    <select id="findAllData" resultType="com.ysttench.application.auth.settings.kernel.entity.SysDepartmentFormMap">
+          SELECT
+              t1.ID AS
+          VALUE
+              ,
+              t1.DEPT_NAME AS LABEL,
+              t1.ID,
+              t1.PARENT_ID,
+              t1.DEPT_CODE
+          FROM
+              SYS_DEPARTMENT t1
+          WHERE
+              t1.`STATUS` = 0
+    </select>
+    
+    <select id="findDetailDepartment" resultType="com.ysttench.application.auth.settings.kernel.entity.SysDepartmentFormMap">
+SELECT
+t1.ID,
+    t1.DEPT_CODE,
+    t1.DEPT_NAME,
+    t1.`STATUS`,
+    t1.PARENT_ID,
+    CONCAT(
+        t1.DEPT_NAME,
+        '/',
+        t2.DEPT_NAME
+    ) AS PARENT_DEPT_NAME
+FROM
+    SYS_DEPARTMENT t1
+LEFT JOIN SYS_DEPARTMENT t2 ON t1.PARENT_ID = t2.ID
+WHERE
+    t1.`STATUS` = 0 AND t1.ID='${id}'
+    </select>
+    <select id="findDepartmentByPage" resultType="com.ysttench.application.auth.settings.kernel.entity.SysDepartmentFormMap">
+          SELECT
+              t1.*, t2.DEPT_NAME AS PARENTNAME,
+              t2.DEPT_CODE AS PARENTCODE
+          FROM
+              SYS_DEPARTMENT t1
+          LEFT JOIN SYS_DEPARTMENT t2 ON t1.PARENT_ID = t2.ID
+          WHERE
+              t1. STATUS = '0'
+              <if test="searchValue != null" >
+              and (t1.DEPT_CODE like '%${searchValue}%' or t1.DEPT_NAME like '%${searchValue}%')</if>
+              <if test="column != null">
+              order by ${column} ${sort}
+              </if>
+    </select>
+            <select id="getCount" resultType="java.lang.String">
+            SELECT
+                count(*)
+            FROM
+                SYS_DEPARTMENT
+            WHERE
+                 STATUS='0'
+        </select>
+        
+        <select id="findByNames" resultType="com.ysttench.application.auth.settings.kernel.entity.SysDepartmentFormMap">
+        select * from SYS_DEPARTMENT where STATUS = '0'
+        <if test="deptCode != null">
+        and DEPT_CODE = #{deptCode}
+         </if>
+         <if test="deptName != null">
+         and DEPT_NAME = #{deptName}
+         </if>
+         <if test="where != null">
+         #{where}</if>
+        </select>
+        <insert id="addEntity">
+        insert into SYS_DEPARTMENT (
+        <if test="deptName != null">DEPT_NAME,</if>
+        <if test="parentId != null">PARENT_ID,</if>
+        <if test="deptCode != null">DEPT_CODE,</if>
+        <if test="status != null">STATUS</if>
+        )
+        VALUES (
+        <if test="deptName != null">#{deptName,jdbcType=VARCHAR},</if>
+        <if test="parentId != null">#{parentId,jdbcType=VARCHAR},</if>
+        <if test="deptCode != null">#{deptCode,jdbcType=VARCHAR},</if>
+        <if test="status != null">#{status,jdbcType=VARCHAR}</if>
+        )
+        </insert>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.htbw.settings.kernel.mapper.SysMenuMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+
+	<sql id="selectId">
+		MENU_ID,
+		NAME,
+		PARENT_ID,
+		(select R.NAME from SYS_MENU R where
+		R.MENU_ID = SYS_MENU.PARENT_ID )
+		PARENT_NAME,
+		MENU_KEY,
+		IS_HIDE,
+		TYPE,
+		MENU_URL,
+		MENU_LEVEL,
+		DESCRIPTION
+	</sql>
+	<select id="findChildlists"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.SysMenuFormMap">
+		select
+		<include refid="selectId" />
+		from SYS_MENU
+		where PARENT_ID = #{id}
+	</select>
+
+	<!-- 获取该用户的权限 -->
+	<select id="findRoleMenu" parameterType="String"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.SysMenuFormMap">
+		select
+		<include refid="selectId" />
+		from SYS_MENU where IS_HIDE=0 and MENU_ID in(
+		select RIGHT_ID from
+		SYS_RIGHT_CONFIG where 1=1 and RESOURCE_FLAG = '0'
+		<if test="roleId != null and roleId != '' and roleId != 0">
+			and ROLE_ID = #{roleId}
+		</if>
+		<if test="userId != null and userId != '' and userId != 0">
+			and ROLE_ID in(select ur.ROLE_ID from SYS_USER_ROLE ur
+			where
+			ur.USER_ID=#{userId})
+		</if>
+		)
+		<if test="parentId != null and parentId != '' and parentId != 0">
+			and PARENT_ID = #{parentId}
+		</if>
+		order by MENU_LEVEL asc
+	</select>
+
+	<update id="updateSortOrder" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update SYS_MENU
+			<set>
+				MENU_LEVEL = ${item.menuLevel}
+			</set>
+			where MENU_ID = ${item.menuId}
+		</foreach>
+	</update>
+	<select id="count"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.SysMenuFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		SYS_MENU WHERE 1=1
+		<if test="name != null">
+			AND NAME = #{name}
+		</if>
+		<if test="menuKey != null">
+			AND MENU_KEY = #{menuKey}
+		</if>
+		<if test="menuId != null">
+			AND MENU_ID != #{menuId}
+		</if>
+	</select>
+
+</mapper>

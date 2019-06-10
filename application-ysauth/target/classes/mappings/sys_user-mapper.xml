@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.auth.settings.kernel.mapper.SysUserMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		USER_ID,
+		USER_NAME,
+		(select NAME from SYS_ROLE
+		where SYS_ROLE.STATE='0' AND SYS_ROLE.ROLE_ID
+		in
+		(select TOP 1 ROLE_ID from SYS_USER_ROLE where
+		USER_ID=SYS_USER.USER_ID) ) ROLE_NAME,
+		PASSWORD,
+		ORGAN,
+		DELETE_STATUS,
+		CREATE_TIME,
+		USER_TYPE,
+		ORGAN_ID
+	</sql>
+
+	<select id="findUserPage"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+		SELECT
+		<include refid="selectId"></include>
+		FROM
+		SYS_USER
+		WHERE
+		SYS_USER.DELETE_STATUS = '0'
+		<if test="userName != null and userName != ''">
+			and USER_NAME like '%${userName}%'
+		</if>
+		<if test="userType != null">
+		AND SYS_USER.USER_TYPE = '${userType}'
+		</if>
+		<if test="where != null and where != ''">
+			${where}
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="count"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+		SELECT
+		count(*) as count
+		FROM
+		SYS_USER
+		WHERE
+		DELETE_STATUS = '0'
+		<if test="userId != null and userId != ''">
+			and USER_ID != '${userId}'
+		</if>
+		<if test="userName != null and userName != ''">
+			and USER_NAME = '${userName}'
+		</if>
+	</select>
+	<select id="findDetailUser"
+		resultType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+		SELECT
+		a.*
+		FROM
+		SYS_USER a
+		WHERE
+		a.DELETE_STATUS = 0 
+		<if test="id != null">
+		AND a.USER_ID='${id}'
+		</if>
+		<if test="userName != null">
+		AND a.USER_NAME='${userName}'
+		</if>
+	</select>
+	<update id="editEntity"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+		UPDATE SYS_USER SET
+		<if test="userName != null">USER_NAME = #{userName,jdbcType=VARCHAR},</if>
+		<if test="organ != null">ORGAN = #{organ,jdbcType=VARCHAR},</if>
+		<if test="organId != null">ORGAN_ID = #{organId,jdbcType=VARCHAR},</if>
+		<if test="password != null">PASSWORD = #{password,jdbcType=VARCHAR},</if>
+		<if test="createTime != null">CREATE_TIME = #{createTime,jdbcType=DATE},</if>
+		<if test="deleteStatus != null">DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR}</if>
+		where USER_ID=#{userId}
+	</update>
+		<update id="editEn"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+		UPDATE SYS_USER SET
+		<if test="organ != null">ORGAN = #{organ,jdbcType=VARCHAR}</if>
+		where USER_ID=#{userId}
+	</update>
+	<update id="editUser" parameterType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+	UPDATE SYS_USER SET
+		<if test="deleteStatus != null">DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR}</if>
+		<if test="password != null">PASSWORD = #{password,jdbcType=VARCHAR}</if>
+		where USER_ID=#{userId}
+	</update>
+	<insert id="addEntity"
+		useGeneratedKeys="true" keyProperty="userId">
+		insert into SYS_USER (
+		<if test="userName != null">USER_NAME,</if>
+		<if test="organ != null">ORGAN,</if>
+		<if test="organId != null">ORGAN_ID,</if>
+		<if test="password != null">PASSWORD,</if>
+		<if test="deleteStatus != null">DELETE_STATUS,</if>
+		<if test="userType != null">USER_TYPE,</if>
+		<if test="createTime != null">CREATE_TIME</if>
+		)
+		VALUES (
+		<if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+		<if test="organ != null">#{organ,jdbcType=VARCHAR},</if>
+		<if test="organId != null">#{organId,jdbcType=VARCHAR},</if>
+		<if test="password != null">#{password,jdbcType=VARCHAR},</if>
+		<if test="deleteStatus != null">#{deleteStatus,jdbcType=VARCHAR},</if>
+		<if test="userType != null">#{userType,jdbcType=VARCHAR},</if>
+		<if test="createTime != null">#{createTime,jdbcType=DATE}</if>
+		)
+	</insert>
+ 	<insert id="addEntityru"
+		parameterType="com.ysttench.application.auth.settings.kernel.entity.SysUserRoleFormMap">
+		insert into SYS_USER_ROLE (
+		<if test="userId != null">USER_ID,</if>
+		<if test="roleId != null">ROLE_ID</if>
+		)
+		VALUES
+		(
+		<if test="userId != null">#{userId,jdbcType=VARCHAR},</if>
+		<if test="roleId != null">#{roleId,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+	<delete id="deleteUserRole" parameterType="java.lang.String">
+	delete from SYS_USER_ROLE where USER_ID=#{userId}
+	</delete>
+	<select id="perm" resultType="com.ysttench.application.auth.settings.kernel.entity.SysUserFormMap">
+SELECT COUNT
+	( * ) AS COUNT 
+FROM
+	sys_user,
+	sys_role,
+	sys_user_role,
+	sys_menu,
+	sys_right_config 
+WHERE
+	sys_user.USER_ID = sys_user_role.USER_ID 
+	AND sys_role.ROLE_ID = sys_user_role.ROLE_ID 
+	AND sys_right_config.RIGHT_ID = sys_menu.MENU_ID 
+	AND sys_role.ROLE_ID = sys_right_config.ROLE_ID 
+	<if test="userName != null">
+	AND sys_user.USER_NAME = '${userName}' 
+	</if>
+	<if test="menuName != null">
+	AND sys_menu.NAME = '${menuName}' 
+	AND sys_right_config.RESOURCE_FLAG = '0'
+	</if>
+	<if test="roleName != null">
+	AND sys_role.NAME='${roleName}'
+	</if>
+	</select>
+</mapper>

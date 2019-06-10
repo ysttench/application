@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/antd.css" th:href="@{/css/antd.css}" />
+<script type="text/javascript" src="../static/js/system/user/add.js" th:src="@{/js/system/user/add.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react.js" th:src="@{/plugin/antd/react.js}"></script>
+<script type="text/javascript" src="/plugin/antd/react-dom.js" th:src="@{/plugin/antd/react-dom.js}"></script>
+<script type="text/javascript" src="/plugin/antd/antd.js" th:src="@{/plugin/antd/antd.js}"></script>
+
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/user/addEntity}">
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                    <label class="control-label">账号：</label>
+                    <input type="text" class="form-control checkacc" placeholder="请输入账号" name="sysUserFormMap.userName" id="userName" />
+                </div>
+                                <div class="form-group">
+                    <label class="control-label">用户名：</label>
+                    <input type="text" class="form-control checkacc" placeholder="请输入用户名" name="sysUserFormMap.name" id="name" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">密码：</label>
+                    <input type="text" class="form-control" placeholder="默认密码为:123456" name="sysUserFormMap.password" id="password" />
+                </div>
+                <div class="form-group" id="selRole" th:attr="data-url=@{/role/selRole}"></div>
+                <div class="form-group">
+                    <label class=" control-label">账号状态:</label>
+                    <select class="form=-control" data-requireed="true" name="sysUserFormMap.locked" id="locked">
+                        <option value="0" selected="selected">可用</option>
+                        <option value="1" >禁用</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">备注:</label>
+                    <input type="text" class="form-control" placeholder="请输入账号备注" name="sysUserFormMap.description" id="description" />
+                </div>
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+            </footer>
+        </section>
+    </form>
+    <script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

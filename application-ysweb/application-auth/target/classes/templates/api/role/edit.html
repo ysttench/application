@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<script type="text/javascript" src="/js/api/role/edit.js" th:src="@{/js/api/role/edit.js}"></script>
+</head>
+<body>
+    <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/apiRole/editEntity}">
+        <input type="hidden" class="form-control checkacc" th:value="${role.roleId}" name="apiRoleFormMap.roleId" id="id" />
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                <div class="form-group">
+                    <label class="control-label" >应用系统名称：</label> 
+                    <select id="yyxtlist" name="apiRoleFormMap.applyId" >
+                    <option th:each="yyxtlist : ${yyxtlist}" th:value="${yyxtlist.id}" th:text="${yyxtlist.apiName}" th:selected = "${yyxtlist.id.toString()== role.applicationId}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">角色名：</label> <input type="text" class="form-control checkRole" placeholder="请输入角色名" name="apiRoleFormMap.roleName" id="roleName" style="width: 500px;float: right;"
+                        th:value="${role.roleName}"
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">角色key：</label> <input type="text" class="form-control " placeholder="请输入角色key" name="apiRoleFormMap.roleKey" id="roleKey" style="width: 500px;float: right;"
+                        th:value="${role.roleKey}" disabled="disabled"
+                    />
+                </div>
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                <div class="form-group">
+                    <label class="control-label">备注:</label> 
+                    <input type="text" class="form-control" placeholder="请输入备注" name="apiRoleFormMap.comment" id="comment" th:value="${role.comment }" style="width: 500px;float: right;" />
+                    <!-- <div class="line line-dashed line-lg pull-in"></div> -->
+                </div>
+                <div class="form-group">
+                    <label class="control-label">角色状态:</label>
+                    <select id="deletedFlag" name="apiRoleFormMap.deletedFlag">
+                        <option value="0" th:selected="${role.deletedFlag eq '0'}">可用</option>
+                        <option value="1" th:selected="${role.deletedFlag eq '1'}">禁用</option>
+                    </select>
+                </div>
+            </div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+            </footer>
+        </section>
+    </form>
+</body>
+</html>

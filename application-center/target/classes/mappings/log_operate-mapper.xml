@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.center.settings.kernel.mapper.LogOperateMapper">
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        ID,
+        USER_NAME,
+        MODULE,
+        METHOD,
+        ACTION_TIME,
+        USER_IP_ADDRESS,
+        OPERATE_TIME,
+        DESCRIPTION
+    </sql>
+     <select id="findByPage" resultType="com.ysttench.application.center.settings.kernel.entity.LogOperateFormMap">
+    select 
+    <include refid="selectId" />
+    FROM LOG_OPERATE
+    <if test="userName !='' and userName != null">
+      where USER_NAME like '%${userName}%'
+      OR METHOD like '%${userName}%'
+    </if>
+    <if test="column !=null and column != ''">
+      order by ${column} ${sort}
+    </if>
+    </select>
+	<insert id="addEntity">
+		insert into LOG_OPERATE (
+		<if test="userName != null">USER_NAME,</if>
+		<if test="module != null">MODULE,</if>
+		<if test="method != null">METHOD,</if>
+		<if test="actionTime != null">ACTION_TIME,</if>
+		<if test="userIpAddress != null">USER_IP_ADDRESS,</if>
+		<if test="description != null">DESCRIPTION</if>
+		)
+		values
+		(
+		<if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+		<if test="module != null">#{module,jdbcType=VARCHAR},</if>
+		<if test="method != null">#{method,jdbcType=VARCHAR},</if>
+		<if test="actionTime != null">#{actionTime,jdbcType=VARCHAR},</if>
+		<if test="userIpAddress != null">#{userIpAddress,jdbcType=VARCHAR},</if>
+		<if test="description != null">#{description,jdbcType=VARCHAR}</if>
+		)
+	</insert>
+</mapper>

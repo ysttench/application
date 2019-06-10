@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+body{
+    padding:0px 16px
+}
+
+select{
+    padding:0px 12px !important;
+}
+
+input[type="checkbox"]{
+    width:auto !important;
+    height:auto !important;
+}

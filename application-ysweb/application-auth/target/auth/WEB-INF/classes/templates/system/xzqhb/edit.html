@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/common :: copyCommon"></div>
+<head>
+<link rel="stylesheet" href="/css/dialog.css" th:href="@{/css/dialog.css}" />
+<script type="text/javascript" src="/js/system/xzqhb/edit.js" th:src="@{/js/system/xzqhb/edit.js}"></script>
+</head>
+<body style="background:white">
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/xzqhb/editEntity}" style="width:600px;">
+        <input type="hidden" th:value="${xzqhb.dzbm}" name="xzqhbFormMap.dzbm" id="dzbm" />
+        <div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+        <section class="panel panel-default">
+            <div class="form-group">
+                <label class="control-label">行政区划代码</label>
+                <input type="text" class="form-control checkDm" placeholder="请输入行政区划代码" name="xzqhbFormMap.dm" id="dm" th:value="${xzqhb.dm}" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">行政区划名称</label>
+                <input type="text" class="form-control checkMc" placeholder="请输入行政区划名称" name="xzqhbFormMap.mc" id="mc" th:value="${xzqhb.mc}" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">中文拼音</label>
+                <input type="text" class="form-control" placeholder="中文拼音" name="xzqhbFormMap.zwpy" id="zwpy" th:value="${xzqhb.zwpy}" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">备注说明</label>
+                <input type="text" class="form-control" placeholder="请输入角色描述" name="xzqhbFormMap.bz" id="bz" th:value="${xzqhb.bz}" />
+            </div>
+<!--             <div class="form-group"> -->
+<!--                 <label class="control-label">地址编码</label> -->
+<!--                 <input type="text" class="form-control" placeholder="请输入地址编码" name="xzqhbFormMap.dzbm" id="dzbm" th:value="${xzqhb.dzbm}" /> -->
+<!--             </div> -->
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+                <button type="button" class="btn btn-cansel btn-s-xs cancel">取消</button>
+            </footer>
+        </section>
+    </form>
+</body>
+</html>

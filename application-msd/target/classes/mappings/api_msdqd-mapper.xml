@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysttench.application.msd.settings.kernel.mapper.ApiMsdQDMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<select id="findMSDQDPage" resultType="com.ysttench.application.msd.settings.kernel.entity.ApiMsdQDFormMap">
+SELECT
+	msdmsg.MSD_NUM,
+	msdmsg.FLOT,
+	msdqd.ID,
+	msdqd.MATER_NUM,
+	msdqd.RESI_LIFE,
+	msdqd.TANK_TIME,
+	msdfl.MSD_TYPE,
+	msdfl.MSD_LEVEL,
+	msdfl.THICK,
+	msdqd.STATUS,
+	msdqd.REQUEST_STATUS,
+	msdfl.PM_RESISTANCE,
+	cab.ARK_NAME
+FROM
+	msdqd
+	LEFT JOIN msdmsg ON msdqd.MSD_ID = msdmsg.ID
+	LEFT JOIN msdfl ON msdmsg.MSDTYPE_ID = msdfl.ID
+	left join cab on msdqd.ARK_CODE = cab.ID
+	WHERE 1=1
+	<if test="msdNum != null and msdNum != ''">
+	AND msdmsg.MSD_NUM  LIKE '%${msdNum}%'
+	</if>
+	<if test="flot != null and flot != ''">
+	AND msdmsg.FLOT='${flot}'
+	</if>
+		<if test="arkType != null and arkType != ''">
+	AND cab.ARK_TYPE='${arkType}'
+	</if>
+	<if test="status != null and status != ''">
+	AND msdqd.STATUS='${status}'
+	</if>
+			<if test="where != null and where != ''">
+			${where}
+		</if>
+	<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findModbusMsg" resultType="com.ysttench.application.msd.settings.kernel.entity.ApiMsdQDFormMap">
+	SELECT
+	msdqd.ID,
+	msdqd.ARK_CODE,
+	c.IP,
+	c.PORT,
+	msdqd.REQUEST_STATUS,
+	msdqd.RESI_LIFE,
+	c.POINT,
+	c.ARK_CODE as ARK_CODEE,
+	b.IP AS LED_IP,
+	b.PORT AS LED_PORT,
+	b.POINT AS LED_POINT,
+	b.LED_PORT AS LED_BPORT
+FROM
+	msdqd
+	LEFT JOIN cab c ON msdqd.ARK_CODE = c.ID
+	LEFT JOIN cab b ON c.UP_CAB = b.ID 
+WHERE
+	msdqd.ID ='${id}'
+	</select>
+	<select id="findBrightElement" resultType="com.ysttench.application.msd.settings.kernel.entity.ApiMsdQDFormMap">
+	SELECT
+	msdqd.ID,
+	msdmsg.MSD_NUM,
+	msdmsg.FLOT,
+	msdqd.RESI_LIFE,
+	msdqd.TANK_TIME,
+	msdfl.MSD_TYPE,
+	msdfl.MSD_LEVEL,
+	msdfl.THICK,
+	msdfl.PM_RESISTANCE,
+	cab.ARK_NAME,
+	c.ARK_CODE AS GMCODE,
+	cab.ARK_CODE AS CACODE
+FROM
+	msdqd
+	LEFT JOIN msdmsg ON msdqd.MSD_ID = msdmsg.ID
+	LEFT JOIN msdfl ON msdmsg.MSDTYPE_ID = msdfl.ID
+	LEFT JOIN cab on msdqd.ARK_CODE = cab.ARK_CODE
+	LEFT JOIN cab c on cab.SECOND_ID = c.ID
+	<if test="requestStatus != null and requestStatus !=''">
+	WHERE msdqd.REQUEST_STATUS='${requestStatus}'
+	</if>
+	</select>
+	<update id="editRequestStatus" parameterType="com.ysttench.application.msd.settings.kernel.entity.ApiMsdQDFormMap">
+	update msdqd set
+	<if test="requestStatus != null and requestStatus !=''">REQUEST_STATUS=#{requestStatus,jdbcType=VARCHAR},</if>
+	<if test="arkCode != null and arkCode !=''">ARK_CODE=#{arkCode,jdbcType=VARCHAR}</if>
+	WHERE ID=#{id}
+	</update>
+</mapper>

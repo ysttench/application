@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/common :: copyCommon"></head>
+<script type="text/javascript" src="../static/js/api/excel/add.js" th:src="@{/js/api/excel/add.js}"></script>
+<div class="l_err" style="width: 100%; margin-top: 2px;"></div>
+    <form id="form" name="form" class="form-horizontal" method="post" th:action="@{/excel/addEntity}" enctype="multipart/form-data" >
+        <section class="panel panel-default">
+            <div class="panel-body" style="margin-right: 15px">
+                 <div class="form-group">
+                    <label class="control-label">excel：</label> <a href="javascrip:;" class="a-upload "><input type="file" name="file" class="form-control uploadFile" /></a>
+                </div></div>
+            <footer class="panel-footer text-right bg-light lter">
+                <button type="submit" class="btn btn-success btn-s-xs">提交</button>
+            </footer>
+        </section>
+    </form>
+    <script type="text/javascript">
+        onloadurl();
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ysttench.application.htbw.settings.kernel.mapper.EquipmentMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		ID,
+		EQUIPMENT_NUM,
+		EQUIPMENT_NAME,
+		EQUIPMENT_IP,
+		MONITOR,
+		CHECK_DATE,
+		ALARM_MIN_TEMPERATURE,
+		ALARM_MIN_HUMIDITY,
+		ALARM_MAX_TEMPERATURE,
+		ALARM_MAX_HUMIDITY,
+		WS_PORT,
+		IMPORT,
+		EQUIPTYPE_ID,
+		ENABLE_STATUS,
+		(
+		SELECT
+		group_concat( USER_NAME )
+		FROM
+		SYS_USER
+		WHERE
+		SYS_USER.DELETE_STATUS = '0'
+		AND SYS_USER.USER_ID IN (
+		SELECT USER_ID
+		FROM EQUIPMENT_USER WHERE
+		EQUIPMENT_ID = EQUIPMENT.ID )
+		) USER_NAME,
+		(
+		SELECT REGIONAL.NAME FROM REGIONAL WHERE REGIONAL.ID =
+		EQUIPMENT.DOMAIN ) DOMAIN_NAME,
+		( SELECT EQUIPTYPE.EQUIPTYPE_NAME FROM
+		EQUIPTYPE WHERE EQUIPTYPE.ID =
+		EQUIPMENT.EQUIPTYPE_ID ) EQUIPTYPE_NAME
+	</sql>
+	<select id="findEquipPage"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentFormMap">
+		SELECT
+		<include refid="selectId"></include>
+		FROM
+		EQUIPMENT
+		WHERE 1=1
+		<if test="checkValue != null and checkValue != ''">
+			AND (EQUIPMENT_NAME LIKE '%${checkValue}%' OR
+			EQUIPMENT_NUM LIKE '%${checkValue}%')
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findDetail"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentFormMap">
+		SELECT
+		e.*,
+		a.`NAME` AS DOMAIN_VAL,
+		b.`NAME` AS UPDOMAIN_VAL,
+		b.ID AS UPDOMAIN,
+		EQUIPTYPE.EQUIPTYPE_NAME
+		FROM
+		EQUIPMENT e
+		LEFT JOIN
+		REGIONAL a ON a.ID = e.DOMAIN
+		LEFT JOIN REGIONAL b ON a.PARENT_ID =
+		b.ID
+		LEFT JOIN EQUIPTYPE ON E.EQUIPTYPE_ID = EQUIPTYPE.ID
+		WHERE
+		e.ID='${id}'
+	</select>
+	<select id="findJkMsg"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentMsgFormMap">
+		SELECT
+		EQUIPMENT_MSG.*,EQUIPMENT.EQUIPMENT_NAME,EQUIPMENT.EQUIPMENT_NUM
+		FROM
+		EQUIPMENT_MSG
+		LEFT JOIN EQUIPMENT ON
+		EQUIPMENT_MSG.EQUIPMENT_ID =
+		EQUIPMENT.ID
+		<if test="checkValue != null and checkValue != ''">
+			WHERE (EQUIPMENT.EQUIPMENT_NAME LIKE '%${checkValue}%' OR
+			EQUIPMENT.EQUIPMENT_NUM LIKE '%${checkValue}%')
+		</if>
+		<if test="column != null">
+			order by ${column} ${sort}
+		</if>
+	</select>
+	<select id="findChangeCurv"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentMsgFormMap">
+SELECT
+	EQUIPMENT_MSG.*,
+	EQUIPMENT_MSG.TEMP_VALUE AS TEM_VALUE,
+	EQUIPMENT.ALARM_MIN_TEMPERATURE,
+	EQUIPMENT.ALARM_MIN_HUMIDITY,
+	EQUIPMENT.ALARM_MAX_TEMPERATURE,
+	EQUIPMENT.ALARM_MAX_HUMIDITY 
+FROM
+	EQUIPMENT_MSG 
+	LEFT JOIN EQUIPMENT ON EQUIPMENT_MSG.EQUIPMENT_ID = EQUIPMENT.ID
+WHERE
+	DATE > DATE_SUB( NOW( ), INTERVAL 720 MINUTE )
+AND EQUIPMENT_MSG.EQUIPMENT_ID='${equipmentId}'
+		ORDER BY DATE ASC
+	</select>
+	<select id="getWitchMsg"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.WitchFormMap">
+		SELECT WITCH.*,EQUIPMENT.EQUIPMENT_NAME FROM WITCH LEFT JOIN EQUIPMENT ON
+		WITCH.EQUIPMENT_ID = EQUIPMENT.ID
+	</select>
+	<select id="findbtemChangeCurv"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentFormMap">
+		SELECT
+		date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ' ) AS DATE,
+		TRUNCATE ( SUM( temperature.TEMP_VALUE ) / count( * ), 3 ) AS VALUE
+		FROM
+		temperature
+		WHERE
+		to_days( temperature.TEMP_DATE ) = to_days( now( ) )
+		AND EQUIPMENT_ID = '${id}'
+		GROUP BY
+		date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ' )
+		ORDER BY date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ') ASC
+	</select>
+	<select id="findbhumChangeCurv"
+		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentFormMap">
+		SELECT
+		date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ' ) AS DATE,
+		TRUNCATE ( SUM( huimdty.HUM_VALUE ) / count( * ), 3 ) AS VALUE
+		FROM
+		huimdty
+		WHERE
+		to_days( huimdty.HUM_DATE ) = to_days( now( ) )
+		AND EQUIPMENT_ID = '${id}'
+		GROUP BY
+		date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ')
+		ORDER BY date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ') ASC
+	</select>
+</mapper>
