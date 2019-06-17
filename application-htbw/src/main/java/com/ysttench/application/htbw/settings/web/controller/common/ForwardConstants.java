@@ -37,6 +37,7 @@ public class ForwardConstants {
 	public static final String EQUIPMENTJK = "/equipmentjk";
 	public static final String MONTORT = "/montort";
 	public static final String MONTOR = "/montor";
+	public static final String WITCH = "/witch";
     /** 重定向  */
     public static String REDIRECT = "redirect:";
     /** 迁移到登陆画面*/

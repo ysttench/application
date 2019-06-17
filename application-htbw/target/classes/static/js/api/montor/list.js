@@ -1,13 +1,23 @@
 $(function() {
+	var highestTimeoutId = setTimeout(";");
+	 for (var i = 0 ; i < highestTimeoutId ; i++) {
+	   clearTimeout(i); 
+	 }
 	getalldomain();
 	showpic();
-    setInterval(function(){
-		showpic();
-	},60000);
+	timerFun1()
     $("#doc-buttons").change("change", function() {// 绑定查询按扭
     	showpic();
     });
 })
+function timerFun1(){
+	  //要执行的操作
+	  var timer1=setTimeout(function(){
+	  showpic();
+	  timerFun1();
+	  clearTimeout(timer1)
+	  },60000)
+	}
 function getalldomain(){
 	var html="<option value='all' selected='selected'>全部区域</option>";
 	$.ajax({

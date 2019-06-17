@@ -10,7 +10,6 @@
         ROLE_ID,
         STATE,
         NAME,
-        ROLE_KEY,
         CREATE_TIME,
         DESCRIPTION
     </sql>

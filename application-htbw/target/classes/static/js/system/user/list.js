@@ -29,7 +29,7 @@ $(function() {
             width : '90px',
             isSort : true,
             renderData : function(rowindex, data, rowdata, column) {
-                if (data == "0") {
+                if (data == "1") {
                     return "<font color=green>启用</font>";
                 } else {
                     return "<font color=red>禁用</font>";

@@ -30,22 +30,12 @@
                     <input type="text" class="form-control" placeholder="默认密码为:123456" name="sysUserFormMap.password" th:value="${user.password}" id="password" />
                 </div>
                 <!-- <div class="line line-dashed line-lg pull-in"></div> -->
-<!--                 <div class="form-group">
-                    <label class="control-label">警号：</label> 
-                    <input type="text" class="form-control " placeholder="请输入警号" th:value="${user.policeId}" name="sysUserFormMap.policeId" id="policeId" readonly="readonly" />
-                </div> -->
-<!--                 <div class="form-group">
-                    <label class="control-label">所属部门</label> 
-                    <input type="hidden" name="sysUserFormMap.departmentId" id="parentId" class="deptcode" th:value="${user.departmentId}" th:attr="data-name=${user.deptName}"/>
-                    <input type="text" placeholder="请选择上级部门" class="deptcode" id="deptcodeText" th:value="${user.deptName}"/>
-                </div> -->
-                <!-- <div class="line line-dashed line-lg pull-in"></div> -->
                 <div id="selGroup" th:attr="data-url=@{/role/selRole?sysRoleFormMap.userId=} + ${user.userId}"></div>
                 <!-- <div class="line line-dashed line-lg pull-in"></div> -->
                 <div class="form-group">
                     <label class="control-label">账号状态:</label> <select class="form=-control" data-requireed="true" name="sysUserFormMap.locked" id="locked">
-                        <option value="0" th:selected="${user.locked eq '0'}">启用</option>
-                        <option value="1" th:selected="${user.locked eq '1'}">禁用</option>
+                        <option value="1" th:selected="${user.locked eq 1}">启用</option>
+                        <option value="0" th:selected="${user.locked eq 0}">禁用</option>
                     </select>
                 </div>
                 <div class="line line-dashed line-lg pull-in"></div>

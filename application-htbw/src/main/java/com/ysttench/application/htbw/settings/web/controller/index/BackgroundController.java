@@ -48,8 +48,8 @@ public class BackgroundController extends BaseController {
 
     @Inject
     private LogUserLoginMapper logUserLoginMapper;
-	@Inject
-	private SysSystemMapper sysSystemMapper;
+    @Inject
+    private SysSystemMapper sysSystemMapper;
     @Inject
     private SysUserMapper sysUserMapper;
 
@@ -73,7 +73,7 @@ public class BackgroundController extends BaseController {
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
-    public String login(HttpServletRequest request,Model model) {
+    public String login(HttpServletRequest request, Model model) {
 	request.removeAttribute("error");
 	model.addAttribute("system", sysSystemMapper.findbyFrist("id", "1", SysSystemForMap.class));
 	return ForwardConstants.LOGIN;
@@ -88,21 +88,21 @@ public class BackgroundController extends BaseController {
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
-    public String login(String username, String password, HttpServletRequest request,Model model) {
+    public String login(String username, String password, HttpServletRequest request, Model model) {
 	try {
 	    SysSystemForMap map = sysSystemMapper.findbyFrist("id", "1", SysSystemForMap.class);
 	    model.addAttribute("system", map);
 	    if (!"POST".equals(request.getMethod())) {
 		request.setAttribute(AttrConstants.ERROR, "支持POST方法提交！");
 	    }
-	    if (StringUtil.isEmpty(username) || StringUtil.isEmpty(password)) {  
+	    if (StringUtil.isEmpty(username) || StringUtil.isEmpty(password)) {
 		request.setAttribute(AttrConstants.ERROR, "用户名或密码不能为空！");
 		return ForwardConstants.LOGIN;
 	    }
 	    String[] s = encrypt.decoder(map.getStr("flag")).split(",");
 	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    Date currentTime = new Date();
-	    Date jhdate =formatter.parse(s[1]);
+	    Date jhdate = formatter.parse(s[1]);
 	    if (currentTime.getTime() > jhdate.getTime()) {
 		request.setAttribute(AttrConstants.ERROR, "请激活系统再登陆！");
 		return ForwardConstants.LOGIN;

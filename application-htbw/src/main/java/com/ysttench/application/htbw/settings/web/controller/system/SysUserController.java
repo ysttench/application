@@ -25,6 +25,7 @@ import com.ysttench.application.common.annotation.SystemLog;
 import com.ysttench.application.common.exception.SystemException;
 import com.ysttench.application.common.plugin.PageView;
 import com.ysttench.application.common.server.SessionUtil;
+import com.ysttench.application.common.util.DatetimeUtil;
 import com.ysttench.application.common.util.JsonUtils;
 import com.ysttench.application.common.util.StringUtil;
 import com.ysttench.application.common.util.encrypt.Encrypt;
@@ -44,11 +45,6 @@ import com.ysttench.application.htbw.settings.web.controller.index.BaseControlle
 @Controller
 @RequestMapping("/user/")
 public class SysUserController extends BaseController {
-    static String admin = "admin";
-    static String username = "userName";
-    static String password = "password";
-    static String locked = "locked";
-    static String lockvalue = "1";
     @Inject
     private SysUserMapper sysUserMapper;
     @Inject
@@ -68,7 +64,7 @@ public class SysUserController extends BaseController {
         userFormMap = toFormMap(userFormMap, pageNow, pageSize, userFormMap.getStr("orderby"));
         userFormMap.put("column", StringUtil.prop2tablefield(column));
         userFormMap.put("sort", sort);
-        if (!admin.equals(((SysUserFormMap) SessionUtil.getUserSession()).getStr(username))) {
+        if (!"admin".equals(((SysUserFormMap) SessionUtil.getUserSession()).getStr("userName"))) {
             userFormMap.put("where", " and USER_NAME <> 'admin'");
         }
         // 不调用默认分页,调用自已的mapper中findUserPage
@@ -96,7 +92,7 @@ public class SysUserController extends BaseController {
 
         List<SysUserFormMap> lis = sysUserMapper.findUserPage(userFormMap);
         for (SysUserFormMap sysUserFormMap : lis) {
-            if(sysUserFormMap.getStr("locked").equals("0")){
+            if(sysUserFormMap.get("locked").toString().equals("0")){
                 sysUserFormMap.put("locked", "可用");
             }else{
                 sysUserFormMap.put("locked", "禁用");
@@ -181,11 +177,12 @@ public class SysUserController extends BaseController {
             } else {
                 SysUserFormMap sysUserFormMap = getFormMap(SysUserFormMap.class);
                 sysUserFormMap.put("txtGroupsSelect", txtGroupsSelect);
-                if (sysUserFormMap.getStr(password) != null || !"".equals(sysUserFormMap.getStr(password))) {
+                if (sysUserFormMap.getStr("password") != null || !"".equals(sysUserFormMap.getStr("password"))) {
                     sysUserFormMap.set("password", "123456");
                 }
                 sysUserFormMap.put("password", encrypt.encoder(sysUserFormMap.getStr("password")));
                 // 新增后返回新增信息
+                sysUserFormMap.put("createTime", DatetimeUtil.getDate());
                 sysUserMapper.addEntity(sysUserFormMap);
                 if (!StringUtil.isEmpty(txtGroupsSelect)) {
                     String[] txt = txtGroupsSelect.split(",");
@@ -272,13 +269,14 @@ public class SysUserController extends BaseController {
             return mytxtGroupsSelect;
         } else {
             SysUserFormMap userFormMap = getFormMap(SysUserFormMap.class);
-            if (userFormMap.get(locked).equals(lockvalue)) {
+            if (userFormMap.get("locked").equals("1")) {
                 String id = userFormMap.get("userId").toString();
                 if (id.equals(SessionUtil.getUserIdSession())) {
                     return AttrConstants.FAIL;
                 }
             }
             userFormMap.put("txtGroupsSelect", txtGroupsSelect);
+            userFormMap.put("password", encrypt.encoder(userFormMap.getStr("password")));
             sysUserMapper.editEntity(userFormMap);
             sysUserRoleMapper.deleteByAttribute("userId", userFormMap.getStr("userId"), SysUserRoleFormMap.class);;
             if (!StringUtil.isEmpty(txtGroupsSelect)) {

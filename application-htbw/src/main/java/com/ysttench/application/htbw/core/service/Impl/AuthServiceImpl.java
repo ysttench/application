@@ -152,7 +152,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String getWarnMsg(String checkValue,String time) {
+    public String getWarnMsg(String checkValue, String time) {
 	ResponseDto responseDto = new ResponseDto();
 	try {
 	    WarnMsgFormMap warnMsgFormMap = new WarnMsgFormMap();
@@ -269,84 +269,11 @@ public class AuthServiceImpl implements AuthService {
     public String monitor() {
 	ResponseDto responseDto = new ResponseDto();
 	try {
-	    List<EquipmentFormMap> list = new ArrayList<EquipmentFormMap>();
-	    if (socketlist.size() == 0) {
-		responseDto.setErrcode("1");
-		responseDto.setErrmsg("暂未设备监控或设备监控已断开");
-	    } else {
-		for (SocketClient socketClient : socketlist) {
-		    EquipmentFormMap map = new EquipmentFormMap();
-		    int temLimit = Integer.parseInt(socketClient.getTemLimt());
-		    int humLimit = Integer.parseInt(socketClient.getHumLimit());
-		   // int volLimit = Integer.parseInt(socketClient.getVolLimit());
-		    Socket socket = socketClient.getSocket();
-		    map.put("equipmentId", socketClient.getEquipmentId());
-		    map.put("equipmentNum", socketClient.getEquipmentNum());
-		    map.put("equipmentName", socketClient.getEquipmentName());
-		    map.put("alarmMaxHumidity", socketClient.getAlarmMaxHumidity());
-		    map.put("alarmMaxTemperature", socketClient.getAlarmMaxTemperature());
-		    map.put("alarmMinHumidity", socketClient.getAlarmMinHumidity());
-		    map.put("alarmMinTemperature", socketClient.getAlarmMinTemperature());
-		    map.put("domainName", socketClient.getDomainName());
-		    if ("0".equals(socketClient.getStatus())) {
-			try {
-			    socket.setKeepAlive(true);
-			    socket.setSoTimeout(10);
-			    socket.sendUrgentData(0xFF);
-			    InputStream inputStream = socket.getInputStream();
-			    Double tempValue = 0.0;
-			    Double humValue = 0.0;
-			    String s = null;
-			    byte[] buffer = new byte[1024];
-			    inputStream.read(buffer);
-			    if ("F149".equals(socketClient.getEquiptypeName())
-				    || "F249".equals(socketClient.getEquiptypeName())
-				    || "CP09U".equals(socketClient.getEquiptypeName())
-				    || "F349".equals(socketClient.getEquiptypeName())) {
-				String msg = Jzchange.BinaryToHexString(buffer);
-				String msgs = msg.substring(msg.indexOf("ABAB"), msg.length());
-				s = msgs.substring(0, msgs.indexOf("0D0A") + 4);
-				if (!StringUtil.isEmpty(s)) {
-				    tempValue = Jzchange
-					    .HexStringToDecimal(s.substring(2 * temLimit, 2 * temLimit + 4));
-				    humValue = Jzchange.HexStringToDecimal(s.substring(2 * humLimit, 2 * humLimit + 4));
-				}
-			    } else if("HT-2".equals(socketClient.getEquiptypeName())) {
-				s = Jzchange.hexStr2Str(Jzchange.BinaryToHexString(buffer));
-				if (!StringUtil.isEmpty(s)) {
-				    tempValue = Double
-					    .parseDouble(s.substring(s.indexOf("temp") + 5, s.indexOf("&humi")));
-				    humValue = Double
-					    .parseDouble(s.substring(s.indexOf("humi") + 5, s.indexOf("&Time")));
-				}
-			    }
-			    if (tempValue != 0.0 && humValue != 0.0) {
-				map.put("tempValue", tempValue);
-				map.put("humValue", humValue);
-				map.put("status", "0");
-				list.add(map);
-			    }
-			} catch (Exception e) {
-			    map.put("tempValue", "");
-			    map.put("humValue", "");
-			    map.put("volValue", "");
-			    map.put("status", "1");
-			    list.add(map);
-			    continue;
-			}
-		    } else {
-			map.put("tempValue", "");
-			map.put("humValue", "");
-			map.put("volValue", "");
-			map.put("status", "1");
-			list.add(map);
-		    }
-		}
-		responseDto.setErrcode("0");
-		responseDto.setErrmsg("获取信息成功");
-		responseDto.setResponseObject(list);
-		System.out.println(list);
-	    }
+	    List<EquipmentMsgFormMap> list = equipmentMapper.findJkMsg(new EquipmentMsgFormMap());
+	    responseDto.setErrcode("0");
+	    responseDto.setErrmsg("获取信息成功");
+	    responseDto.setResponseObject(list);
+	    System.out.println(list);
 	} catch (Exception e) {
 	    responseDto.setErrcode("1");
 	    responseDto.setErrmsg("获取信息异常");

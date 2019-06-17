@@ -2,13 +2,12 @@ package com.ysttench.application.htbw;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.xml.ws.Endpoint;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.transport.servlet.CXFServlet;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,10 +16,10 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
 import com.ysttench.application.htbw.core.service.AuthService;
 import com.ysttench.application.htbw.core.service.Impl.AuthServiceImpl;
 import com.ysttench.application.htbw.settings.web.filter.CheckSessionOutFilter;
+import com.ysttench.application.htbw.settings.web.socket.SocketServer;
 /**
  * 启动文件
  * @author Howard
@@ -38,6 +37,9 @@ public class Application extends SpringBootServletInitializer {
         set.add("classpath:spring-mvc.xml");
         app.setSources(set);
         app.run(args);
+      //起socket服务
+      	SocketServer server = new SocketServer();
+      	server.startSocketServer(8089);
     }
 
     @Override

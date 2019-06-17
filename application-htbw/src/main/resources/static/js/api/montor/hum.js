@@ -17,7 +17,6 @@ function hum(id,equipmentNum,equipmentName){
             var humdata = new Array();
             var minhum = new Array();
             var maxhum = new Array();
-            debugger
             $.each(obj, function(i, n) {
             	temdata.push(n.tempValue);
             	time.push(new Date(n.date).format("dd hh:mm").toLocaleString());
@@ -89,7 +88,6 @@ function hum(id,equipmentNum,equipmentName){
         	        }
         	    ]
         	};
-            debugger
         var chart = echarts.init(document.getElementById(equipmentNum));
         option.xAxis.data = time;
         option.series[0].data = temdata;

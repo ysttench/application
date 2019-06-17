@@ -41,7 +41,7 @@ public String listUI() {
 	EquipmentMsgFormMap formMap = getFormMap(EquipmentMsgFormMap.class);
 	formMap = toFormMap(formMap, pageNow, pageSize, formMap.getStr("orderby"));
 	if (StringUtil.isEmpty(column)) {
-	    formMap.put("column", "date");
+	    formMap.put("column", "EQUIPMENT_NUM");
 	    formMap.put("sort", "desc"); 
 	}else {
 	    formMap.put("column", StringUtil.prop2tablefield(column));

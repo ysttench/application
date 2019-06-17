@@ -1,6 +1,5 @@
 package com.ysttench.application.htbw.settings.web.controller.api;
 
-import java.io.InputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ import com.ysttench.application.htbw.settings.kernel.entity.EquiptypeFormMap;
 import com.ysttench.application.htbw.settings.kernel.entity.RegionalFormMap;
 import com.ysttench.application.htbw.settings.kernel.entity.WitchFormMap;
 import com.ysttench.application.htbw.settings.kernel.mapper.EquipmentMapper;
+import com.ysttench.application.htbw.settings.kernel.mapper.EquipmentMsgMapper;
 import com.ysttench.application.htbw.settings.kernel.mapper.EquipmentUserMapper;
 import com.ysttench.application.htbw.settings.kernel.mapper.EquiptypeMapper;
 import com.ysttench.application.htbw.settings.kernel.mapper.RegionalMapper;
@@ -44,6 +44,8 @@ import com.ysttench.application.htbw.settings.web.listener.InitMapperListener;
 public class EquipmentController extends BaseController {
     @Inject
     private EquipmentMapper equipmentMapper;
+    @Inject
+    private EquipmentMsgMapper equipmentMsgMapper;
     @Inject
     private EquipmentUserMapper equipmentUserMapper;
     @Inject
@@ -350,71 +352,23 @@ public class EquipmentController extends BaseController {
 	List<EquipmentFormMap> list = equipmentMapper.findByWhere(equipmentFormMap);
 	for (EquipmentFormMap map : list) {
 	    EquipmentFormMap emap = new EquipmentFormMap();
-	    EquiptypeFormMap typemap = equiptypeMapper.findbyFrist("id", map.get("equiptypeId").toString(),
-		    EquiptypeFormMap.class);
-	    int temLimit = Integer.parseInt(typemap.getStr("temLimit"));
-	    int humLimit = Integer.parseInt(typemap.getStr("humLimit"));
-	    String equipmentId = map.get("id").toString();
-	    if (socketlist.size() != 0) {
-		for (SocketClient client : socketlist) {
-		    if (equipmentId.equals(client.getEquipmentId())) {
-			emap.put("equipmentNum", map.get("equipmentNum").toString());
-			emap.put("equipmentName", map.get("equipmentName").toString());
-			emap.put("time", DatetimeUtil.getDate());
-			if ("0".equals(client.getStatus())) {
-			    try {
-				Socket socket = client.getSocket();
-				socket.setKeepAlive(true);
-				socket.setSoTimeout(10);
-				socket.sendUrgentData(0xFF);
-				InputStream inputStream = socket.getInputStream();
-				Double tempValue = 0.0;
-				Double humValue = 0.0;
-				String s = null;
-				byte[] buffer = new byte[1024];
-				inputStream.read(buffer);
-				if ("F149".equals(client.getEquiptypeName()) || "F249".equals(client.getEquiptypeName())|| "CP09U".equals(client.getEquiptypeName())
-					|| "F349".equals(client.getEquiptypeName())) {
-				    String msg = Jzchange.BinaryToHexString(buffer);
-				    String msgs = msg.substring(msg.indexOf("ABAB"), msg.length());
-				    s = msgs.substring(0, msgs.indexOf("0D0A") + 4);
-				    if (!StringUtil.isEmpty(s)) {
-					tempValue = Jzchange
-						.HexStringToDecimal(s.substring(2 * temLimit, 2 * temLimit + 4));
-					humValue = Jzchange
-						.HexStringToDecimal(s.substring(2 * humLimit, 2 * humLimit + 4));
-				    }
-				} else if("HT-2".equals(client.getEquiptypeName())) {
-				    s = Jzchange.hexStr2Str(Jzchange.BinaryToHexString(buffer));
-				    if (!StringUtil.isEmpty(s)) {
-					tempValue = Double
-						.parseDouble(s.substring(s.indexOf("temp") + 5, s.indexOf("&humi")));
-					humValue = Double
-						.parseDouble(s.substring(s.indexOf("humi") + 5, s.indexOf("&Time")));
-				    }
-				}
-				if (tempValue != 0.0 && humValue != 0.0) {
-				    emap.put("echartValue", tempValue);
-				    emap.put("rhechartValue", humValue);
-				    emap.put("status", "0");
-				    showlist.add(emap);
-				}
-			    } catch (Exception e) {
-				emap.put("status", "1");
-				emap.put("echartValue", "");
-				emap.put("rhechartValue", "");
-				showlist.add(emap);
-				continue;
-			    }
-			} else {
-			    emap.put("status", "1");
-			    emap.put("echartValue", "");
-			    emap.put("rhechartValue", "");
-			    showlist.add(emap);
-			}
-		    }
-		}
+	    emap.put("equipmentNum", map.get("equipmentNum").toString());
+	    emap.put("equipmentName", map.get("equipmentName").toString());
+	    EquipmentMsgFormMap msg = new EquipmentMsgFormMap();
+	    msg.put("where", "where EQUIPMENT_ID='"+map.get("id").toString()+"' ORDER BY DATE DESC");
+	    List<EquipmentMsgFormMap> msglist = equipmentMsgMapper.findByWhere(msg);
+	    msg= msglist.get(0);
+	    emap.put("time", msg.get("date").toString());
+	    if (msg.get("tempValue") != null && msg.get("humValue")!= null) {
+		emap.put("status", "0");
+		emap.put("echartValue", msg.get("tempValue").toString());
+		emap.put("rhechartValue", msg.get("humValue").toString());
+	    }else {
+		emap.put("status", "1");
+		emap.put("echartValue", "");
+		emap.put("rhechartValue", "");
 	    }
+	    showlist.add(emap);
 	}
 	return showlist;
 

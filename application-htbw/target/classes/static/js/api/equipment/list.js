@@ -1,7 +1,6 @@
 var pageii = null;
 var grid = null;
 $(function() {
-
 	grid = lyGrid({
 		pagId : 'paging',
 		height : '100%', // 表格宽度

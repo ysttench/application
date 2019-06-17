@@ -2,36 +2,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
+import com.ysttench.application.htbw.core.rdto.Jzchange;
+
 public class SocketTest {
     public static void main(String[] args)
-	    throws Exception {/*
-			       * Socket socket = new Socket("192.168.1.19", 24); Timer timer = new Timer();
-			       * timer.scheduleAtFixedRate(new TimerTask() {
-			       * 
-			       * @Override public void run() { InputStream inputStream; try { inputStream =
-			       * socket.getInputStream(); byte[] buffer = new byte[1024];
-			       * inputStream.read(buffer); String s = BinaryToHexString(buffer);
-			       * System.out.println(s); Double tempValue = HexStringToDecimal(s.substring(4,
-			       * 8)); Double humValue = HexStringToDecimal(s.substring(10, 14));
-			       * System.out.println(DatetimeUtil.getDate()+"   "+tempValue + "   " +
-			       * humValue); } catch (Exception e) { e.printStackTrace(); } } }, 1000, 60000);
-			       */
-
+	    throws Exception {
+	Jzchange Jzchange = new Jzchange();
 	try {
 	    // 17 8888 ;19 24 ;12 23;
-	    Socket socket = new Socket("192.168.1.18", 23);
-	    byte[] n = { 0x0, 0x0, 0x0, 0x6, 0x0, 0x1, 0x0, 0x0, 0x0, 0x1, 0x2, 0xC};
-	    socket.getOutputStream().write(n);
-	    socket.getOutputStream().flush();
-	    InputStream inputStream = socket.getInputStream();
-	    byte[] buffer = new byte[1024];
-	    inputStream.read(buffer);
-	    System.out.println(BinaryToHexString(buffer));
-	    String msg = BinaryToHexString(buffer);
-	    String msgs = msg.substring(msg.indexOf("ABAB"), msg.length());
-	    String s = msgs.substring(0, msgs.indexOf("0D0A") + 4);
-	    System.out.println(HexStringToDecimal(s.substring(4, 8)));
-	    System.out.println(HexStringToDecimal(s.substring(8, 12)));
+	    Socket socket = new Socket("192.168.1.18", 8899);
+	    byte[] tem = { (byte) 0x01, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x00,
+			(byte) 0x01, (byte) 0xD4, (byte) 0x36 };
+		socket.getOutputStream().write(tem);
+		socket.getOutputStream().flush();
+		InputStream inputStream = socket.getInputStream();
+		byte[] buffer = new byte[7];
+		inputStream.read(buffer);
+		String s1 = Jzchange.BinaryToHexString(buffer);
+		double tempValue = Jzchange.HexStringToDecimal(s1.substring(6, 10));
+		System.out.println(tempValue);
+		byte[] hum = { (byte) 0x01, (byte) 0x03, (byte) 0x01, (byte) 0x00, (byte) 0x00,
+			(byte) 0x01, (byte) 0x85, (byte) 0xF6 };
+		socket.getOutputStream().write(hum);
+		socket.getOutputStream().flush();
+		InputStream inputStream2 = socket.getInputStream();
+		byte[] buffer2 = new byte[7];
+		inputStream2.read(buffer2);
+		String s2 = Jzchange.BinaryToHexString(buffer2);
+		double humValue = Jzchange.HexStringToDecimal(s2.substring(6, 10));
+		System.out.println(humValue);
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

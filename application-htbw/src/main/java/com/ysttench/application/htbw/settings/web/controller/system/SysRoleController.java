@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ysttench.application.common.annotation.SystemLog;
 import com.ysttench.application.common.plugin.PageView;
 import com.ysttench.application.common.server.SessionUtil;
+import com.ysttench.application.common.util.DatetimeUtil;
 import com.ysttench.application.common.util.StringUtil;
 import com.ysttench.application.htbw.settings.kernel.entity.SysRoleFormMap;
 import com.ysttench.application.htbw.settings.kernel.entity.SysUserFormMap;
@@ -74,6 +75,7 @@ public class SysRoleController extends BaseController {
     /** 凡需要处理业务逻辑的.都需要记录操作日志*/
     public String addEntity() throws Exception {
         SysRoleFormMap sysRoleFormMap = getFormMap(SysRoleFormMap.class);
+        sysRoleFormMap.put("createTime", DatetimeUtil.getDate());
         sysRoleMapper.addEntity(sysRoleFormMap);
         return AttrConstants.SUCCESS;
     }
@@ -110,6 +112,7 @@ public class SysRoleController extends BaseController {
     /** 凡需要处理业务逻辑的.都需要记录操作日志*/
     public String editEntity() throws Exception {
         SysRoleFormMap sysRoleFormMap = getFormMap(SysRoleFormMap.class);
+        sysRoleFormMap.put("createTime", DatetimeUtil.getDate());
         sysRoleMapper.editEntity(sysRoleFormMap);
         return AttrConstants.SUCCESS;
     }

@@ -78,68 +78,94 @@
 	<select id="findJkMsg"
 		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentMsgFormMap">
 		SELECT
-		EQUIPMENT_MSG.*,EQUIPMENT.EQUIPMENT_NAME,EQUIPMENT.EQUIPMENT_NUM
+		a.*,
+		d.`NAME` AS DOMAIN_NAME,
+		c.EQUIPMENT_NUM,
+		c.EQUIPMENT_NAME,
+		c.ALARM_MIN_HUMIDITY,
+		c.ALARM_MAX_HUMIDITY,
+		c.ALARM_MIN_TEMPERATURE,
+		c.ALARM_MAX_TEMPERATURE
 		FROM
-		EQUIPMENT_MSG
-		LEFT JOIN EQUIPMENT ON
-		EQUIPMENT_MSG.EQUIPMENT_ID =
-		EQUIPMENT.ID
+		equipment_msg AS a,
+		( SELECT max( DATE ) AS DATE FROM equipment_msg GROUP BY
+		equipment_msg.EQUIPMENT_ID ) AS b,
+		equipment AS c,
+		regional AS d
+		WHERE
+		a.DATE = b.DATE
+		AND a.EQUIPMENT_ID = c.ID
+		AND c.DOMAIN = d.ID
 		<if test="checkValue != null and checkValue != ''">
-			WHERE (EQUIPMENT.EQUIPMENT_NAME LIKE '%${checkValue}%' OR
-			EQUIPMENT.EQUIPMENT_NUM LIKE '%${checkValue}%')
+			AND (c.EQUIPMENT_NAME LIKE '%${checkValue}%' OR
+			c.EQUIPMENT_NUM LIKE '%${checkValue}%')
 		</if>
+		GROUP BY
+		a.EQUIPMENT_ID
 		<if test="column != null">
 			order by ${column} ${sort}
 		</if>
 	</select>
 	<select id="findChangeCurv"
 		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentMsgFormMap">
-SELECT
-	EQUIPMENT_MSG.*,
-	EQUIPMENT_MSG.TEMP_VALUE AS TEM_VALUE,
-	EQUIPMENT.ALARM_MIN_TEMPERATURE,
-	EQUIPMENT.ALARM_MIN_HUMIDITY,
-	EQUIPMENT.ALARM_MAX_TEMPERATURE,
-	EQUIPMENT.ALARM_MAX_HUMIDITY 
-FROM
-	EQUIPMENT_MSG 
-	LEFT JOIN EQUIPMENT ON EQUIPMENT_MSG.EQUIPMENT_ID = EQUIPMENT.ID
-WHERE
-	DATE > DATE_SUB( NOW( ), INTERVAL 720 MINUTE )
-AND EQUIPMENT_MSG.EQUIPMENT_ID='${equipmentId}'
+		SELECT
+		EQUIPMENT_MSG.*,
+		EQUIPMENT_MSG.TEMP_VALUE AS
+		TEM_VALUE,
+		EQUIPMENT.ALARM_MIN_TEMPERATURE,
+		EQUIPMENT.ALARM_MIN_HUMIDITY,
+		EQUIPMENT.ALARM_MAX_TEMPERATURE,
+		EQUIPMENT.ALARM_MAX_HUMIDITY
+		FROM
+		EQUIPMENT_MSG
+		LEFT JOIN EQUIPMENT ON
+		EQUIPMENT_MSG.EQUIPMENT_ID = EQUIPMENT.ID
+		WHERE
+		DATE > DATE_SUB( NOW( ),
+		INTERVAL 720 MINUTE )
+		AND EQUIPMENT_MSG.EQUIPMENT_ID='${equipmentId}'
 		ORDER BY DATE ASC
 	</select>
 	<select id="getWitchMsg"
 		resultType="com.ysttench.application.htbw.settings.kernel.entity.WitchFormMap">
-		SELECT WITCH.*,EQUIPMENT.EQUIPMENT_NAME FROM WITCH LEFT JOIN EQUIPMENT ON
+		SELECT WITCH.*,EQUIPMENT.EQUIPMENT_NAME FROM WITCH LEFT
+		JOIN EQUIPMENT ON
 		WITCH.EQUIPMENT_ID = EQUIPMENT.ID
 	</select>
 	<select id="findbtemChangeCurv"
 		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentFormMap">
 		SELECT
-		date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ' ) AS DATE,
-		TRUNCATE ( SUM( temperature.TEMP_VALUE ) / count( * ), 3 ) AS VALUE
+		date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ' )
+		AS DATE,
+		TRUNCATE ( SUM( temperature.TEMP_VALUE ) / count( * ), 3 ) AS
+		VALUE
 		FROM
 		temperature
 		WHERE
-		to_days( temperature.TEMP_DATE ) = to_days( now( ) )
+		to_days( temperature.TEMP_DATE ) = to_days(
+		now( ) )
 		AND EQUIPMENT_ID = '${id}'
 		GROUP BY
-		date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ' )
-		ORDER BY date_format( temperature.TEMP_DATE, '%Y-%m-%d %H ') ASC
+		date_format(
+		temperature.TEMP_DATE, '%Y-%m-%d %H ' )
+		ORDER BY date_format(
+		temperature.TEMP_DATE, '%Y-%m-%d %H ') ASC
 	</select>
 	<select id="findbhumChangeCurv"
 		resultType="com.ysttench.application.htbw.settings.kernel.entity.EquipmentFormMap">
 		SELECT
-		date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ' ) AS DATE,
+		date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ' ) AS
+		DATE,
 		TRUNCATE ( SUM( huimdty.HUM_VALUE ) / count( * ), 3 ) AS VALUE
 		FROM
 		huimdty
 		WHERE
 		to_days( huimdty.HUM_DATE ) = to_days( now( ) )
-		AND EQUIPMENT_ID = '${id}'
+		AND
+		EQUIPMENT_ID = '${id}'
 		GROUP BY
-		date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ')
+		date_format( huimdty.HUM_DATE, '%Y-%m-%d
+		%H ')
 		ORDER BY date_format( huimdty.HUM_DATE, '%Y-%m-%d %H ') ASC
 	</select>
 </mapper>

@@ -12,13 +12,14 @@
 		USER_ID,
 		USER_NAME,
 		NAME,
-		(select group_concat(NAME) from
-		SYS_ROLE
-		where SYS_ROLE.STATE='0' AND SYS_ROLE.ROLE_ID
-		in
+        [ROLE_NAME] = stuff((
+		SELECT ',' + [NAME]
+		FROM SYS_ROLE t
+		WHERE t.STATE='0' AND t.ROLE_ID in
 		(select ROLE_ID
 		from SYS_USER_ROLE where
-		USER_ID=SYS_USER.USER_ID) ) ROLE_NAME,
+		USER_ID=SYS_USER.USER_ID)
+		FOR xml path('')) , 1 , 1 , ''),
 		PASSWORD,
 		DESCRIPTION,
 		LOCKED,

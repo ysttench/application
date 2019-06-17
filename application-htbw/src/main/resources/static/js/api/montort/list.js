@@ -1,14 +1,24 @@
 
 $(function(){
+	var highestTimeoutId = setTimeout(";");
+	 for (var i = 0 ; i < highestTimeoutId ; i++) {
+	   clearTimeout(i); 
+	 }
 	getalldomain();
 	getRelnfo();
- setInterval(function(){
-		getRelnfo();
-	},60000);
+	timerFun();
 	$("#doc-buttons").change("change", function() {// 绑定查询按扭
 		getRelnfo();
     });
 })
+function timerFun(){
+	  //要执行的操作
+	  var timer2=setTimeout(function(){
+	  getRelnfo();
+	  timerFun();
+	  clearTimeout(timer2)
+	  },60000)
+	}
 function getalldomain(){
 	var html="<option value='all' selected='selected'>全部区域</option>";
 	$.ajax({
@@ -42,7 +52,6 @@ function getRelnfo(){
         },
         url : rootPath + "/equipment/getRelnfo",
         success : function(msg) {
-        	debugger
         	var obj = jQuery.parseJSON(msg);
         	if (obj.length > 0) {
         		$.each(obj,function(i,n){

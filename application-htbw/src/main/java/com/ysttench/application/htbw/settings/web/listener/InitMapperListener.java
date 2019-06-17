@@ -79,14 +79,16 @@ public class InitMapperListener implements ServletContextListener {
 	    }
 	    ConfigUtils.initTableFieldForMysql(baseMapper, entity, db);
 	    try {
-		TimerSocketClient();
-		TimerSocketMsg();
+		//TimerSocketClient();
+		//TimerSocketMsg();
 	    } catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 	} else if ("oracle".equalsIgnoreCase(dialect)) {
 	    ConfigUtils.initTableFieldForOracle(baseMapper, entity, username);
+	} else if ("SQLServer2008".equalsIgnoreCase(dialect)) {
+	    ConfigUtils.initTableFieldForForSqlServer(baseMapper, entity, username);
 	}
 	logger.info("配置信息初始化End!!!");
     }
@@ -157,7 +159,7 @@ public class InitMapperListener implements ServletContextListener {
 		    }
 		}
 
-	    }, 1000, 20000);
+	    }, 1000, 60000);
 	}
     }
 
@@ -248,16 +250,17 @@ public class InitMapperListener implements ServletContextListener {
 				    socket.setKeepAlive(true);
 				    socket.setSoTimeout(10);
 				    socket.sendUrgentData(0xFF);
-				    InputStream inputStream = socket.getInputStream();
 				    Double tempValue = 0.0;
 				    Double humValue = 0.0;
+				    byte[] buffer;
 				    String s = null;
-				    byte[] buffer = new byte[1024];
-				    inputStream.read(buffer);
 				    if ("F149".equals(client.getEquiptypeName())
 					    || "F249".equals(client.getEquiptypeName())
 					    || "CP09U".equals(client.getEquiptypeName())
 					    || "F349".equals(client.getEquiptypeName())) {
+					InputStream inputStream = socket.getInputStream();
+					buffer = new byte[1024];
+					inputStream.read(buffer);
 					String msg = Jzchange.BinaryToHexString(buffer);
 					String msgs = msg.substring(msg.indexOf("ABAB"), msg.length());
 					s = msgs.substring(0, msgs.indexOf("0D0A") + 4);
@@ -267,7 +270,10 @@ public class InitMapperListener implements ServletContextListener {
 					    humValue = Jzchange
 						    .HexStringToDecimal(s.substring(2 * humLimit, 2 * humLimit + 4));
 					}
-				    } else if("HT-2".equals(client.getEquiptypeName())){
+				    } else if ("HT-2".equals(client.getEquiptypeName())) {
+					InputStream inputStream = socket.getInputStream();
+					buffer = new byte[1024];
+					inputStream.read(buffer);
 					s = Jzchange.hexStr2Str(Jzchange.BinaryToHexString(buffer));
 					if (!StringUtil.isEmpty(s)) {
 					    tempValue = Double.parseDouble(
@@ -275,6 +281,26 @@ public class InitMapperListener implements ServletContextListener {
 					    humValue = Double.parseDouble(
 						    s.substring(s.indexOf("humi") + 5, s.indexOf("&Time")));
 					}
+				    } else if ("F249Modbus".equals(client.getEquiptypeName())) {
+					buffer = new byte[7];
+					byte[] tem = { (byte) 0x01, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x00,
+						(byte) 0x01, (byte) 0xD4, (byte) 0x36 };
+					socket.getOutputStream().write(tem);
+					socket.getOutputStream().flush();
+					InputStream inputStream = socket.getInputStream();
+					inputStream.read(buffer);
+					s = Jzchange.BinaryToHexString(buffer);
+					tempValue = Jzchange.HexStringToDecimal(s.substring(6, 10));
+					Thread.sleep(100);
+					byte[] hum = { (byte) 0x01, (byte) 0x03, (byte) 0x01, (byte) 0x00, (byte) 0x00,
+						(byte) 0x01, (byte) 0x85, (byte) 0xF6 };
+					socket.getOutputStream().write(hum);
+					socket.getOutputStream().flush();
+					InputStream inputStream2 = socket.getInputStream();
+					inputStream2.read(buffer);
+					s = null;
+					s = Jzchange.BinaryToHexString(buffer);
+					humValue = Jzchange.HexStringToDecimal(s.substring(6, 10));
 				    }
 				    if (tempValue != 0.0 && humValue != 0.0) {
 					EquipmentMsgFormMap equipmentmsgFormMap = new EquipmentMsgFormMap();
@@ -325,9 +351,25 @@ public class InitMapperListener implements ServletContextListener {
 					warnMsgMapper.batchSave(msglist);
 				    }
 				    System.out.println(client.getEquipmentName() + " " + tempValue + " " + humValue);
+				}else {
+				    EquipmentMsgFormMap equipmentmsgFormMap = new EquipmentMsgFormMap();
+					equipmentmsgFormMap.put("tempValue", "");
+					equipmentmsgFormMap.put("humValue", "");
+					equipmentmsgFormMap.put("equipmentId", client.getEquipmentId());
+					equipmentmsgFormMap.put("date", DatetimeUtil.getDate());
+					equipmentMsgMapper.addEntity(equipmentmsgFormMap);
 				}
 			    } catch (Exception e) {
-				e.printStackTrace();
+				    EquipmentMsgFormMap equipmentmsgFormMap = new EquipmentMsgFormMap();
+					equipmentmsgFormMap.put("tempValue", "");
+					equipmentmsgFormMap.put("humValue", "");
+					equipmentmsgFormMap.put("equipmentId", client.getEquipmentId());
+					equipmentmsgFormMap.put("date", DatetimeUtil.getDate());
+					try {
+					    equipmentMsgMapper.addEntity(equipmentmsgFormMap);
+					} catch (Exception e1) {
+					    e1.printStackTrace();
+					}
 				continue;
 			    }
 			}

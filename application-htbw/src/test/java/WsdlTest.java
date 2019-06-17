@@ -31,7 +31,7 @@ public class WsdlTest {/*
 */
 public static void main(String[] args) {
     String resultJson = CXFClientUtil
-		.getInterfaceService("http://localhost:8083/htbw/services/AuthService?wsdl", AuthService.class).getWarnMsg("", "1");
+		.getInterfaceService("http://localhost:8083/htbw/services/AuthService?wsdl", AuthService.class).monitor();
 System.out.println(resultJson);
 
 }   
