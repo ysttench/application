@@ -9,7 +9,7 @@
 	<properties>
 		<!-- jar 版本设置 -->
 		<spring.version>4.3.7.RELEASE</spring.version>
-		<spring.boot.version>1.5.2.RELEASE</spring.boot.version>
+		<spring.boot.version>2.5.12</spring.boot.version>
 		<thymleaf.version>3.0.3.RELEASE</thymleaf.version>
 		<junit.version>4.11</junit.version>
 		<cxf.version>3.1.6</cxf.version>
