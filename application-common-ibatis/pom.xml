@@ -12,7 +12,7 @@
 		<!-- jar 版本设置 -->
 		<mybatis.version>3.2.8</mybatis.version>
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
-		<mysql.version>8.0.11</mysql.version>
+		<mysql.version>8.0.28</mysql.version>
 		<oracleserver.version>11.2.0.3</oracleserver.version>
 		<appcommon.version>2.0.1-SNAPSHOT</appcommon.version>
 		<sqlserver.version>4.0</sqlserver.version>
